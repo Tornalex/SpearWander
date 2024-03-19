@@ -6,20 +6,23 @@ public class PlayerActions : MonoBehaviour
 {
     [SerializeField] float movementSpeed = 0f;
     [SerializeField] float jumpHeight = 0f;
-    [SerializeField] GameObject spearObject;
 
-    private bool isTouchingGround = true;
+    bool isFalling = false;
     Rigidbody2D playerRb;
     Vector2 moveInput;
-    PlayerInventory playerInventory;
+    Vector2 fallingSpeedCheck = Vector2.zero;
+    SpearThrow spearThrow;
+    PlayerFeet playerFeet;
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
-        playerInventory = FindObjectOfType<PlayerInventory>();
+        spearThrow = FindObjectOfType<SpearThrow>();
+        playerFeet = FindObjectOfType<PlayerFeet>();
     }
     private void FixedUpdate()
     {
         Move();
+        CheckFallingSpeed();
     }
     void Move()
     {
@@ -27,30 +30,31 @@ public class PlayerActions : MonoBehaviour
         playerRb.velocity.y);
         playerRb.velocity = playerVelocity;
     }
+    void CheckFallingSpeed()
+    {
+        Vector2 playerFallingSpeed = new(playerRb.velocity.x, playerRb.velocity.y);
+        if(playerFallingSpeed.y <= fallingSpeedCheck.y)
+        {
+            isFalling = false;
+        }
+        else
+        {
+            isFalling = true;
+        }
+    }
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
     }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.transform.CompareTag("Ground"))
-        {
-            isTouchingGround = true;
-        }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        isTouchingGround = false;
-    }
     void OnJump()
     {
-        if (isTouchingGround)
+        if (playerFeet.canJump && !isFalling)
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
         }
     }
     void OnFire()
     {
-        playerInventory.Fire();
+        spearThrow.Fire();
     }
 }

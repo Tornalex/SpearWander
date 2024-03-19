@@ -4,11 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Door
   - Ground
-  - SpearCollector
   - Spear
   - Wall
+  - PlayerFeet
   layers:
   - Default
   - TransparentFX

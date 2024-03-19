@@ -6,11 +6,11 @@ using UnityEngine.InputSystem;
 public class SpearCollector : MonoBehaviour
 {
     bool isTouchingSpear = false;
-    PlayerInventory playerInventory;
+    SpearThrow spearThrow;
     private GameObject spearToCollect;
     private void Awake()
     {
-        playerInventory = FindObjectOfType<PlayerInventory>();
+        spearThrow = FindObjectOfType<SpearThrow>();
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -33,7 +33,7 @@ public class SpearCollector : MonoBehaviour
         if (isTouchingSpear)
         {
             Destroy(spearToCollect);
-            playerInventory.currentlyEquippedSpears++;
+            spearThrow.currentlyEquippedSpears++;
         }
     }
 }

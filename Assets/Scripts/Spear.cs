@@ -8,25 +8,26 @@ public class Spear : MonoBehaviour
     [SerializeField] float spearHeightForce = 0f;
 
     private Vector2 spearVector;
-    private Rigidbody2D rb;
+    private Rigidbody2D spearRb;
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        spearRb = GetComponent<Rigidbody2D>();
         spearVector = new(1, 1);
     }
 
     public void SpearThrow()
     {
         Vector2 spearVelocity = new(spearSpeed * spearVector.x, spearHeightForce * spearVector.y);
-        rb.AddForce(spearVelocity, ForceMode2D.Impulse);
+        spearRb.AddForce(spearVelocity, ForceMode2D.Impulse);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Ground" || collision.transform.tag == "Wall")
+        if(collision.transform.CompareTag("Wall")
+            || collision.transform.CompareTag("Ground"))
         {
             Vector2 spearStop = new(0, 0);
-            rb.velocity = spearStop;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        }    
+            spearRb.velocity = spearStop;
+            spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
 }
