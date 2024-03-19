@@ -8,6 +8,8 @@ TagManager:
   - Spear
   - Wall
   - PlayerFeet
+  - Enemy
+  - EnemyDirectionChanger
   layers:
   - Default
   - TransparentFX

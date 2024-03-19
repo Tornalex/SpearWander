@@ -26,8 +26,7 @@ public class PlayerActions : MonoBehaviour
     }
     void Move()
     {
-        Vector2 playerVelocity = new(moveInput.x * movementSpeed,
-        playerRb.velocity.y);
+        Vector2 playerVelocity = new(moveInput.x * movementSpeed, playerRb.velocity.y);
         playerRb.velocity = playerVelocity;
     }
     void CheckFallingSpeed()
