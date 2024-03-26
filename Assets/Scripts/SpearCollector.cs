@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class SpearCollector : MonoBehaviour
 {
-    bool isTouchingSpear = false;
+    public bool isTouchingSpear = false;
     SpearThrow spearThrow;
     private GameObject spearToCollect;
     private void Awake()
@@ -28,12 +28,8 @@ public class SpearCollector : MonoBehaviour
             spearToCollect = null;
         }
     }
-    public void OnPickup()
+    public void DestroySpear()
     {
-        if (isTouchingSpear)
-        {
-            Destroy(spearToCollect);
-            spearThrow.currentlyEquippedSpears++;
-        }
+        Destroy(spearToCollect);
     }
 }

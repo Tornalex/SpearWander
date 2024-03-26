@@ -10,19 +10,26 @@ public class PlayerActions : MonoBehaviour
     bool isFalling = false;
     Rigidbody2D playerRb;
     Vector2 moveInput;
-    Vector2 fallingSpeedCheck = Vector2.zero;
+    Vector2 fallingSpeed;
     SpearThrow spearThrow;
+    SpearCollector spearCollector;
     PlayerFeet playerFeet;
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
         spearThrow = FindObjectOfType<SpearThrow>();
         playerFeet = FindObjectOfType<PlayerFeet>();
+        spearCollector = FindObjectOfType<SpearCollector>();
     }
     private void FixedUpdate()
     {
         Move();
+        fallingSpeed = playerRb.velocity;
         CheckFallingSpeed();
+
+    }
+    private void Update()
+    {
     }
     void Move()
     {
@@ -31,14 +38,13 @@ public class PlayerActions : MonoBehaviour
     }
     void CheckFallingSpeed()
     {
-        Vector2 playerFallingSpeed = new(playerRb.velocity.x, playerRb.velocity.y);
-        if(playerFallingSpeed.y <= fallingSpeedCheck.y)
+        if (fallingSpeed.y > 0.05f)
         {
-            isFalling = false;
+            isFalling = true;
         }
         else
         {
-            isFalling = true;
+            isFalling = false;
         }
     }
     void OnMove(InputValue value)
@@ -55,5 +61,13 @@ public class PlayerActions : MonoBehaviour
     void OnFire()
     {
         spearThrow.Fire();
+    }
+    void OnPickup()
+    {
+        if(spearCollector.isTouchingSpear)
+        {
+            spearCollector.DestroySpear();
+            spearThrow.currentlyEquippedSpears++;
+        }
     }
 }

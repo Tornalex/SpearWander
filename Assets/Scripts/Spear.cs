@@ -23,7 +23,8 @@ public class Spear : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.transform.CompareTag("Wall")
-            || collision.transform.CompareTag("Ground"))
+            || collision.transform.CompareTag("Ground")
+            || collision.transform.CompareTag("Enemy"))
         {
             Vector2 spearStop = new(0, 0);
             spearRb.velocity = spearStop;

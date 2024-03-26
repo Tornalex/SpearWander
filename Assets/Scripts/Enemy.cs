@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] int enemyLife = 3;
     [SerializeField] float enemySpeed = 0f;
     Vector2 enemyMovement = Vector2.right;
     Rigidbody2D enemyRb;
@@ -20,8 +22,17 @@ public class Enemy : MonoBehaviour
     {
         if(collision.CompareTag("EnemyDirectionChanger"))
         {
-            enemyRb.velocity = -enemyRb.velocity;
-            Debug.Log("Flippato nemico!");
+            enemyMovement = -enemyMovement;
+        }
+        if(collision.CompareTag("Spear"))
+        {
+            enemyLife --;
+            Debug.Log("nemico colpito");
+        }
+        if (enemyLife < 1)
+        {
+            Destroy(gameObject);
+            Debug.Log("nemico ucciso");
         }
     }
 }
