@@ -8,15 +8,17 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float jumpHeight = 0f;
 
     bool isFalling = false;
-    Rigidbody2D playerRb;
-    Vector2 moveInput;
+    [HideInInspector] public Vector2 moveInput;
     Vector2 fallingSpeed;
+    Rigidbody2D playerRb;
+    SpriteRenderer playerSprite;
     SpearThrow spearThrow;
     SpearCollector spearCollector;
     PlayerFeet playerFeet;
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        playerSprite = GetComponent<SpriteRenderer>();
         spearThrow = FindObjectOfType<SpearThrow>();
         playerFeet = FindObjectOfType<PlayerFeet>();
         spearCollector = FindObjectOfType<SpearCollector>();
@@ -35,6 +37,14 @@ public class PlayerActions : MonoBehaviour
     {
         Vector2 playerVelocity = new(moveInput.x * movementSpeed, playerRb.velocity.y);
         playerRb.velocity = playerVelocity;
+        if(moveInput.x < 0)
+        {
+            playerSprite.flipX = true;
+        }
+        if (moveInput.x > 0)
+        {
+            playerSprite.flipX = false;
+        }
     }
     void CheckFallingSpeed()
     {

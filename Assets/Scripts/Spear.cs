@@ -4,21 +4,10 @@ using UnityEngine;
 
 public class Spear : MonoBehaviour
 {
-    [SerializeField] float spearSpeed = 0f;
-    [SerializeField] float spearHeightForce = 0f;
-
-    private Vector2 spearVector;
-    private Rigidbody2D spearRb;
+    public Rigidbody2D spearRb;
     void Awake()
     {
         spearRb = GetComponent<Rigidbody2D>();
-        spearVector = new(1, 1);
-    }
-
-    public void SpearThrow()
-    {
-        Vector2 spearVelocity = new(spearSpeed * spearVector.x, spearHeightForce * spearVector.y);
-        spearRb.AddForce(spearVelocity, ForceMode2D.Impulse);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -26,8 +15,7 @@ public class Spear : MonoBehaviour
             || collision.transform.CompareTag("Ground")
             || collision.transform.CompareTag("Enemy"))
         {
-            Vector2 spearStop = new(0, 0);
-            spearRb.velocity = spearStop;
+            spearRb.velocity = Vector2.zero;
             spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
