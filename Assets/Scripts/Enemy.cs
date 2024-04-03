@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] int enemyLife = 3;
     [SerializeField] float enemySpeed = 0f;
+    bool isDead = false;
     Vector2 enemyMovement = Vector2.right;
     Rigidbody2D enemyRb;
     void Awake()
@@ -27,12 +28,12 @@ public class Enemy : MonoBehaviour
         if(collision.CompareTag("Spear"))
         {
             enemyLife --;
-            Debug.Log("nemico colpito");
         }
         if (enemyLife < 1)
         {
-            Destroy(gameObject);
-            Debug.Log("nemico ucciso");
+            enemyRb.velocity = Vector2.zero;
+            enemyRb.constraints = RigidbodyConstraints2D.FreezeAll;
+            isDead = true;
         }
     }
 }

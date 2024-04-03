@@ -65,7 +65,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3, y: 0.04}
+  m_Offset: {x: 0, y: 0.04}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.1}
+  m_Size: {x: 1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!114 &6183506076388044463
 MonoBehaviour:
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4428741408004884473}
   - component: {fileID: 1941907259077747720}
   - component: {fileID: 8411286487773059757}
-  - component: {fileID: 7664099903215654652}
+  - component: {fileID: 4751829318872954921}
   - component: {fileID: 4206864715731901079}
   m_Layer: 3
   m_Name: Player
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &4428741408004884473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   jumpHeight: 16
+  moveInput: {x: 0, y: 0}
 --- !u!114 &1941907259077747720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,8 +209,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d0e3196b8f926458db66264ec432c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyEquippedSpears: 3
+  spearSpeed: 25
+  spearHeightForce: 1
   spearObject: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
+  currentlyEquippedSpears: 3
 --- !u!50 &8411286487773059757
 Rigidbody2D:
   serializedVersion: 4
@@ -237,8 +240,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &7664099903215654652
-CapsuleCollider2D:
+--- !u!61 &4751829318872954921
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -269,9 +272,19 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3, y: 0}
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.36, y: 0.5}
+    oldSize: {x: 2.5, y: 2.5}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
   m_Size: {x: 1, y: 2}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!114 &4206864715731901079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,8 +380,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3, y: 0}
-  m_Size: {x: 1.1, y: 2.2}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.5, y: 2}
   m_Direction: 0
 --- !u!114 &7510808806823817442
 MonoBehaviour:
