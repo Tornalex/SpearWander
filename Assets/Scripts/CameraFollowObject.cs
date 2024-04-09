@@ -12,7 +12,7 @@ public class CameraFollowObject : MonoBehaviour
         playerActions = FindObjectOfType<PlayerActions>();
         _isFacingRight = playerActions.isFacingRight;
     }
-    void Update()
+    void FixedUpdate()
     {
         transform.position = playerActions.transform.position;
     }

@@ -7,7 +7,9 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] int enemyLife = 3;
     [SerializeField] float enemySpeed = 0f;
-    bool isDead = false;
+    [SerializeField] GameObject spearObject;
+    [HideInInspector] public bool isDead = false;
+
     Vector2 enemyMovement = Vector2.right;
     Rigidbody2D enemyRb;
     void Awake()
@@ -21,19 +23,22 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("EnemyDirectionChanger"))
+        if (collision.CompareTag("EnemyDirectionChanger"))
         {
             enemyMovement = -enemyMovement;
         }
-        if(collision.CompareTag("Spear"))
+        if (collision.CompareTag("Spear"))
         {
-            enemyLife --;
-        }
-        if (enemyLife < 1)
-        {
-            enemyRb.velocity = Vector2.zero;
-            enemyRb.constraints = RigidbodyConstraints2D.FreezeAll;
-            isDead = true;
+            enemyLife--;
+            if (enemyLife < 1)
+            {
+                for (int i = 0; i <= transform.childCount; i++)
+                {
+                    Instantiate(spearObject, transform.position, Quaternion.identity);
+                }
+                isDead = true;
+                Destroy(gameObject);
+            }
         }
     }
 }
