@@ -8,11 +8,10 @@ public class BackgroundScroller : MonoBehaviour
     public float scrollSpeed = 0f;
     float offset = 0f;
     Material material;
-    PlayerActions playerActions;
+    [SerializeField] PlayerActions playerActions;
     void Awake()
     {
         material = GetComponent<Renderer>().material;
-        playerActions = FindObjectOfType<PlayerActions>();
     }
     void Update()
     {

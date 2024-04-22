@@ -166,6 +166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headWeight: 1
   spearRb: {fileID: 0}
+  head: {fileID: 4315705909423639089}
+  enemy: {fileID: 0}
 --- !u!50 &-4623189782305048683
 Rigidbody2D:
   serializedVersion: 4

@@ -6,12 +6,7 @@ using UnityEngine.InputSystem;
 public class SpearCollector : MonoBehaviour
 {
     public bool isTouchingSpear = false;
-    SpearThrow spearThrow;
     private GameObject spearToCollect;
-    private void Awake()
-    {
-        spearThrow = FindObjectOfType<SpearThrow>();
-    }
     private void OnTriggerStay2D(Collider2D collision)
     {
         if(collision.CompareTag("Spear"))

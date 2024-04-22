@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerFeet : MonoBehaviour
 {
-    public bool canJump = false;
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool canJump = true;
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        canJump = true;
+        canJump = true;   
     }
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         canJump = false;
     }

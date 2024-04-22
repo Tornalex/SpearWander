@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public bool isDead = false;
 
     Vector2 enemyMovement = Vector2.right;
+    SpriteRenderer enemySprite;
     Rigidbody2D enemyRb;
     void Awake()
     {
         enemyRb = GetComponent<Rigidbody2D>();
+        enemySprite = GetComponent<SpriteRenderer>();
     }
     void FixedUpdate()
     {
@@ -26,6 +28,8 @@ public class Enemy : MonoBehaviour
         if (collision.CompareTag("EnemyDirectionChanger"))
         {
             enemyMovement = -enemyMovement;
+            enemySprite.flipX = !enemySprite.flipX;
+
         }
         if (collision.CompareTag("Spear"))
         {

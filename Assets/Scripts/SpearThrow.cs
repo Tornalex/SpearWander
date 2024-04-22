@@ -13,13 +13,8 @@ public class SpearThrow : MonoBehaviour
     float spearDirection;
     float spearSpeedDirection;
     Vector2 spearSpawnPosition;
-    PlayerActions playerActions;
+    [SerializeField] PlayerActions playerActions;
     Spear spearScript;
-    private void Awake()
-    {
-        playerActions = FindObjectOfType<PlayerActions>();
-        spearScript = FindObjectOfType<Spear>();
-    }
     private void Update()
     {
         spearSpawnPosition = new(transform.position.x + spearOffset, transform.position.y);

@@ -6,17 +6,15 @@ public class Spear : MonoBehaviour
 {
     [SerializeField] float headWeight = 0f;
     [HideInInspector] public Rigidbody2D spearRb;
-    GameObject head;
+    [SerializeField] GameObject head;
     Enemy enemy;
     void Awake()
     {
         spearRb = GetComponent<Rigidbody2D>();
-        head = FindObjectOfType<GameObject>();
-        enemy = FindObjectOfType<Enemy>();
     }
     private void FixedUpdate()
     {
-            spearRb.AddForceAtPosition(-transform.up * headWeight, head.transform.position);
+        spearRb.AddForceAtPosition(-transform.up * headWeight, head.transform.position);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -28,13 +26,14 @@ public class Spear : MonoBehaviour
         }
         if (collision.transform.tag == "Enemy")
         {
+            enemy = collision.gameObject.GetComponent<Enemy>();
             spearRb.isKinematic = true;
             transform.parent = collision.transform;   
         }
     }
     private void Update()
     {
-        if (enemy.isDead)
+        if (enemy != null && enemy.isDead)
         {
             spearRb.isKinematic = false;
         }

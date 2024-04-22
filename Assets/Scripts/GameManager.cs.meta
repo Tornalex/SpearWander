@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3977a05ceba97a34bb8c362328f49e88
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerActions: {fileID: 4428741408004884473, guid: 42f011bacffdd0148a5ada3d13da09d7, type: 3}
+  - deathScreen: {fileID: 3406532009130554877, guid: 0e0232fd69918c241ab2a14c19923311, type: 3}
+  - respawnPoint: {fileID: 5469085426148586812, guid: c3a1186edc44fb141b55d098db2929bb, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

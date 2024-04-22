@@ -6,10 +6,9 @@ public class CameraFollowObject : MonoBehaviour
 {
     public float flipYRotationTime = 0f;
     bool _isFacingRight = true;
-    PlayerActions playerActions;
+    [SerializeField] PlayerActions playerActions;
     void Start()
     {
-        playerActions = FindObjectOfType<PlayerActions>();
         _isFacingRight = playerActions.isFacingRight;
     }
     void FixedUpdate()
