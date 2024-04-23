@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.1}
+  m_Size: {x: 0.9, y: 0.01}
   m_EdgeRadius: 0
 --- !u!114 &6183506076388044463
 MonoBehaviour:
@@ -122,7 +122,7 @@ Transform:
   m_GameObject: {fileID: 6286765099597975374}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -18, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -195,14 +195,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
-  jumpHeight: 16
-  isDead: 0
-  isFacingRight: 0
-  moveInput: {x: 0, y: 0}
+  jumpHeight: 20
   spearThrow: {fileID: 1941907259077747720}
   spearCollector: {fileID: 7510808806823817442}
   playerFeet: {fileID: 6183506076388044463}
   cameraFollowObject: {fileID: 0}
+  playerRb: {fileID: 8411286487773059757}
+  isDead: 1
+  isFacingRight: 0
+  moveInput: {x: 0, y: 0}
 --- !u!114 &1941907259077747720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,8 +218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spearSpeed: 25
   spearHeightForce: 1
-  spearObject: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   currentlyEquippedSpears: 3
+  spearObject: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   playerActions: {fileID: 4428741408004884473}
 --- !u!50 &8411286487773059757
 Rigidbody2D:

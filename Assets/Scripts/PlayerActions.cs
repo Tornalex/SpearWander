@@ -4,33 +4,35 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerActions : MonoBehaviour
 {
+    [Header("Player Movement Stats")]
     [SerializeField] float movementSpeed = 0f;
     [SerializeField] float jumpHeight = 0f;
-    [HideInInspector] public bool isDead = false;
 
-    [HideInInspector] public bool isFacingRight = true;
-    [HideInInspector] public Vector2 moveInput;
-    float fallingSpeed;
-    Rigidbody2D playerRb;
-
+    [Header("Components")]
     [SerializeField] SpearThrow spearThrow;
     [SerializeField] SpearCollector spearCollector;
     [SerializeField] PlayerFeet playerFeet;
     [SerializeField] CameraFollowObject cameraFollowObject;
+    [SerializeField] Rigidbody2D playerRb;
+    
+    [HideInInspector] public bool isDead = false;
+    [HideInInspector] public bool isFacingRight = true;
+    [HideInInspector] public Vector2 moveInput;
+
     private void Awake()
     {
-        playerRb = GetComponent<Rigidbody2D>();
         isDead = false;
     }
+
     private void FixedUpdate()
     {
-        fallingSpeed = playerRb.velocity.y;
         Move();
         if (moveInput.x > 0 || moveInput.x < 0)
         {
             CheckTurn();
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag == "Enemy")
@@ -38,6 +40,7 @@ public class PlayerActions : MonoBehaviour
             isDead = true;
         }
     }
+
     void Move()
     {
         Vector2 playerVelocity = new(moveInput.x * movementSpeed, playerRb.velocity.y);
@@ -47,6 +50,7 @@ public class PlayerActions : MonoBehaviour
             playerRb.velocity = Vector2.zero;
         }
     }
+
     void CheckTurn()
     {
         if (moveInput.x > 0 && !isFacingRight)
@@ -58,6 +62,7 @@ public class PlayerActions : MonoBehaviour
             Turn();
         }
     }    
+
     void Turn()
     {
         if(isFacingRight)
@@ -76,6 +81,7 @@ public class PlayerActions : MonoBehaviour
 
         }
     }
+
     void OnMove(InputValue value)
     {
         if (!isDead)
@@ -83,6 +89,7 @@ public class PlayerActions : MonoBehaviour
             moveInput = value.Get<Vector2>();    
         }
     }
+
     void OnJump()
     {
         if (playerFeet.canJump && !isDead)
@@ -90,6 +97,7 @@ public class PlayerActions : MonoBehaviour
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
         }
     }
+
     void OnFire()
     {
         if (!isDead)
@@ -97,6 +105,7 @@ public class PlayerActions : MonoBehaviour
             spearThrow.Fire();
         }
     }
+
     void OnPickup()
     {
         if(spearCollector.isTouchingSpear && !isDead)

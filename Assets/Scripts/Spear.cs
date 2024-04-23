@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class Spear : MonoBehaviour
 {
+    [Header("Spear Stats")]
     [SerializeField] float headWeight = 0f;
-    [HideInInspector] public Rigidbody2D spearRb;
+
+    [Header("Cmponents")]
     [SerializeField] GameObject head;
+    
+    [HideInInspector] public Rigidbody2D spearRb;
     Enemy enemy;
+
     void Awake()
     {
         spearRb = GetComponent<Rigidbody2D>();
     }
+
+    private void Update()
+    {
+        if (enemy != null && enemy.isDead)
+        {
+            spearRb.isKinematic = false;
+        }
+    }
+    
     private void FixedUpdate()
     {
         spearRb.AddForceAtPosition(-transform.up * headWeight, head.transform.position);
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag == "Wall"
@@ -29,13 +44,6 @@ public class Spear : MonoBehaviour
             enemy = collision.gameObject.GetComponent<Enemy>();
             spearRb.isKinematic = true;
             transform.parent = collision.transform;   
-        }
-    }
-    private void Update()
-    {
-        if (enemy != null && enemy.isDead)
-        {
-            spearRb.isKinematic = false;
         }
     }
 }

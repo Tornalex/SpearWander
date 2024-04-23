@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
 {
+    [Header("Background Speed Controller")]
     [SerializeField] float overallSlowDown = 1;
-    public float scrollSpeed = 0f;
+    [SerializeField] float scrollSpeed = 0f;
+
+    [Header("Components")]
+    [SerializeField] PlayerActions playerActions;
+    
     float offset = 0f;
     Material material;
-    [SerializeField] PlayerActions playerActions;
     void Awake()
     {
         material = GetComponent<Renderer>().material;

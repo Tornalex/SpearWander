@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class CameraFollowObject : MonoBehaviour
 {
+    [Header("Camera Follow Stats")]
     public float flipYRotationTime = 0f;
-    bool _isFacingRight = true;
+
+    [Header("Components")]
     [SerializeField] PlayerActions playerActions;
+    
+    bool _isFacingRight = true;
     void Start()
     {
         _isFacingRight = playerActions.isFacingRight;

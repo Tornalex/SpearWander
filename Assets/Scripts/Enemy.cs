@@ -5,24 +5,30 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Enemy Stats")]
     [SerializeField] int enemyLife = 3;
     [SerializeField] float enemySpeed = 0f;
-    [SerializeField] GameObject spearObject;
-    [HideInInspector] public bool isDead = false;
 
+    [Header("Components")]
+    [SerializeField] GameObject spearObject;
+    
+    [HideInInspector] public bool isDead = false;
     Vector2 enemyMovement = Vector2.right;
     SpriteRenderer enemySprite;
     Rigidbody2D enemyRb;
+   
     void Awake()
     {
         enemyRb = GetComponent<Rigidbody2D>();
         enemySprite = GetComponent<SpriteRenderer>();
     }
+    
     void FixedUpdate()
     {
         Vector2 enemyVelocity = new(enemyMovement.x * enemySpeed, enemyRb.velocity.y);
         enemyRb.velocity = enemyVelocity;
     }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("EnemyDirectionChanger"))
