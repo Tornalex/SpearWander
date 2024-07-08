@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 public class PlayerActions : MonoBehaviour
 {
     [Header("Player Movement Stats")]
@@ -24,13 +25,16 @@ public class PlayerActions : MonoBehaviour
         isDead = false;
     }
 
+    private void Update()
+    {
+        if(transform.position.y < -15)
+        {
+            SceneManager.LoadScene(1);
+        }
+    }
     private void FixedUpdate()
     {
         Move();
-        if (moveInput.x > 0 || moveInput.x < 0)
-        {
-            CheckTurn();
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,37 +52,6 @@ public class PlayerActions : MonoBehaviour
         if (isDead)
         {
             playerRb.velocity = Vector2.zero;
-        }
-    }
-
-    void CheckTurn()
-    {
-        if (moveInput.x > 0 && !isFacingRight)
-        {
-            Turn();
-        }
-        else if (moveInput.x < 0 && isFacingRight)
-        {
-            Turn();
-        }
-    }    
-
-    void Turn()
-    {
-        if(isFacingRight)
-        {
-            Vector3 rotator = new(transform.rotation.x, 180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            isFacingRight = !isFacingRight;
-            cameraFollowObject.CallTurn();
-        }
-        else
-        {
-            Vector3 rotator = new(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            isFacingRight = !isFacingRight;
-            cameraFollowObject.CallTurn();
-
         }
     }
 
@@ -103,15 +76,6 @@ public class PlayerActions : MonoBehaviour
         if (!isDead)
         {
             spearThrow.Fire();
-        }
-    }
-
-    void OnPickup()
-    {
-        if(spearCollector.isTouchingSpear && !isDead)
-        {
-            spearCollector.DestroySpear();
-            spearThrow.currentlyEquippedSpears++;
         }
     }
 }

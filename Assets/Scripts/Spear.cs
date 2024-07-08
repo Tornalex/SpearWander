@@ -5,17 +5,25 @@ using UnityEngine;
 public class Spear : MonoBehaviour
 {
     [Header("Spear Stats")]
-    [SerializeField] float headWeight = 0f;
+    [SerializeField] int spearSpeed;
 
-    [Header("Cmponents")]
-    [SerializeField] GameObject head;
+    [Header("Components")]
+    [SerializeField] Vector3 mousePos;
     
+    SpearThrow spearThrow;
     [HideInInspector] public Rigidbody2D spearRb;
     Enemy enemy;
+    Camera mainCam;
 
     void Awake()
     {
+        spearThrow = FindObjectOfType<SpearThrow>();
         spearRb = GetComponent<Rigidbody2D>();
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    }
+    private void Start()
+    {
+        Setdirection();
     }
 
     private void Update()
@@ -24,11 +32,6 @@ public class Spear : MonoBehaviour
         {
             spearRb.isKinematic = false;
         }
-    }
-    
-    private void FixedUpdate()
-    {
-        spearRb.AddForceAtPosition(-transform.up * headWeight, head.transform.position);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -45,5 +48,19 @@ public class Spear : MonoBehaviour
             spearRb.isKinematic = true;
             transform.parent = collision.transform;   
         }
+    }
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(1) && gameObject.CompareTag("Spear"))
+        {
+            spearThrow.spearsAvailable++;
+            Destroy(gameObject);
+        }
+    }
+    void Setdirection()
+    {
+        mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 direction = mousePos - transform.position;
+        spearRb.velocity = new Vector2(direction.x, direction.y).normalized * spearSpeed;
     }
 }

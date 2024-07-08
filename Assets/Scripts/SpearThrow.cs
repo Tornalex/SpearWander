@@ -5,56 +5,37 @@ using UnityEngine;
 public class SpearThrow : MonoBehaviour
 {
     [Header("Spear Stats")]
-    [SerializeField] float spearSpeed = 0f;
-    [SerializeField] float spearHeightForce = 0f;
-    public int currentlyEquippedSpears = 3;
-    
-    [Header("Components")]
-    [SerializeField] GameObject spearObject;
-    [SerializeField] PlayerActions playerActions;
-    Spear spearScript;
+    public int spearsAvailable;
 
-    float spearOffset = 0f;
-    float spearDirection;
-    float spearSpeedDirection;
-    Vector2 spearSpawnPosition;
-    
+    [Header("Components")]
+    [SerializeField] GameObject spear;
+    [SerializeField] Transform bulletTransform;
+
+    Camera mainCam;
+    Vector3 mousePos;
+
+    private void Awake()
+    {
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+    }
     private void Update()
     {
-        spearSpawnPosition = new(transform.position.x + spearOffset, transform.position.y);
         CheckDirection();
     }
-    
+
     void CheckDirection()
     {
-        if (playerActions.moveInput.x > 0)
-        {
-            spearDirection = 0;
-            spearSpeedDirection = 1;
-            spearOffset = 1;
-        }
-        if (playerActions.moveInput.x < 0)
-        {
-            spearDirection = 180;
-            spearSpeedDirection = -1;
-            spearOffset = -1;
-        }
+        mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 spearDirection =  mousePos - transform.position;
+        float rotZ = Mathf.Atan2(spearDirection.y, spearDirection.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
-    
     public void Fire()
     {
-        if (currentlyEquippedSpears > 0)
+        if(spearsAvailable > 0)
         {
-            spearScript = Instantiate(spearObject, spearSpawnPosition, Quaternion.Euler(0, spearDirection, 0)).GetComponent<Spear>();
-            //spearScript = FindObjectOfType<Spear>();
-            SetSpearDirection(spearSpeedDirection);
-            currentlyEquippedSpears--;
+            Instantiate(spear, bulletTransform.position, Quaternion.identity);
+            spearsAvailable--;
         }
-    }
-
-    public void SetSpearDirection(float value)
-    {
-        Vector2 spearVelocity = new(spearSpeed * value, spearHeightForce);
-        spearScript.spearRb.AddForce(spearVelocity, ForceMode2D.Impulse);
     }
 }
