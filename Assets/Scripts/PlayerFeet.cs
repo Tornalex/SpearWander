@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PlayerFeet : MonoBehaviour
 {
-    public bool canJump = true;
+    public bool isGrounded = true;
+    [SerializeField] PlayerActions playerActions;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        canJump = true;   
+        isGrounded = true;   
+        playerActions.hasCoyoteJumped = false;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        canJump = false;
+        isGrounded = false;
     }
 }

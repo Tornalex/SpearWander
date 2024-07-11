@@ -174,7 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b122dbb55c8284b86fa5d6a0ba20a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canJump: 0
+  isGrounded: 1
+  playerActions: {fileID: 4428741408004884473}
 --- !u!1 &6286765099597975374
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,11 +280,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 10
   jumpHeight: 22
+  coyoteTimeReset: 0.2
   spearThrow: {fileID: 4017908814887577864}
   spearCollector: {fileID: 0}
   playerFeet: {fileID: 6183506076388044463}
   cameraFollowObject: {fileID: 0}
   playerRb: {fileID: 8411286487773059757}
+  hasCoyoteJumped: 0
   isDead: 1
   isFacingRight: 0
   moveInput: {x: 0, y: 0}

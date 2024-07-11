@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
-
 public class GameManager : MonoBehaviour
 {
     [Header("Components")]
+    [SerializeField] SpearThrow spearThrow;
     [SerializeField] PlayerActions playerActions;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject respawnPoint;
+    [SerializeField] TMP_Text spearsAvailableUI;
 
     void Update()
     {
         ShowDeathScreen();
+        UpdateAvailableSpearsUI();
     }
     
     public void Respawn()
@@ -33,5 +37,10 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    void UpdateAvailableSpearsUI()
+    {
+        spearsAvailableUI.text = "Spears: " + spearThrow.spearsAvailable;
     }
 }

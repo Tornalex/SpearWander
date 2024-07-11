@@ -20,10 +20,10 @@ public class SpearThrow : MonoBehaviour
     }
     private void Update()
     {
-        CheckDirection();
+        CheckMousePosition();
     }
 
-    void CheckDirection()
+    void CheckMousePosition()
     {
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 spearDirection =  mousePos - transform.position;

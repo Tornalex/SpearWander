@@ -8,6 +8,7 @@ public class PlayerActions : MonoBehaviour
     [Header("Player Movement Stats")]
     [SerializeField] float movementSpeed = 0f;
     [SerializeField] float jumpHeight = 0f;
+    [SerializeField] float coyoteTimeReset = 0f;
 
     [Header("Components")]
     [SerializeField] SpearThrow spearThrow;
@@ -15,7 +16,9 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] PlayerFeet playerFeet;
     [SerializeField] CameraFollowObject cameraFollowObject;
     [SerializeField] Rigidbody2D playerRb;
-    
+
+    float coyoteTime;
+    [HideInInspector] public bool hasCoyoteJumped;
     [HideInInspector] public bool isDead = false;
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public Vector2 moveInput;
@@ -27,9 +30,10 @@ public class PlayerActions : MonoBehaviour
 
     private void Update()
     {
-        if(transform.position.y < -15)
+        CoyoteJump();
+        if (transform.position.y < -15)
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
     }
     private void FixedUpdate()
@@ -65,9 +69,12 @@ public class PlayerActions : MonoBehaviour
 
     void OnJump()
     {
-        if (playerFeet.canJump && !isDead)
+        if(coyoteTime >= 0 && !isDead && !hasCoyoteJumped)
         {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
+            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);  
+            coyoteTime = 0;
+            hasCoyoteJumped = true;
+            print("coyote!");
         }
     }
 
@@ -77,5 +84,17 @@ public class PlayerActions : MonoBehaviour
         {
             spearThrow.Fire();
         }
+    }
+    void OnRestart()
+    {
+        SceneManager.LoadScene(0);
+    }
+    void CoyoteJump()
+    {
+        if (playerFeet.isGrounded)
+        {
+            coyoteTime = coyoteTimeReset;
+        }
+        coyoteTime -= Time.deltaTime;
     }
 }
