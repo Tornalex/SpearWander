@@ -10,14 +10,12 @@ public class Spear : MonoBehaviour
     [Header("Components")]
     [SerializeField] Vector3 mousePos;
     
-    SpearThrow spearThrow;
     [HideInInspector] public Rigidbody2D spearRb;
     Enemy enemy;
     Camera mainCam;
 
     void Awake()
     {
-        spearThrow = FindObjectOfType<SpearThrow>();
         spearRb = GetComponent<Rigidbody2D>();
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
@@ -47,14 +45,6 @@ public class Spear : MonoBehaviour
             enemy = collision.gameObject.GetComponent<Enemy>();
             spearRb.isKinematic = true;
             transform.parent = collision.transform;   
-        }
-    }
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1) && gameObject.CompareTag("Spear"))
-        {
-            spearThrow.spearsAvailable++;
-            Destroy(gameObject);
         }
     }
     void Setdirection()

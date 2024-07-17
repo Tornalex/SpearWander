@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpearThrow : MonoBehaviour
+public class ThrowAndRecallSpears : MonoBehaviour
 {
     [Header("Spear Stats")]
-    public int spearsAvailable;
+    public int equippedSpears;
+    public Queue<GameObject> thrownSpearsQueue = new Queue<GameObject>();
 
     [Header("Components")]
     [SerializeField] GameObject spear;
-    [SerializeField] Transform bulletTransform;
+    [SerializeField] Transform spearTransform;
 
     Camera mainCam;
     Vector3 mousePos;
@@ -32,10 +33,18 @@ public class SpearThrow : MonoBehaviour
     }
     public void Fire()
     {
-        if(spearsAvailable > 0)
+        if(equippedSpears > 0)
         {
-            Instantiate(spear, bulletTransform.position, Quaternion.identity);
-            spearsAvailable--;
+            equippedSpears--;
+            GameObject thrownSpear = Instantiate(spear, spearTransform.position, Quaternion.identity);
+            thrownSpearsQueue.Enqueue(thrownSpear);
         }
     }
+
+    public void Recall()
+    {
+        GameObject recalledSpear = thrownSpearsQueue.Dequeue();
+        Destroy(recalledSpear);
+        equippedSpears++;
+    }    
 }

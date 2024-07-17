@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] SpearThrow spearThrow;
+    [SerializeField] ThrowAndRecallSpears spearThrow;
     [SerializeField] PlayerActions playerActions;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject respawnPoint;
@@ -41,6 +41,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateAvailableSpearsUI()
     {
-        spearsAvailableUI.text = "Spears: " + spearThrow.spearsAvailable;
+        spearsAvailableUI.text = "Spears: " + spearThrow.equippedSpears;
     }
 }

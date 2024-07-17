@@ -11,7 +11,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] float coyoteTimeReset = 0f;
 
     [Header("Components")]
-    [SerializeField] SpearThrow spearThrow;
+    [SerializeField] ThrowAndRecallSpears spearThrow;
     [SerializeField] SpearCollector spearCollector;
     [SerializeField] PlayerFeet playerFeet;
     [SerializeField] CameraFollowObject cameraFollowObject;
@@ -74,7 +74,6 @@ public class PlayerActions : MonoBehaviour
             GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);  
             coyoteTime = 0;
             hasCoyoteJumped = true;
-            print("coyote!");
         }
     }
 
@@ -85,6 +84,10 @@ public class PlayerActions : MonoBehaviour
             spearThrow.Fire();
         }
     }
+    void OnRecall()
+    {
+        spearThrow.Recall();
+    }    
     void OnRestart()
     {
         SceneManager.LoadScene(0);
