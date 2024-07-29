@@ -226,6 +226,7 @@ MonoBehaviour:
   isDead: 0
   isFacingRight: 0
   moveInput: {x: 0, y: 0}
+  fireInputVector: {x: 0, y: 0}
 --- !u!50 &8411286487773059757
 Rigidbody2D:
   serializedVersion: 4
@@ -572,5 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equippedSpears: 3
-  spear: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
+  spearSpeed: 22
+  playerActions: {fileID: 4428741408004884473}
+  spearObject: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   spearTransform: {fileID: 1515783296212136820}
