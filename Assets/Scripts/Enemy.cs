@@ -42,10 +42,10 @@ public class Enemy : MonoBehaviour
             enemyLife--;
             if (enemyLife < 1)
             {
-                for (int i = 0; i <= transform.childCount; i++)
+                /*for (int i = 1; i <= transform.childCount; i++)
                 {
                     Instantiate(spearObject, transform.position, Quaternion.identity);
-                }
+                }*/
                 isDead = true;
                 Destroy(gameObject);
             }

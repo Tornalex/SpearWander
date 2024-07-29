@@ -9,6 +9,7 @@ public class Spear : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Vector3 mousePos;
+    [SerializeField] PlayerActions playerActions;
     
     [HideInInspector] public Rigidbody2D spearRb;
     Enemy enemy;
@@ -21,7 +22,7 @@ public class Spear : MonoBehaviour
     }
     private void Start()
     {
-        Setdirection();
+        
     }
 
     private void Update()
@@ -47,10 +48,15 @@ public class Spear : MonoBehaviour
             transform.parent = collision.transform;   
         }
     }
-    void Setdirection()
+    /*void SetSpearDirectionWithMouse()
     {
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         Vector3 direction = mousePos - transform.position;
         spearRb.velocity = new Vector2(direction.x, direction.y).normalized * spearSpeed;
     }
+    void SetSpearDirectionWithController()
+    {
+        Vector3 direction = playerActions.playerInputActions.Player.Aim.ReadValue<Vector2>();
+        spearRb.velocity = new Vector2(direction.x, direction.y).normalized * spearSpeed;
+    }*/
 }

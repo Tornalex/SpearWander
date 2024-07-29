@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 public class PlayerActions : MonoBehaviour
 {
     [Header("Player Movement Stats")]
-    [SerializeField] float movementSpeed = 0f;
+    [SerializeField] float speed = 0f;
     [SerializeField] float jumpHeight = 0f;
     [SerializeField] float coyoteTimeReset = 0f;
 
     [Header("Components")]
     [SerializeField] ThrowAndRecallSpears spearThrow;
-    [SerializeField] SpearCollector spearCollector;
     [SerializeField] PlayerFeet playerFeet;
-    [SerializeField] CameraFollowObject cameraFollowObject;
     [SerializeField] Rigidbody2D playerRb;
 
     float coyoteTime;
@@ -22,10 +21,13 @@ public class PlayerActions : MonoBehaviour
     [HideInInspector] public bool isDead = false;
     [HideInInspector] public bool isFacingRight = true;
     [HideInInspector] public Vector2 moveInput;
-
+    [HideInInspector] public Vector2 fireInputVector;
+    public PlayerInput playerInputActions;
     private void Awake()
     {
         isDead = false;
+        playerInputActions = new PlayerInput();
+        playerInputActions.Enable();
     }
 
     private void Update()
@@ -35,6 +37,9 @@ public class PlayerActions : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+        spearThrow.AimWithController(playerInputActions.Player.Aim.ReadValue<Vector2>());
+        fireInputVector = playerInputActions.Player.Aim.ReadValue<Vector2>();
+
     }
     private void FixedUpdate()
     {
@@ -51,48 +56,54 @@ public class PlayerActions : MonoBehaviour
 
     void Move()
     {
-        Vector2 playerVelocity = new(moveInput.x * movementSpeed, playerRb.velocity.y);
-        playerRb.velocity = playerVelocity;
+        Vector2 moveInputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+        playerRb.velocity = new Vector2(moveInputVector.x * speed, playerRb.velocity.y);
         if (isDead)
         {
             playerRb.velocity = Vector2.zero;
         }
     }
 
-    void OnMove(InputValue value)
+    public void Jump(InputAction.CallbackContext context)
     {
-        if (!isDead)
+        if (context.performed && !isDead && coyoteTime >= 0 && !hasCoyoteJumped)
         {
-            moveInput = value.Get<Vector2>();    
-        }
-    }
-
-    void OnJump()
-    {
-        if(coyoteTime >= 0 && !isDead && !hasCoyoteJumped)
-        {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);  
+            playerRb.AddForce(Vector2.up * jumpHeight, ForceMode2D.Impulse);
             coyoteTime = 0;
             hasCoyoteJumped = true;
         }
-    }
-
-    void OnFire()
-    {
-        if (!isDead)
+        if (context.canceled)
         {
-            spearThrow.Fire();
+            playerRb.velocity = new(playerRb.velocity.x, playerRb.velocity.y * .35f);
         }
     }
-    void OnRecall()
+
+    public void Fire(InputAction.CallbackContext context)
     {
-        spearThrow.Recall();
-    }    
-    void OnRestart()
-    {
-        SceneManager.LoadScene(0);
+        if (context.performed && !isDead && context.control.device is Keyboard)
+        {
+            spearThrow.FireWithMouse();
+        }
+        if (context.performed && !isDead && context.control.device is Gamepad)
+        {
+            spearThrow.FireWithController();
+        }
     }
-    void CoyoteJump()
+    public void Recall(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isDead)
+        {
+            spearThrow.Recall();
+        }
+    }
+    public void Restart(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isDead)
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+    public void CoyoteJump()
     {
         if (playerFeet.isGrounded)
         {
