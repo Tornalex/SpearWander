@@ -51,9 +51,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
+                    "name": "AimWithController",
                     "type": "Value",
                     "id": "3f6db5bc-d9e6-4597-b0b7-e428889b8b1a",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "AimWithMouse",
+                    "type": "Value",
+                    "id": "52f363af-5855-4e03-90c9-c19272bf0836",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -189,7 +198,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Aim",
+                    "action": "AimWithController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91dcfbc5-a071-460e-b2e9-c2e8c5bf14d0",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AimWithMouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

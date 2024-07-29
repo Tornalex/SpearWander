@@ -8,7 +8,7 @@ public class CameraFollowObject : MonoBehaviour
     public float flipYRotationTime = 0f;
 
     [Header("Components")]
-    [SerializeField] PlayerActions playerActions;
+    [SerializeField] PlayerInputs playerActions;
     
     bool _isFacingRight = true;
     void Start()

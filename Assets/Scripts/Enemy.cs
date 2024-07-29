@@ -29,23 +29,23 @@ public class Enemy : MonoBehaviour
         enemyRb.velocity = enemyVelocity;
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("EnemyDirectionChanger"))
+        if (collision.transform.tag == "EnemyDirectionChanger")
         {
             enemyMovement = -enemyMovement;
             enemySprite.flipX = !enemySprite.flipX;
 
         }
-        if (collision.CompareTag("Spear"))
+        if (collision.transform.tag == "Spear")
         {
             enemyLife--;
-            if (enemyLife < 1)
+            if (enemyLife == 0)
             {
-                /*for (int i = 1; i <= transform.childCount; i++)
+                for (int i = 0; i < transform.childCount; i++)
                 {
-                    Instantiate(spearObject, transform.position, Quaternion.identity);
-                }*/
+                    transform.DetachChildren();
+                }
                 isDead = true;
                 Destroy(gameObject);
             }

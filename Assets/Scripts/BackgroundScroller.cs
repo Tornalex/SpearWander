@@ -9,7 +9,7 @@ public class BackgroundScroller : MonoBehaviour
     [SerializeField] float scrollSpeed = 0f;
 
     [Header("Components")]
-    [SerializeField] PlayerActions playerActions;
+    [SerializeField] PlayerInputs playerInputs;
     
     float offset = 0f;
     Material material;
@@ -20,7 +20,7 @@ public class BackgroundScroller : MonoBehaviour
     void Update()
     {
         
-        offset += (Time.deltaTime * (scrollSpeed * playerActions.moveInput.x)) / overallSlowDown;
+        offset += (Time.deltaTime * (scrollSpeed * playerInputs.moveInput.x)) / overallSlowDown;
         material.SetTextureOffset("_MainTex", new Vector2(offset, 0));
     }
 }

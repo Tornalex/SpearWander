@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] ThrowAndRecallSpears spearThrow;
-    [SerializeField] PlayerActions playerActions;
+    [SerializeField] FireSpears fireSpears;
+    [SerializeField] PlayerInputs playerInputs;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject respawnPoint;
     [SerializeField] TMP_Text spearsAvailableUI;
@@ -21,14 +21,14 @@ public class GameManager : MonoBehaviour
     
     public void Respawn()
     {
-        playerActions.isDead = false;
-        playerActions.transform.position = respawnPoint.transform.position;
+        playerInputs.isDead = false;
+        playerInputs.transform.position = respawnPoint.transform.position;
         deathScreen.SetActive(false);
     }
     
     void ShowDeathScreen()
     {
-        if(playerActions.isDead)
+        if(playerInputs.isDead)
         {
             deathScreen.SetActive(true);
         }
@@ -41,6 +41,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateAvailableSpearsUI()
     {
-        spearsAvailableUI.text = "Spears: " + spearThrow.equippedSpears;
+        spearsAvailableUI.text = "Spears: " + playerInputs.equippedSpears;
     }
 }

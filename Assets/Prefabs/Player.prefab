@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 1
-  playerActions: {fileID: 4428741408004884473}
+  playerInputs: {fileID: 4428741408004884473}
 --- !u!58 &8669136446542011078
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -176,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 714539538030343331}
   - component: {fileID: 4428741408004884473}
+  - component: {fileID: 4475701006575124952}
   - component: {fileID: 8411286487773059757}
   - component: {fileID: 4206864715731901079}
   - component: {fileID: 4691309040856143321}
@@ -219,14 +220,30 @@ MonoBehaviour:
   speed: 10
   jumpHeight: 22
   coyoteTimeReset: 0.2
-  spearThrow: {fileID: 4017908814887577864}
+  equippedSpears: 3
+  spearSpeed: 22
+  spearIndicator: {fileID: 1515783296212136820}
+  fireSpears: {fileID: 4017908814887577864}
+  recallSpears: {fileID: 4475701006575124952}
   playerFeet: {fileID: 6183506076388044463}
   playerRb: {fileID: 8411286487773059757}
   hasCoyoteJumped: 0
   isDead: 0
   isFacingRight: 0
   moveInput: {x: 0, y: 0}
-  fireInputVector: {x: 0, y: 0}
+--- !u!114 &4475701006575124952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e486bc668c7765541b1bcee14afe1e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInputs: {fileID: 4428741408004884473}
 --- !u!50 &8411286487773059757
 Rigidbody2D:
   serializedVersion: 4
@@ -280,19 +297,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4428741408004884473}
-        m_TargetAssemblyTypeName: PlayerActions, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 3179db3a-0e4b-481c-87b9-00e09eb1b9ec
     m_ActionName: Player/Move[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
@@ -330,7 +335,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4428741408004884473}
-        m_TargetAssemblyTypeName: PlayerActions, Assembly-CSharp
+        m_TargetAssemblyTypeName: PlayerInputs, Assembly-CSharp
         m_MethodName: Recall
         m_Mode: 0
         m_Arguments:
@@ -359,10 +364,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3794f14c-fe69-4a67-881c-dcabe5f8175b
     m_ActionName: Player/Restart[/Keyboard/r]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 4ff27f3a-f928-48ef-ac20-8bfa3c58f889
-    m_ActionName: Player/ReleaseJump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: d2b95ee3-a3c7-4b2c-b01f-7e0a0f354b45
@@ -403,6 +404,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b85b5e42-26d1-423f-a172-9135d055dfaf
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4428741408004884473}
+        m_TargetAssemblyTypeName: PlayerActions, Assembly-CSharp
+        m_MethodName: AimWithGamepad
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3f6db5bc-d9e6-4597-b0b7-e428889b8b1a
+    m_ActionName: Player/AimWithController[/DualShock4GamepadHID/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4428741408004884473}
+        m_TargetAssemblyTypeName: PlayerActions, Assembly-CSharp
+        m_MethodName: AimWithMouse
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 52f363af-5855-4e03-90c9-c19272bf0836
+    m_ActionName: Player/AimWithMouse[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -572,8 +605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d0e3196b8f926458db66264ec432c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equippedSpears: 3
-  spearSpeed: 22
-  playerActions: {fileID: 4428741408004884473}
+  playerInputs: {fileID: 4428741408004884473}
   spearObject: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   spearTransform: {fileID: 1515783296212136820}

@@ -9,25 +9,18 @@ public class Spear : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Vector3 mousePos;
-    [SerializeField] PlayerActions playerActions;
     
     [HideInInspector] public Rigidbody2D spearRb;
     Enemy enemy;
-    Camera mainCam;
 
     void Awake()
     {
         spearRb = GetComponent<Rigidbody2D>();
-        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-    }
-    private void Start()
-    {
-        
     }
 
     private void Update()
     {
-        if (enemy != null && enemy.isDead)
+        if (enemy == null)
         {
             spearRb.isKinematic = false;
         }
@@ -35,28 +28,17 @@ public class Spear : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Wall"
-           || collision.transform.tag == "Ground")
+        if (collision.transform.tag == "Ground")
         {
             spearRb.velocity = Vector2.zero;
             spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
         if (collision.transform.tag == "Enemy")
         {
+            transform.parent = collision.transform;
             enemy = collision.gameObject.GetComponent<Enemy>();
             spearRb.isKinematic = true;
-            transform.parent = collision.transform;   
+            spearRb.velocity = Vector3.zero;
         }
     }
-    /*void SetSpearDirectionWithMouse()
-    {
-        mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 direction = mousePos - transform.position;
-        spearRb.velocity = new Vector2(direction.x, direction.y).normalized * spearSpeed;
-    }
-    void SetSpearDirectionWithController()
-    {
-        Vector3 direction = playerActions.playerInputActions.Player.Aim.ReadValue<Vector2>();
-        spearRb.velocity = new Vector2(direction.x, direction.y).normalized * spearSpeed;
-    }*/
 }
