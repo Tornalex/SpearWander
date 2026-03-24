@@ -22,6 +22,8 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] RecallSpears recallSpears;
     [SerializeField] PlayerFeet playerFeet;
     [SerializeField] Rigidbody2D playerRb;
+    [SerializeField] Animator movementAnim;
+    [SerializeField] private Transform spriteTransform;
 
     float coyoteTime;
     [HideInInspector] public bool hasCoyoteJumped;
@@ -30,6 +32,8 @@ public class PlayerInputs : MonoBehaviour
     [HideInInspector] public Vector2 moveInput;
     public PlayerInputActions playerInputActions;
     private Camera mainCam;
+    private bool facingRight = false;
+
     private void Awake()
     {
         isDead = false;
@@ -41,11 +45,16 @@ public class PlayerInputs : MonoBehaviour
     private void Update()
     {
         CoyoteJump();
+        FacingRightCheck();
         if (transform.position.y < -15)
         {
             SceneManager.LoadScene(0);
         }
-    }
+        float speedThreshold = 0.05f; // soglia minima
+        float horizontalSpeed = Mathf.Abs(playerRb.linearVelocity.x);
+        movementAnim.SetFloat("Speed", horizontalSpeed > speedThreshold ? horizontalSpeed : 0f);
+        float moveInput = Input.GetAxisRaw("Horizontal");
+        }
     private void FixedUpdate()
     {
         Move();
@@ -62,10 +71,10 @@ public class PlayerInputs : MonoBehaviour
     void Move()
     {
         Vector2 moveDirection = playerInputActions.Player.Move.ReadValue<Vector2>();
-        playerRb.velocity = new Vector2(moveDirection.x * speed, playerRb.velocity.y);
+        playerRb.linearVelocity = new Vector2(moveDirection.x * speed, playerRb.linearVelocity.y);
         if (isDead)
         {
-            playerRb.velocity = Vector2.zero;
+            playerRb.linearVelocity = Vector2.zero;
         }
     }
     public void AimWithMouse(InputAction.CallbackContext context)
@@ -116,7 +125,7 @@ public class PlayerInputs : MonoBehaviour
         }
         if (context.canceled)
         {
-            playerRb.velocity = new(playerRb.velocity.x, playerRb.velocity.y * .35f);
+            playerRb.linearVelocity = new(playerRb.linearVelocity.x, playerRb.linearVelocity.y * .35f);
         }
     }
     public void Restart(InputAction.CallbackContext context)
@@ -133,5 +142,25 @@ public class PlayerInputs : MonoBehaviour
             coyoteTime = coyoteTimeReset;
         }
         coyoteTime -= Time.deltaTime;
+    }
+    private void FacingRightCheck()
+    {
+        float moveDirection = playerInputActions.Player.Move.ReadValue<Vector2>().x;
+           if (moveDirection > 0f && !facingRight)
+        {
+            Flip();
+        }
+        else if (moveDirection < 0f && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = spriteTransform.localScale;
+        scale.x *= -1;
+        spriteTransform.localScale = scale;
     }
 }

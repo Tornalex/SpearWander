@@ -19,7 +19,7 @@ public class FireSpears : MonoBehaviour
             playerInputs.equippedSpears--;
             Vector3 spearDirection = mousePos - transform.position;
             GameObject thrownSpear = Instantiate(spearObject, spearTransform.position, Quaternion.identity);
-            thrownSpear.GetComponent<Rigidbody2D>().velocity = new Vector2 (spearDirection.x, spearDirection.y).normalized * playerInputs.spearSpeed;
+            thrownSpear.GetComponent<Rigidbody2D>().linearVelocity = new Vector2 (spearDirection.x, spearDirection.y).normalized * playerInputs.spearSpeed;
             playerInputs.thrownSpearsQueue.Enqueue(thrownSpear);
         }
     }
@@ -29,7 +29,7 @@ public class FireSpears : MonoBehaviour
         {
             playerInputs.equippedSpears--;
             GameObject thrownSpear = Instantiate(spearObject, spearTransform.position, Quaternion.identity);
-            thrownSpear.GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x, direction.y).normalized * playerInputs.spearSpeed;
+            thrownSpear.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(direction.x, direction.y).normalized * playerInputs.spearSpeed;
             playerInputs.thrownSpearsQueue.Enqueue(thrownSpear);
         }
     }

@@ -25,8 +25,8 @@ public class Enemy : MonoBehaviour
     
     void FixedUpdate()
     {
-        Vector2 enemyVelocity = new(enemyMovement.x * enemySpeed, enemyRb.velocity.y);
-        enemyRb.velocity = enemyVelocity;
+        Vector2 enemyVelocity = new(enemyMovement.x * enemySpeed, enemyRb.linearVelocity.y);
+        enemyRb.linearVelocity = enemyVelocity;
     }
     
     private void OnCollisionEnter2D(Collision2D collision)

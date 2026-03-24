@@ -22,7 +22,7 @@ public class Spear : MonoBehaviour
     {
         if (enemy == null)
         {
-            spearRb.isKinematic = false;
+            spearRb.bodyType = RigidbodyType2D.Dynamic;
         }
     }
 
@@ -30,15 +30,15 @@ public class Spear : MonoBehaviour
     {
         if (collision.transform.tag == "Ground")
         {
-            spearRb.velocity = Vector2.zero;
+            spearRb.linearVelocity = Vector2.zero;
             spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
         if (collision.transform.tag == "Enemy")
         {
             transform.parent = collision.transform;
             enemy = collision.gameObject.GetComponent<Enemy>();
-            spearRb.isKinematic = true;
-            spearRb.velocity = Vector3.zero;
+            spearRb.bodyType = RigidbodyType2D.Kinematic;
+            spearRb.linearVelocity = Vector3.zero;
         }
     }
 }
