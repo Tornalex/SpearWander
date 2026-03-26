@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,46 +8,51 @@ public class Enemy : MonoBehaviour
     [SerializeField] int enemyLife = 3;
     [SerializeField] float enemySpeed = 0f;
 
-    [Header("Components")]
-    [SerializeField] GameObject spearObject;
-    
     [HideInInspector] public bool isDead = false;
     Vector2 enemyMovement = Vector2.right;
     SpriteRenderer enemySprite;
     Rigidbody2D enemyRb;
-   
+
     void Awake()
     {
         enemyRb = GetComponent<Rigidbody2D>();
         enemySprite = GetComponent<SpriteRenderer>();
     }
-    
+
     void FixedUpdate()
     {
         Vector2 enemyVelocity = new(enemyMovement.x * enemySpeed, enemyRb.linearVelocity.y);
         enemyRb.linearVelocity = enemyVelocity;
     }
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public void TakeDamage(int damage)
     {
-        if (collision.transform.tag == "EnemyDirectionChanger")
+        enemyLife -= damage;
+        if (enemyLife <= 0)
+        {
+            List<Spear> spears = new();
+            foreach (Transform child in transform)
+            {
+                Spear spear = child.GetComponent<Spear>();
+                if (spear != null) spears.Add(spear);
+            }
+            foreach (Spear spear in spears)
+            {;
+                spear.spearRb.linearVelocity = Vector2.zero;
+                spear.spearRb.simulated = true;
+            }
+            isDead = true;
+            transform.DetachChildren();
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("EnemyDirectionChanger"))
         {
             enemyMovement = -enemyMovement;
             enemySprite.flipX = !enemySprite.flipX;
-
-        }
-        if (collision.transform.tag == "Spear")
-        {
-            enemyLife--;
-            if (enemyLife == 0)
-            {
-                for (int i = 0; i < transform.childCount; i++)
-                {
-                    transform.DetachChildren();
-                }
-                isDead = true;
-                Destroy(gameObject);
-            }
         }
     }
 }

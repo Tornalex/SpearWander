@@ -225,7 +225,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 5
@@ -459,11 +459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b885013f838a9041abdb75e0bad9a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  jumpHeight: 22
+  speed: 8
+  jumpHeight: 40
   coyoteTimeReset: 0.1
   equippedSpears: 3
-  spearSpeed: 30
+  spearSpeed: 50
   spearIndicator: {fileID: 1515783296212136820}
   fireSpears: {fileID: 4017908814887577864}
   recallSpears: {fileID: 4475701006575124952}
@@ -474,7 +474,6 @@ MonoBehaviour:
   hasCoyoteJumped: 0
   isDead: 0
   isFacingRight: 0
-  moveInput: {x: 0, y: 0}
 --- !u!114 &4475701006575124952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,7 +569,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 8793639957104055765, guid: 431f11fd30c971a47aa87830ca94d594, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

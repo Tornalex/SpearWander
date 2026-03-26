@@ -6,10 +6,20 @@ public class RecallSpears : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] PlayerInputs playerInputs;
+
     public void Recall()
     {
-        GameObject recalledSpear = playerInputs.thrownSpearsQueue.Dequeue();
-        Destroy(recalledSpear);
-        playerInputs.equippedSpears++;
+        while (playerInputs.thrownSpearsQueue.Count > 0 && playerInputs.thrownSpearsQueue.Peek() == null)
+        {
+            playerInputs.thrownSpearsQueue.Dequeue();
+            playerInputs.equippedSpears++;
+        }
+
+        if (playerInputs.thrownSpearsQueue.Count > 0)
+        {
+            GameObject recalledSpear = playerInputs.thrownSpearsQueue.Dequeue();
+            Destroy(recalledSpear);
+            playerInputs.equippedSpears++;
+        }
     }
 }

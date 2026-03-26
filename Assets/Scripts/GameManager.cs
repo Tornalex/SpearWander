@@ -11,12 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerInputs playerInputs;
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject respawnPoint;
-    [SerializeField] TMP_Text spearsAvailableUI;
-
     void Update()
     {
         ShowDeathScreen();
-        UpdateAvailableSpearsUI();
     }
     
     public void Respawn()
@@ -37,10 +34,5 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-    }
-
-    void UpdateAvailableSpearsUI()
-    {
-        spearsAvailableUI.text = "Spears: " + playerInputs.equippedSpears;
     }
 }

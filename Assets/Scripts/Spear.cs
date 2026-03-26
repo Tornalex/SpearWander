@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Spear : MonoBehaviour
 {
-    [Header("Spear Stats")]
-    [SerializeField] int spearSpeed;
-
     [Header("Components")]
-    [SerializeField] Vector3 mousePos;
-    
+    [SerializeField] public Transform spriteTransform;
+
     [HideInInspector] public Rigidbody2D spearRb;
-    Enemy enemy;
+    [HideInInspector] public bool keepRotation = false;
 
     void Awake()
     {
@@ -20,25 +17,61 @@ public class Spear : MonoBehaviour
 
     private void Update()
     {
-        if (enemy == null)
+        if (spearRb.linearVelocity.magnitude > 0.1f && !keepRotation)
         {
-            spearRb.bodyType = RigidbodyType2D.Dynamic;
+            float angle = Mathf.Atan2(spearRb.linearVelocity.y, spearRb.linearVelocity.x) * Mathf.Rad2Deg;
+            spriteTransform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void LateUpdate()
     {
-        if (collision.transform.tag == "Ground")
+        if (!keepRotation)
+            transform.rotation = Quaternion.identity;
+    }
+
+private void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.transform.CompareTag("Enemy"))
+    {
+        int damage = 1;
+        transform.parent = collision.transform;
+        spearRb.simulated = false;
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+            enemy.TakeDamage(damage);
+
+        return;
+    }
+
+    if (!collision.transform.CompareTag("Player") 
+        && !collision.transform.CompareTag("Spear"))
+    {    
+        foreach (ContactPoint2D contact in collision.contacts)
         {
-            spearRb.linearVelocity = Vector2.zero;
-            spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-        if (collision.transform.tag == "Enemy")
-        {
-            transform.parent = collision.transform;
-            enemy = collision.gameObject.GetComponent<Enemy>();
-            spearRb.bodyType = RigidbodyType2D.Kinematic;
-            spearRb.linearVelocity = Vector3.zero;
+            Vector2 normal = contact.normal;
+
+            // --- PAVIMENTO ---
+            if (Vector2.Dot(normal, Vector2.up) > 0.5f)
+            {
+                spearRb.linearVelocity = Vector2.zero;
+                spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
+                return;
+            }
+
+            // --- PARETE VERTICALE ---
+            if (Mathf.Abs(normal.x) > 0.5f)
+            {
+                spearRb.linearVelocity = Vector2.zero;
+                spearRb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+                keepRotation = true;
+                transform.rotation = Quaternion.identity;
+                spriteTransform.localRotation = Quaternion.identity;
+
+                return;
+            }
         }
     }
+}
 }

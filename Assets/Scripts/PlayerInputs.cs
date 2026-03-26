@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
+
 public class PlayerInputs : MonoBehaviour
 {
     [Header("Player Movement Stats")]
@@ -23,14 +23,13 @@ public class PlayerInputs : MonoBehaviour
     [SerializeField] PlayerFeet playerFeet;
     [SerializeField] Rigidbody2D playerRb;
     [SerializeField] Animator movementAnim;
-    [SerializeField] private Transform spriteTransform;
+    [SerializeField] Transform spriteTransform;
+    public PlayerInputActions playerInputActions;
 
     float coyoteTime;
     [HideInInspector] public bool hasCoyoteJumped;
     [HideInInspector] public bool isDead = false;
     [HideInInspector] public bool isFacingRight = true;
-    [HideInInspector] public Vector2 moveInput;
-    public PlayerInputActions playerInputActions;
     private Camera mainCam;
     private bool facingRight = false;
 
@@ -46,15 +45,17 @@ public class PlayerInputs : MonoBehaviour
     {
         CoyoteJump();
         FacingRightCheck();
+
         if (transform.position.y < -15)
         {
             SceneManager.LoadScene(0);
         }
-        float speedThreshold = 0.05f; // soglia minima
+
+        float speedThreshold = 0.05f;
         float horizontalSpeed = Mathf.Abs(playerRb.linearVelocity.x);
         movementAnim.SetFloat("Speed", horizontalSpeed > speedThreshold ? horizontalSpeed : 0f);
-        float moveInput = Input.GetAxisRaw("Horizontal");
-        }
+    }
+
     private void FixedUpdate()
     {
         Move();
@@ -77,11 +78,15 @@ public class PlayerInputs : MonoBehaviour
             playerRb.linearVelocity = Vector2.zero;
         }
     }
+
     public void AimWithMouse(InputAction.CallbackContext context)
     {
         if (context.performed && !isDead && context.control.device is Mouse)
         {
-            Vector3 spearDirection = mainCam.ScreenToWorldPoint(playerInputActions.Player.AimWithMouse.ReadValue<Vector2>()) - transform.position;
+            Vector3 mousePos = mainCam.ScreenToWorldPoint(playerInputActions.Player.AimWithMouse.ReadValue<Vector2>());
+            mousePos.z = 0f;
+
+            Vector3 spearDirection = mousePos - transform.position;
             float rotZ = Mathf.Atan2(spearDirection.y, spearDirection.x) * Mathf.Rad2Deg;
             spearIndicator.rotation = Quaternion.Euler(0, 0, rotZ);
         }
@@ -101,13 +106,18 @@ public class PlayerInputs : MonoBehaviour
     {
         if (context.performed && !isDead && context.control.device is Mouse)
         {
-            fireSpears.FireWithMouse(mainCam.ScreenToWorldPoint(playerInputActions.Player.AimWithMouse.ReadValue<Vector2>()));
+            Vector3 mousePos = mainCam.ScreenToWorldPoint(playerInputActions.Player.AimWithMouse.ReadValue<Vector2>());
+            mousePos.z = 0f;
+
+            fireSpears.FireWithMouse(mousePos);
+            
         }
         if (context.performed && !isDead && context.control.device is Gamepad)
         {
             fireSpears.FireWithGamepad(playerInputActions.Player.AimWithController.ReadValue<Vector2>());
         }
     }
+
     public void Recall(InputAction.CallbackContext context)
     {
         if (context.performed && !isDead)
@@ -115,6 +125,7 @@ public class PlayerInputs : MonoBehaviour
             recallSpears.Recall();
         }
     }
+
     public void Jump(InputAction.CallbackContext context)
     {
         if (context.performed && !isDead && coyoteTime >= 0 && !hasCoyoteJumped)
@@ -123,11 +134,12 @@ public class PlayerInputs : MonoBehaviour
             coyoteTime = 0;
             hasCoyoteJumped = true;
         }
-        if (context.canceled)
-        {
-            playerRb.linearVelocity = new(playerRb.linearVelocity.x, playerRb.linearVelocity.y * .35f);
-        }
+        if (context.canceled && playerRb.linearVelocity.y > 0f)
+    {
+        playerRb.linearVelocity = new(playerRb.linearVelocity.x, playerRb.linearVelocity.y * 0.35f);
     }
+    }
+
     public void Restart(InputAction.CallbackContext context)
     {
         if (context.performed && !isDead)
@@ -135,6 +147,7 @@ public class PlayerInputs : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+
     public void CoyoteJump()
     {
         if (playerFeet.isGrounded)
@@ -143,10 +156,11 @@ public class PlayerInputs : MonoBehaviour
         }
         coyoteTime -= Time.deltaTime;
     }
+
     private void FacingRightCheck()
     {
         float moveDirection = playerInputActions.Player.Move.ReadValue<Vector2>().x;
-           if (moveDirection > 0f && !facingRight)
+        if (moveDirection > 0f && !facingRight)
         {
             Flip();
         }
@@ -159,6 +173,7 @@ public class PlayerInputs : MonoBehaviour
     private void Flip()
     {
         facingRight = !facingRight;
+        isFacingRight = facingRight;
         Vector3 scale = spriteTransform.localScale;
         scale.x *= -1;
         spriteTransform.localScale = scale;
