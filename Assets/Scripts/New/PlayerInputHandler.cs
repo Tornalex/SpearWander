@@ -21,7 +21,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         MoveInput = _actions.Player.Move.ReadValue<Vector2>();
         
-        // Unifichiamo il puntamento: se il mouse si muove usa quello, altrimenti il gamepad
         Vector2 mousePos = _actions.Player.AimWithMouse.ReadValue<Vector2>();
         if (mousePos != Vector2.zero) 
             AimInput = Camera.main.ScreenToWorldPoint(mousePos);

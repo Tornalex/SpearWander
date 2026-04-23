@@ -3,16 +3,20 @@ using System.Collections.Generic;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public int maxSpears = 3;
-    public int currentSpears;
-    [SerializeField] GameObject spearPrefab;
-    [SerializeField] Transform firePoint;
-    [SerializeField] Transform aimIndicator;
+[Header("Spear Inventory")]
+    [SerializeField] private int maxSpears = 3;
+    [SerializeField] public int currentSpears;
+
+    [Header("Spear Physics")]
+    [SerializeField] private float shootForce = 20f;
+    [SerializeField] private GameObject spearPrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private Transform aimIndicator;
 
     private PlayerInputHandler _input;
     public List<Spear> activeSpears = new List<Spear>();
 
-    void Awake()
+void Awake()
     {
         _input = GetComponent<PlayerInputHandler>();
         currentSpears = maxSpears;
@@ -33,14 +37,15 @@ public class PlayerCombat : MonoBehaviour
         aimIndicator.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    void Fire()
+void Fire()
     {
         currentSpears--;
         GameObject s = Instantiate(spearPrefab, firePoint.position, aimIndicator.rotation);
+        
         Spear spearScript = s.GetComponent<Spear>();
         activeSpears.Add(spearScript);
         
-        s.GetComponent<Rigidbody2D>().AddForce(aimIndicator.right * 20f, ForceMode2D.Impulse);
+        s.GetComponent<Rigidbody2D>().AddForce(aimIndicator.right * shootForce, ForceMode2D.Impulse);
     }
 
 public void RecallLastSpear()

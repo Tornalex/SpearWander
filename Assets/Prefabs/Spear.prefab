@@ -139,9 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb83e5266df114545bd5e3129164ac70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteTransform: {fileID: 5656678852498108289}
-  spearRb: {fileID: 0}
-  keepRotation: 0
+  currentState: 0
+  returnSpeed: 25
+  impactDamage: 1
+  returnDamage: 2
 --- !u!50 &-4623189782305048683
 Rigidbody2D:
   serializedVersion: 5
@@ -154,7 +155,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 4
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1

@@ -6,13 +6,14 @@ public class Spear : MonoBehaviour
     public SpearState currentState = SpearState.Flying;
 
     [Header("Settings")]
-    [SerializeField] float returnSpeed = 25f;
-    [SerializeField] int returnDamage = 2;
+    [SerializeField] private float returnSpeed = 25f;
+    [SerializeField] private int impactDamage = 1;
+    [SerializeField] private int returnDamage = 2;
 
     private Rigidbody2D _rb;
+    private Collider2D _collider;
     private Transform _playerTransform;
     private PlayerCombat _playerCombat;
-    private Collider2D _collider;
 
     void Awake()
     {
@@ -20,17 +21,61 @@ public class Spear : MonoBehaviour
         _collider = GetComponent<Collider2D>();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (currentState != SpearState.Flying) return;
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(impactDamage);
+                StickToTarget(collision.transform, true);
+            }
+        }
+        else if (Mathf.Abs(collision.contacts[0].normal.x) > 0.7f)
+        {
+            StickToTarget(null, false, collision.contacts[0]);
+        }
+        else 
+        {
+            StopPhysics();
+        }
+    }
+
+    void StickToTarget(Transform target, bool isEnemy, ContactPoint2D contact = default)
+    {
+        currentState = SpearState.Embedded;
+        StopPhysics();
+
+        if (isEnemy)
+        {
+            transform.SetParent(target);
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+            transform.position = contact.point;
+        }
+    }
+
+    void StopPhysics()
+    {
+        _rb.bodyType = RigidbodyType2D.Static;
+        _collider.isTrigger = false;
+    }
+
     public void StartReturn(Transform player, PlayerCombat combat)
     {
         _playerTransform = player;
         _playerCombat = combat;
         
-        // Prepariamo la lancia per il volo di ritorno
         currentState = SpearState.Returning;
-        _rb.bodyType = RigidbodyType2D.Kinematic; // Disattiva gravità e attrito
+        transform.SetParent(null);
+        _rb.bodyType = RigidbodyType2D.Kinematic; 
         _rb.linearVelocity = Vector2.zero;
-        _collider.isTrigger = true; // Attraversa i muri, ma può colpire nemici
-        transform.SetParent(null); // Si stacca da muri o nemici
+        _collider.isTrigger = true;
     }
 
     void Update()
@@ -43,17 +88,12 @@ public class Spear : MonoBehaviour
 
     void MoveTowardsPlayer()
     {
-        // Calcoliamo la direzione verso il giocatore
         Vector2 direction = ((Vector2)_playerTransform.position - (Vector2)transform.position).normalized;
-        
-        // Applichiamo la velocità
         _rb.linearVelocity = direction * returnSpeed;
 
-        // Ruotiamo la lancia affinché la punta guardi verso il player (opzionale, fa molto GoW)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // Controllo distanza per il "riaggancio"
         if (Vector2.Distance(transform.position, _playerTransform.position) < 0.5f)
         {
             _playerCombat.CatchSpear(this);
@@ -62,28 +102,10 @@ public class Spear : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Se stiamo tornando e colpiamo un nemico
         if (currentState == SpearState.Returning && collision.CompareTag("Enemy"))
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             if (enemy != null) enemy.TakeDamage(returnDamage);
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (currentState == SpearState.Flying)
-        {
-            // Tua logica originale per conficcarsi nei muri/nemici
-            StopSpear(collision);
-        }
-    }
-
-    void StopSpear(Collision2D collision)
-    {
-        currentState = SpearState.Embedded;
-        _rb.bodyType = RigidbodyType2D.Static; // La blocca completamente
-        if(collision.transform.CompareTag("Enemy"))
-            transform.SetParent(collision.transform);
     }
 }

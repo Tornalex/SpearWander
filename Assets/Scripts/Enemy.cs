@@ -30,21 +30,31 @@ public class Enemy : MonoBehaviour
         enemyLife -= damage;
         if (enemyLife <= 0)
         {
-            List<Spear> spears = new();
-            foreach (Transform child in transform)
-            {
-                Spear spear = child.GetComponent<Spear>();
-                if (spear != null) spears.Add(spear);
-            }
-            foreach (Spear spear in spears)
-            {;
-                //spear.spearRb.linearVelocity = Vector2.zero;
-                //spear.spearRb.simulated = true;
-            }
-            isDead = true;
-            transform.DetachChildren();
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    void Die()
+    {
+        Spear[] attachedSpears = GetComponentsInChildren<Spear>();
+
+        foreach (Spear spear in attachedSpears)
+        {
+            spear.transform.SetParent(null);
+            
+            Rigidbody2D spearRb = spear.GetComponent<Rigidbody2D>();
+            if (spearRb != null)
+            {
+                spearRb.bodyType = RigidbodyType2D.Dynamic;
+                spearRb.gravityScale = 1; 
+                spearRb.AddForce(new Vector2(Random.Range(-2, 2), 5), ForceMode2D.Impulse);
+            }
+            
+            spear.currentState = Spear.SpearState.Embedded;
+        }
+
+        isDead = true;
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
