@@ -43,14 +43,27 @@ public class PlayerCombat : MonoBehaviour
         s.GetComponent<Rigidbody2D>().AddForce(aimIndicator.right * 20f, ForceMode2D.Impulse);
     }
 
-    void RecallLastSpear()
+public void RecallLastSpear()
+{
+    if (activeSpears.Count > 0)
     {
-        if (activeSpears.Count > 0)
+        // Prendiamo l'ultima lancia lanciata
+        Spear lastSpear = activeSpears[activeSpears.Count - 1];
+        
+        // Se non è già in volo di ritorno, la richiamiamo
+        if (lastSpear.currentState != Spear.SpearState.Returning)
         {
-            Spear last = activeSpears[activeSpears.Count - 1];
-            activeSpears.Remove(last);
-            Destroy(last.gameObject);
-            currentSpears++;
+            lastSpear.StartReturn(transform, this);
+            activeSpears.Remove(lastSpear); 
         }
     }
+}
+
+// Questa viene chiamata dalla lancia quando tocca il player
+public void CatchSpear(Spear spear)
+{
+    currentSpears++;
+    Destroy(spear.gameObject);
+    // Qui potresti aggiungere un effetto particellare o un piccolo screen shake
+}
 }

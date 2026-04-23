@@ -5,12 +5,18 @@ using UnityEngine;
 public class PlayerFeet : MonoBehaviour
 {
     public bool isGrounded = true;
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        isGrounded = true;   
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;   
+        }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        isGrounded = false;
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
     }
 }

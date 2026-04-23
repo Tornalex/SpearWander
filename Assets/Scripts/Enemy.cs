@@ -38,8 +38,8 @@ public class Enemy : MonoBehaviour
             }
             foreach (Spear spear in spears)
             {;
-                spear.spearRb.linearVelocity = Vector2.zero;
-                spear.spearRb.simulated = true;
+                //spear.spearRb.linearVelocity = Vector2.zero;
+                //spear.spearRb.simulated = true;
             }
             isDead = true;
             transform.DetachChildren();
