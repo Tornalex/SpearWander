@@ -24,6 +24,12 @@ public class Spear : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (currentState != SpearState.Flying) return;
+        
+        gameObject.layer = LayerMask.NameToLayer("Spear");
+        foreach (Transform child in gameObject.transform)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Spear");
+        }
 
         if (collision.gameObject.CompareTag("Enemy"))
         {

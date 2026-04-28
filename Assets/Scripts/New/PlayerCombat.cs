@@ -45,6 +45,11 @@ void Fire()
         Spear spearScript = s.GetComponent<Spear>();
         activeSpears.Add(spearScript);
         
+        s.layer = LayerMask.NameToLayer("Player");
+        foreach (Transform child in gameObject.transform)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+        }
         s.GetComponent<Rigidbody2D>().AddForce(aimIndicator.right * shootForce, ForceMode2D.Impulse);
     }
 
@@ -52,10 +57,8 @@ public void RecallLastSpear()
 {
     if (activeSpears.Count > 0)
     {
-        // Prendiamo l'ultima lancia lanciata
         Spear lastSpear = activeSpears[activeSpears.Count - 1];
         
-        // Se non è già in volo di ritorno, la richiamiamo
         if (lastSpear.currentState != Spear.SpearState.Returning)
         {
             lastSpear.StartReturn(transform, this);
@@ -64,11 +67,9 @@ public void RecallLastSpear()
     }
 }
 
-// Questa viene chiamata dalla lancia quando tocca il player
 public void CatchSpear(Spear spear)
 {
     currentSpears++;
     Destroy(spear.gameObject);
-    // Qui potresti aggiungere un effetto particellare o un piccolo screen shake
 }
 }
