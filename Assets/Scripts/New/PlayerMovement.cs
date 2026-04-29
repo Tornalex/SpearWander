@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private PlayerInputHandler _input;
     private PlayerFeet _feet;
+    private Animator _anim;
     private float _coyoteTimer;
 
     void Awake() 
@@ -16,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _input = GetComponent<PlayerInputHandler>();
         _feet = GetComponentInChildren<PlayerFeet>();
+        _anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -29,7 +31,12 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rb.linearVelocity = new Vector2(_input.MoveInput.x * speed, _rb.linearVelocity.y);
+        float moveX = _input.MoveInput.x;
+        _rb.linearVelocity = new Vector2(moveX * speed, _rb.linearVelocity.y);
+        float horizontalSpeed = Mathf.Abs(moveX);
+        _anim.SetFloat("Speed", horizontalSpeed);
+
+        HandleFlip(moveX);
     }
 
     void HandleCoyoteTime()
@@ -42,5 +49,11 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
         _coyoteTimer = 0;
+    }
+
+    void HandleFlip(float moveX)
+    {
+        if (moveX > 0) transform.localScale = new Vector3(-1, 1, 1);
+        else if (moveX < 0) transform.localScale = new Vector3(1, 1, 1);
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7004460250817916996}
   m_Layer: 3
   m_Name: Ground Check
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,7 +90,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.1}
+  m_Size: {x: 0.4, y: 0.1}
   m_EdgeRadius: 0
 --- !u!1 &2243085630845255235
 GameObject:
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 584646943730286698}
   m_Layer: 3
   m_Name: Aim Indicator
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf506aa9781358f468db6d91dbb05938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 16
+  speed: 10
   jumpForce: 21
   coyoteTimeDuration: 0.15
 --- !u!114 &7837380986689464844
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   maxSpears: 3
   currentSpears: 0
-  shootForce: 20
+  shootForce: 40
   spearPrefab: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   firePoint: {fileID: 4615831717237239827}
   aimIndicator: {fileID: 8008089452326454830}
@@ -516,7 +516,7 @@ GameObject:
   - component: {fileID: 1382712206203805435}
   m_Layer: 3
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -628,7 +628,7 @@ GameObject:
   - component: {fileID: 3913124700853137542}
   m_Layer: 3
   m_Name: Aim Pivot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 4615831717237239827}
   m_Layer: 6
   m_Name: Fire Point
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

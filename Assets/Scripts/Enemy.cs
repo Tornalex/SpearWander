@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [Header("Enemy Stats")]
-    [SerializeField] int enemyLife = 3;
-    [SerializeField] float enemySpeed = 0f;
+    [SerializeField] private int enemyLife = 3;
+    [SerializeField] private float enemySpeed = 2f;
 
     [HideInInspector] public bool isDead = false;
-    Vector2 enemyMovement = Vector2.right;
-    SpriteRenderer enemySprite;
-    Rigidbody2D enemyRb;
+    private Vector2 enemyMovement = Vector2.right;
+    private SpriteRenderer enemySprite;
+    private Rigidbody2D enemyRb;
 
     void Awake()
     {
@@ -21,41 +19,34 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 enemyVelocity = new(enemyMovement.x * enemySpeed, enemyRb.linearVelocity.y);
-        enemyRb.linearVelocity = enemyVelocity;
+        if (!isDead)
+        {
+            Vector2 enemyVelocity = new Vector2(enemyMovement.x * enemySpeed, enemyRb.linearVelocity.y);
+            enemyRb.linearVelocity = enemyVelocity;
+        }
     }
 
     public void TakeDamage(int damage)
     {
         enemyLife -= damage;
-        if (enemyLife <= 0)
+        if (enemyLife <= 0 && !isDead)
         {
             Die();
         }
     }
 
-    void Die()
+private void Die()
+{
+    isDead = true;
+    Spear[] attachedSpears = GetComponentsInChildren<Spear>();
+
+    foreach (Spear spear in attachedSpears)
     {
-        Spear[] attachedSpears = GetComponentsInChildren<Spear>();
-
-        foreach (Spear spear in attachedSpears)
-        {
-            spear.transform.SetParent(null);
-            
-            Rigidbody2D spearRb = spear.GetComponent<Rigidbody2D>();
-            if (spearRb != null)
-            {
-                spearRb.bodyType = RigidbodyType2D.Dynamic;
-                spearRb.gravityScale = 1; 
-                spearRb.AddForce(new Vector2(Random.Range(-2, 2), 5), ForceMode2D.Impulse);
-            }
-            
-            spear.currentState = Spear.SpearState.Embedded;
-        }
-
-        isDead = true;
-        Destroy(gameObject);
+        spear.OnEnemyDeath();
     }
+
+    Destroy(gameObject);
+}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

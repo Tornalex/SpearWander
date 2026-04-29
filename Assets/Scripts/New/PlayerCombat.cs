@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class PlayerCombat : MonoBehaviour
 {
-[Header("Spear Inventory")]
+    [Header("Spear Inventory")]
     [SerializeField] private int maxSpears = 3;
     [SerializeField] public int currentSpears;
 
@@ -16,7 +16,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerInputHandler _input;
     public List<Spear> activeSpears = new List<Spear>();
 
-void Awake()
+    void Awake()
     {
         _input = GetComponent<PlayerInputHandler>();
         currentSpears = maxSpears;
@@ -26,7 +26,7 @@ void Awake()
     {
         HandleAiming();
         if (_input.FireTriggered && currentSpears > 0) Fire();
-        if (_input.RecallTriggered) RecallLastSpear();
+        if (_input.RecallTriggered) RecallFirstSpear();
     }
 
     void HandleAiming()
@@ -37,39 +37,41 @@ void Awake()
         aimIndicator.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-void Fire()
+    void Fire()
     {
         currentSpears--;
         GameObject s = Instantiate(spearPrefab, firePoint.position, aimIndicator.rotation);
-        
         Spear spearScript = s.GetComponent<Spear>();
         activeSpears.Add(spearScript);
-        
+
         s.layer = LayerMask.NameToLayer("Player");
-        foreach (Transform child in gameObject.transform)
+        foreach (Transform child in s.transform)
         {
-            gameObject.layer = LayerMask.NameToLayer("Player");
+            child.gameObject.layer = LayerMask.NameToLayer("Player");
         }
+        
         s.GetComponent<Rigidbody2D>().AddForce(aimIndicator.right * shootForce, ForceMode2D.Impulse);
     }
 
-public void RecallLastSpear()
-{
-    if (activeSpears.Count > 0)
+    public void RecallFirstSpear()
     {
-        Spear lastSpear = activeSpears[activeSpears.Count - 1];
-        
-        if (lastSpear.currentState != Spear.SpearState.Returning)
+        activeSpears.RemoveAll(item => item == null);
+
+        if (activeSpears.Count > 0)
         {
-            lastSpear.StartReturn(transform, this);
-            activeSpears.Remove(lastSpear); 
+            Spear firstSpear = activeSpears[0];
+            
+            if (firstSpear.currentState != Spear.SpearState.Returning)
+            {
+                firstSpear.StartReturn(transform, this);
+                activeSpears.RemoveAt(0); 
+            }
         }
     }
-}
 
-public void CatchSpear(Spear spear)
-{
-    currentSpears++;
-    Destroy(spear.gameObject);
-}
+    public void CatchSpear(Spear spear)
+    {
+        currentSpears++;
+        Destroy(spear.gameObject);
+    }
 }

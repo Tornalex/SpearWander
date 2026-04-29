@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject respawnPoint;
     void Update()
     {
-        ShowDeathScreen();
+        //ShowDeathScreen();
     }
     
     public void Respawn()
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     
     void ShowDeathScreen()
     {
-        if(playerInputs.isDead)
+        //if(playerInputs.isDead)
         {
             deathScreen.SetActive(true);
         }
