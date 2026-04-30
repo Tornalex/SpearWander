@@ -1,14 +1,18 @@
+using System;
 using UnityEngine;
 
 public class PlayerDash : MonoBehaviour
 {
-    [Header("Dash Frames Settings")]
+    [Header("Dash Settings")]
     [SerializeField] private int dashDurationFrames = 10;
     [SerializeField] private int dashCooldownFrames = 50; 
     [SerializeField] private float dashSpeed = 25f;
-    [SerializeField] private float runSpeed = 16f; 
     [SerializeField] private int dashDamage = 1;
+    [Header("Run Settings")]
+    [SerializeField] private float runSpeed = 16f; 
+    [Header("Knockback Settings")]
     [SerializeField] private Vector2 knockbackForce = new Vector2(12f, 6f);
+    [SerializeField] private float knockbackDuration = 0.25f;
 
     public bool IsDashing { get; private set; }
     public bool IsRunning { get; private set; } 
@@ -76,7 +80,6 @@ public class PlayerDash : MonoBehaviour
     {
         float moveInput = _input.MoveInput.x;
 
-        // Se c'è input direzionale, segui l'input, altrimenti continua dritto
         if (Mathf.Abs(moveInput) > 0.1f)
         {
             float direction = Mathf.Sign(moveInput);
@@ -164,7 +167,7 @@ public class PlayerDash : MonoBehaviour
         _rb.linearVelocity = Vector2.zero;
         _rb.AddForce(new Vector2(knockbackForce.x * dir, knockbackForce.y), ForceMode2D.Impulse);
 
-        Invoke(nameof(ResetKnockback), 0.25f);
+        Invoke(nameof(ResetKnockback), knockbackDuration);
     }
 
     private void ResetKnockback() => IsKnockedBack = false;

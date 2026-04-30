@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 714539538030343331}
   - component: {fileID: 8411286487773059757}
-  - component: {fileID: 4691309040856143321}
+  - component: {fileID: 5055124838515870253}
   - component: {fileID: 8022682608026822374}
   - component: {fileID: 2534398102193285702}
   - component: {fileID: 2746718217424856509}
@@ -252,8 +252,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &4691309040856143321
-CapsuleCollider2D:
+--- !u!61 &5055124838515870253
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -287,8 +287,17 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.1}
-  m_Size: {x: 0.75, y: 1.8}
-  m_Direction: 0
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.75, y: 1.625}
+  m_EdgeRadius: 0
 --- !u!114 &8022682608026822374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,9 +340,10 @@ MonoBehaviour:
   dashDurationFrames: 8
   dashCooldownFrames: 25
   dashSpeed: 30
-  runSpeed: 16
   dashDamage: 1
+  runSpeed: 16
   knockbackForce: {x: 20, y: 30}
+  knockbackDuration: 0.1
 --- !u!114 &7837380986689464844
 MonoBehaviour:
   m_ObjectHideFlags: 0
