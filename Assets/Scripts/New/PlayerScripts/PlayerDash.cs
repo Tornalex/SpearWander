@@ -6,10 +6,12 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private int dashDurationFrames = 10;
     [SerializeField] private int dashCooldownFrames = 50; 
     [SerializeField] private float dashSpeed = 25f;
+    [SerializeField] private float runSpeed = 16f; 
     [SerializeField] private int dashDamage = 1;
     [SerializeField] private Vector2 knockbackForce = new Vector2(12f, 6f);
 
     public bool IsDashing { get; private set; }
+    public bool IsRunning { get; private set; } 
     public bool IsKnockedBack { get; private set; }
 
     private bool _canAirDash = true;
@@ -38,6 +40,11 @@ public class PlayerDash : MonoBehaviour
         {
             StartDash();
         }
+
+        if (!_input.IsDashHeld())
+        {
+            IsRunning = false;
+        }
     }
 
     void FixedUpdate()
@@ -56,8 +63,42 @@ public class PlayerDash : MonoBehaviour
 
             if (_dashFrameCounter <= 0) 
             {
-                StopDash();
+                TransitionToRun();
             }
+        }
+        else if (IsRunning && _input.IsDashHeld())
+        {
+            HandleRunningMovement();
+        }
+    }
+
+    private void HandleRunningMovement()
+    {
+        float moveInput = _input.MoveInput.x;
+
+        // Se c'è input direzionale, segui l'input, altrimenti continua dritto
+        if (Mathf.Abs(moveInput) > 0.1f)
+        {
+            float direction = Mathf.Sign(moveInput);
+            _rb.linearVelocity = new Vector2(direction * runSpeed, _rb.linearVelocity.y);
+            Flip(direction);
+        }
+        else
+        {
+            float currentFacing = Mathf.Sign(transform.localScale.x);
+            _rb.linearVelocity = new Vector2(currentFacing * runSpeed, _rb.linearVelocity.y);
+        }
+
+        _rb.gravityScale = 5f; 
+    }
+
+    private void Flip(float direction)
+    {
+        if ((direction > 0 && transform.localScale.x < 0) || (direction < 0 && transform.localScale.x > 0))
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
         }
     }
 
@@ -71,6 +112,7 @@ public class PlayerDash : MonoBehaviour
     private void StartDash()
     {
         IsDashing = true;
+        IsRunning = true; 
         _dashFrameCounter = dashDurationFrames;
         _cooldownFrameCounter = dashCooldownFrames;
 
@@ -80,9 +122,21 @@ public class PlayerDash : MonoBehaviour
         _rb.linearVelocity = Vector2.zero;
     }
 
+    private void TransitionToRun()
+    {
+        IsDashing = false;
+        _rb.gravityScale = 5f;
+
+        if (!_input.IsDashHeld())
+        {
+            IsRunning = false;
+        }
+    }
+
     private void StopDash()
     {
         IsDashing = false;
+        IsRunning = false;
         _rb.gravityScale = 5f;
     }
 

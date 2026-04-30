@@ -33,7 +33,8 @@ public class PlayerInputHandler : MonoBehaviour
         FireTriggered = _actions.Player.Fire.WasPerformedThisFrame();
         RecallTriggered = _actions.Player.Recall.WasPerformedThisFrame();
     }
-        public bool IsJumpHeld() => _actions.Player.Jump.IsPressed();
         public bool IsRecallHeld() => _actions.Player.Recall.IsPressed();
+        public bool IsJumpHeld() => _actions.Player.Jump.IsPressed();
+        public bool IsDashHeld() => _actions.Player.Dash.IsPressed();
 
 }

@@ -331,6 +331,7 @@ MonoBehaviour:
   dashDurationFrames: 8
   dashCooldownFrames: 25
   dashSpeed: 30
+  runSpeed: 16
   dashDamage: 1
   knockbackForce: {x: 20, y: 30}
 --- !u!114 &7837380986689464844

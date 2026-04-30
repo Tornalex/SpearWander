@@ -1192,26 +1192,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1130634275582126305, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2746718217424856509, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
-      propertyPath: dashSpeed
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 2746718217424856509, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
-      propertyPath: dashDuration
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2746718217424856509, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
-      propertyPath: knockbackForce.x
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2746718217424856509, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
-      propertyPath: knockbackForce.y
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 6286765099597975374, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
       propertyPath: m_Name
       value: Player New
@@ -22078,9 +22058,6 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 34
     m_Data: {fileID: 21300000, guid: 3a484028676306242b0faf6fb7622686, type: 3}
-  - serializedVersion: 2
-    m_RefCount: 0
-    m_Data: {fileID: 976496617}
   m_TileMatrixArray:
   - serializedVersion: 2
     m_RefCount: 389

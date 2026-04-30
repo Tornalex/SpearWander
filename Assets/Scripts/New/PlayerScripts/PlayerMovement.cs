@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_dash != null && (_dash.IsDashing || _dash.IsKnockedBack)) return;
+        if (_dash != null && (_dash.IsDashing || _dash.IsKnockedBack || _dash.IsRunning)) return;
 
         HandleMovement();
     }
