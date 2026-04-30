@@ -118,8 +118,8 @@ Transform:
   m_GameObject: {fileID: 2243085630845255235}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3913124700853137542}
@@ -195,6 +195,8 @@ GameObject:
   - component: {fileID: 8411286487773059757}
   - component: {fileID: 4691309040856143321}
   - component: {fileID: 8022682608026822374}
+  - component: {fileID: 2534398102193285702}
+  - component: {fileID: 2746718217424856509}
   - component: {fileID: 7837380986689464844}
   - component: {fileID: 3796082680852283278}
   - component: {fileID: 4206864715731901079}
@@ -300,8 +302,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 10
-  jumpForce: 21
-  coyoteTimeDuration: 0.15
+--- !u!114 &2534398102193285702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f75b2fa5d0e7b8246bfac43f151c73dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
+  jumpForce: 22
+  jumpCutMultiplier: 0.2
+--- !u!114 &2746718217424856509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584f5016b0192aa4b98f842d948236b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
+  dashDurationFrames: 8
+  dashCooldownFrames: 25
+  dashSpeed: 30
+  dashDamage: 1
+  knockbackForce: {x: 20, y: 30}
 --- !u!114 &7837380986689464844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +351,7 @@ MonoBehaviour:
   spearPrefab: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   firePoint: {fileID: 4615831717237239827}
   aimIndicator: {fileID: 8008089452326454830}
+  throwCooldownFrames: 16
   activeSpears: []
 --- !u!114 &3796082680852283278
 MonoBehaviour:
@@ -498,6 +530,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 52f363af-5855-4e03-90c9-c19272bf0836
     m_ActionName: 'Player/AimWithMouse[/Mouse/position]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bd336805-6f0d-4496-b067-0f4580672fb7
+    m_ActionName: 'Player/Dash[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -531,7 +567,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 714539538030343331}

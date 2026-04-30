@@ -10,11 +10,13 @@ public class Enemy : MonoBehaviour
     private Vector2 enemyMovement = Vector2.right;
     private SpriteRenderer enemySprite;
     private Rigidbody2D enemyRb;
+    private HitFlash _hitFlash;
 
     void Awake()
     {
         enemyRb = GetComponent<Rigidbody2D>();
         enemySprite = GetComponent<SpriteRenderer>();
+        _hitFlash = GetComponent<HitFlash>();
     }
 
     void FixedUpdate()
@@ -29,6 +31,10 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage)
     {
         enemyLife -= damage;
+        if (_hitFlash != null)
+        {
+            _hitFlash.Flash();
+        }
         if (enemyLife <= 0 && !isDead)
         {
             Die();

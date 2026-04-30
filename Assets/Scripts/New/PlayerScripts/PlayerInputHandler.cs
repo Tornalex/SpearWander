@@ -6,6 +6,7 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 MoveInput { get; private set; }
     public Vector2 AimInput { get; private set; }
     public bool JumpTriggered { get; private set; }
+    public bool DashTriggered { get; private set; }
     public bool FireTriggered { get; private set; }
     public bool RecallTriggered { get; private set; }
 
@@ -28,9 +29,11 @@ public class PlayerInputHandler : MonoBehaviour
             AimInput = _actions.Player.AimWithController.ReadValue<Vector2>();
 
         JumpTriggered = _actions.Player.Jump.WasPerformedThisFrame();
+        DashTriggered = _actions.Player.Dash.WasPerformedThisFrame();
         FireTriggered = _actions.Player.Fire.WasPerformedThisFrame();
         RecallTriggered = _actions.Player.Recall.WasPerformedThisFrame();
     }
+        public bool IsJumpHeld() => _actions.Player.Jump.IsPressed();
+        public bool IsRecallHeld() => _actions.Player.Recall.IsPressed();
 
-    public bool IsJumpHeld() => _actions.Player.Jump.IsPressed();
 }

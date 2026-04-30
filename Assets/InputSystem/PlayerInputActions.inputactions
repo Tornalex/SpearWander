@@ -16,42 +16,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump ",
-                    "type": "Button",
-                    "id": "99173695-5921-40e3-880d-980590815ef7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Fire",
-                    "type": "Button",
-                    "id": "5daf9ea9-6a34-4553-9636-7f7aba981af3",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Recall",
-                    "type": "Button",
-                    "id": "bc949cf3-76f3-4b21-b02b-3f7b4b59c475",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Restart",
-                    "type": "Button",
-                    "id": "3794f14c-fe69-4a67-881c-dcabe5f8175b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "AimWithController",
                     "type": "Value",
                     "id": "3f6db5bc-d9e6-4597-b0b7-e428889b8b1a",
@@ -68,6 +32,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Jump ",
+                    "type": "Button",
+                    "id": "99173695-5921-40e3-880d-980590815ef7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "bd336805-6f0d-4496-b067-0f4580672fb7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "5daf9ea9-6a34-4553-9636-7f7aba981af3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Recall",
+                    "type": "Button",
+                    "id": "bc949cf3-76f3-4b21-b02b-3f7b4b59c475",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "3794f14c-fe69-4a67-881c-dcabe5f8175b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -211,6 +220,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "AimWithMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4022b37f-3eea-4769-88e5-1742c2da9ef9",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eef5699d-5676-4ab2-8e64-175ede939453",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
