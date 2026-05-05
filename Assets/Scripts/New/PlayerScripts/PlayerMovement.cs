@@ -3,40 +3,44 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float speed = 8f;
+    [SerializeField] private float walkSpeed = 10f;
+    [SerializeField] private float runSpeed = 16f;
 
     private Rigidbody2D _rb;
     private PlayerInputHandler _input;
-    private Animator _anim;
     private PlayerDash _dash;
+    private PlayerKnockback _knockback;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _input = GetComponent<PlayerInputHandler>();
-        _anim = GetComponentInChildren<Animator>();
         _dash = GetComponent<PlayerDash>();
+        _knockback = GetComponent<PlayerKnockback>();
     }
 
     void FixedUpdate()
     {
-        if (_dash != null && (_dash.IsDashing || _dash.IsKnockedBack || _dash.IsRunning)) return;
+        if (_knockback.IsKnockedBack || _dash.IsDashing) return;
 
-        HandleMovement();
+        float moveInput = _input.MoveInput.x;
+        float targetSpeed = (_input.IsDashHeld() && Mathf.Abs(moveInput) > 0.1f) ? runSpeed : walkSpeed;
+
+        _rb.linearVelocity = new Vector2(moveInput * targetSpeed, _rb.linearVelocity.y);
+
+        if (Mathf.Abs(moveInput) > 0.1f)
+        {
+            Flip(Mathf.Sign(moveInput));
+        }
     }
 
-    private void HandleMovement()
+    private void Flip(float direction)
     {
-        float moveX = _input.MoveInput.x;
-        _rb.linearVelocity = new Vector2(moveX * speed, _rb.linearVelocity.y);
-        
-        _anim.SetFloat("Speed", Mathf.Abs(moveX));
-        HandleFlip(moveX);
-    }
-
-    private void HandleFlip(float moveX)
-    {
-        if (moveX > 0) transform.localScale = new Vector3(1, 1, 1);
-        else if (moveX < 0) transform.localScale = new Vector3(-1, 1, 1);
+        if ((direction > 0 && transform.localScale.x < 0) || (direction < 0 && transform.localScale.x > 0))
+        {
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
     }
 }

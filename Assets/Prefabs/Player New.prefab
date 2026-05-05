@@ -194,12 +194,14 @@ GameObject:
   - component: {fileID: 714539538030343331}
   - component: {fileID: 8411286487773059757}
   - component: {fileID: 5055124838515870253}
+  - component: {fileID: 4163864494818057746}
   - component: {fileID: 8022682608026822374}
   - component: {fileID: 2534398102193285702}
   - component: {fileID: 2746718217424856509}
   - component: {fileID: 7837380986689464844}
   - component: {fileID: 3796082680852283278}
   - component: {fileID: 4206864715731901079}
+  - component: {fileID: 8199112534537086976}
   m_Layer: 3
   m_Name: Player New
   m_TagString: Player
@@ -298,6 +300,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.75, y: 1.625}
   m_EdgeRadius: 0
+--- !u!114 &4163864494818057746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919c80b523f05cd45b8966f64319ab6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 300
+  iFramesDuration: 50
+  damageForce: {x: 10, y: 15}
+  damageFrames: 15
 --- !u!114 &8022682608026822374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,7 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf506aa9781358f468db6d91dbb05938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 10
+  walkSpeed: 10
+  runSpeed: 16
 --- !u!114 &2534398102193285702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,13 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584f5016b0192aa4b98f842d948236b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
-  dashDurationFrames: 8
-  dashCooldownFrames: 25
+  dashDurationFrames: 4
+  dashCooldownFrames: 20
   dashSpeed: 30
   dashDamage: 1
-  runSpeed: 16
-  knockbackForce: {x: 20, y: 30}
-  knockbackDuration: 0.1
+  postDashIFrames: 3
+  recoilForce: {x: 20, y: 20}
+  recoilFrames: 15
 --- !u!114 &7837380986689464844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +569,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8199112534537086976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0527df80bbcd14ea1a087cbd2e74ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerKnockback
 --- !u!1 &7957684855799199361
 GameObject:
   m_ObjectHideFlags: 0

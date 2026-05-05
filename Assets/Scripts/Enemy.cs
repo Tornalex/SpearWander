@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
         enemyLife -= damage;
         if (_hitFlash != null)
         {
+            FlipEnemy();
             _hitFlash.Flash();
         }
         if (enemyLife <= 0 && !isDead)
@@ -58,8 +59,12 @@ private void Die()
     {
         if (collision.transform.CompareTag("EnemyDirectionChanger"))
         {
-            enemyMovement = -enemyMovement;
-            enemySprite.flipX = !enemySprite.flipX;
+            FlipEnemy();
         }
+    }
+    private void FlipEnemy()
+    {
+        enemyMovement = -enemyMovement;
+        enemySprite.flipX = !enemySprite.flipX;
     }
 }

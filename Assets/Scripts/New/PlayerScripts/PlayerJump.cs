@@ -9,6 +9,7 @@ public class PlayerJump : MonoBehaviour
     private Rigidbody2D _rb;
     private PlayerInputHandler _input;
     private PlayerDash _dash;
+    private PlayerKnockback _knockback;
     private bool _isJumping;
 
     void Awake()
@@ -16,11 +17,12 @@ public class PlayerJump : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _input = GetComponent<PlayerInputHandler>();
         _dash = GetComponent<PlayerDash>();
+        _knockback = GetComponent<PlayerKnockback>();
     }
 
     void Update()
     {
-        if (_dash != null && (_dash.IsDashing || _dash.IsKnockedBack)) return;
+        if (_dash != null && (_dash.IsDashing || _knockback.IsKnockedBack)) return;
 
         if (_input.JumpTriggered && IsGrounded())
         {

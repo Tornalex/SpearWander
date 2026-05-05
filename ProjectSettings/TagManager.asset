@@ -47,6 +47,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: VFX
+    uniqueID: 239145809
+    locked: 0
   m_RenderingLayers:
   - Default
   - Terrain
