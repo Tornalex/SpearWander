@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputHandler _input;
     private PlayerDash _dash;
     private PlayerKnockback _knockback;
+    private Animator _animator;
 
     void Awake()
     {
@@ -17,14 +18,20 @@ public class PlayerMovement : MonoBehaviour
         _input = GetComponent<PlayerInputHandler>();
         _dash = GetComponent<PlayerDash>();
         _knockback = GetComponent<PlayerKnockback>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
     {
-        if (_knockback.IsKnockedBack || _dash.IsDashing) return;
+        if (_knockback.IsKnockedBack || _dash.IsDashing) 
+        {
+            _animator.SetFloat("Speed", 0f);
+            return;
+        }
 
         float moveInput = _input.MoveInput.x;
         float targetSpeed = (_input.IsDashHeld() && Mathf.Abs(moveInput) > 0.1f) ? runSpeed : walkSpeed;
+        _animator.SetFloat("Speed", Mathf.Abs(moveInput * targetSpeed));
 
         _rb.linearVelocity = new Vector2(moveInput * targetSpeed, _rb.linearVelocity.y);
 

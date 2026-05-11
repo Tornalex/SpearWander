@@ -37,12 +37,15 @@ public class VFXManager : MonoBehaviour
         }
     }
 
-    public void PlayVFX(VFXType type, Vector3 position, Quaternion rotation = default)
+    public void PlayVFX(VFXType type, Vector3 position, Vector2 direction)
     {
         if (_vfxDict.TryGetValue(type, out GameObject prefab))
         {
             if (prefab != null)
             {
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                Quaternion rotation = Quaternion.Euler(0, 0, angle);
+               
                 Instantiate(prefab, position, rotation);
             }
         }

@@ -10,9 +10,9 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private int dashDamage = 1;
     [SerializeField] private int postDashIFrames = 3;
 
-    [Header("Recoil Settings")]
-    [SerializeField] private Vector2 recoilForce = new Vector2(10f, 5f);
-    [SerializeField] private int recoilFrames = 12;
+    [Header("Knockback Settings")]
+    [SerializeField] private Vector2 knockbackForce = new Vector2(10f, 5f);
+    [SerializeField] private int knockbackFrames = 12;
 
     public bool IsDashing { get; private set; }
     public bool HasPostDashProtection { get; private set; }
@@ -74,6 +74,12 @@ public class PlayerDash : MonoBehaviour
         StartCoroutine(PostDashProtectionRoutine());
     }
 
+    public void ResetAirDash()
+    {
+        _canAirDash = true;
+        _cooldownFrameCounter = 0;
+    }
+
     private IEnumerator PostDashProtectionRoutine()
     {
         HasPostDashProtection = true;
@@ -85,16 +91,14 @@ public class PlayerDash : MonoBehaviour
     {
         if (IsDashing && collision.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy != null)
+            IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
             {
-                enemy.TakeDamage(dashDamage);
-                VFXManager.Instance.PlayVFX(VFXType.HitDash, collision.contacts[0].point);
+                damageable.TakeDamage(dashDamage, collision.contacts[0].point);
                 SFXManager.Instance.PlaySFX(SFXType.HitDash);
-                _canAirDash = true;
                 _cooldownFrameCounter = 0;
                 StopDash();
-                _knockback.ApplyKnockback(collision.transform.position, recoilForce, recoilFrames);
+                _knockback.ApplyKnockback(collision.transform.position, knockbackForce, knockbackFrames);
             }
         }
     }

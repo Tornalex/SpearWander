@@ -17,6 +17,7 @@ public class PlayerHealth : MonoBehaviour
     private Vector2 _lastEnemyPosition;
     
     private PlayerDash _dash;
+    private PlayerPogo _pogo;
     private PlayerKnockback _knockback;
     private SpriteRenderer _sprite;
 
@@ -24,6 +25,7 @@ public class PlayerHealth : MonoBehaviour
     {
         _currentHealth = maxHealth;
         _dash = GetComponent<PlayerDash>();
+        _pogo = GetComponent<PlayerPogo>();
         _knockback = GetComponent<PlayerKnockback>();
         _sprite = GetComponentInChildren<SpriteRenderer>();
     }
@@ -40,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
         {
             if (_sprite.color.a < 1f) _sprite.color = Color.white;
 
-            if (_isTouchingEnemy && !_dash.IsDashing && !_dash.HasPostDashProtection)
+            if (_isTouchingEnemy && !_dash.IsDashing && !_dash.HasPostDashProtection && !_pogo.IsPlunging && !_pogo.HasPostPogoProtection)
             {
                 TakeDamage(1, _lastEnemyPosition);
             }
@@ -54,7 +56,7 @@ public class PlayerHealth : MonoBehaviour
             _isTouchingEnemy = true;
             _lastEnemyPosition = collision.transform.position;
 
-            if (!_dash.IsDashing && !_dash.HasPostDashProtection && _iFramesCounter <= 0)
+            if (!_dash.IsDashing && !_dash.HasPostDashProtection && _iFramesCounter <= 0 && !_pogo.IsPlunging && !_pogo.HasPostPogoProtection)
             {
                 TakeDamage(1, _lastEnemyPosition);
             }
@@ -86,7 +88,7 @@ public class PlayerHealth : MonoBehaviour
         if (_dash.IsDashing) _dash.StopDash();
 
         _knockback.ApplyKnockback(sourcePos, damageForce, damageFrames);
-        VFXManager.Instance.PlayVFX(VFXType.HitGeneric, transform.position);
+        VFXManager.Instance.PlayVFX(VFXType.HitGeneric, transform.position, Vector2.zero);
         
         if (_currentHealth <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

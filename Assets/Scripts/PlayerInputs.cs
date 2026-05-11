@@ -150,7 +150,7 @@ public class PlayerInputs : MonoBehaviour
 
     public void CoyoteJump()
     {
-        if (playerFeet.isGrounded)
+        if (playerFeet.IsGrounded())
         {
             coyoteTime = coyoteTimeReset;
         }

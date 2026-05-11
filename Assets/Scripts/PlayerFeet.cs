@@ -1,22 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFeet : MonoBehaviour
 {
-    public bool isGrounded = true;
-    private void OnTriggerStay2D(Collider2D collision)
+    private bool _isGrounded;
+    private PlayerPogo _pogoScript;
+
+    void Awake()
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        // Cerca lo script Pogo nell'oggetto padre (il Player)
+        _pogoScript = GetComponentInParent<PlayerPogo>();
+    }
+
+    public bool IsGrounded() => _isGrounded;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        _isGrounded = true;
+
+        // Se il giocatore sta effettuando un pogo, passa la collisione al relativo script
+        if (_pogoScript != null && _pogoScript.IsPlunging)
         {
-            isGrounded = true;   
+            _pogoScript.OnPogoHit(collision);
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
+        _isGrounded = false;
     }
 }

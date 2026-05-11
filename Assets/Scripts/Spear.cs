@@ -26,18 +26,16 @@ public class Spear : MonoBehaviour
         _collider = GetComponent<Collider2D>();
         _effector = GetComponent<PlatformEffector2D>();
         _spearLayer = LayerMask.NameToLayer("Spear");
-        
+    
         gameObject.layer = _spearLayer;
         foreach (Transform child in transform) child.gameObject.layer = _spearLayer;
     }
 
-    // Viene chiamato dal Player nel momento esatto del lancio
     public void Initialize(Collider2D playerCol)
     {
         _playerCollider = playerCol;
-        _collider.isTrigger = false; // Solida per poter sbattere contro il muro
+        _collider.isTrigger = false;
 
-        // IGNORIAMO fisicamente il giocatore mentre vola! (Non ci respingerà più)
         if (_playerCollider != null)
         {
             Physics2D.IgnoreCollision(_collider, _playerCollider, true);
@@ -82,11 +80,11 @@ public class Spear : MonoBehaviour
 
     private void HandleEnemyHit(Collision2D collision)
     {
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        if (enemy != null)
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        if (damageable != null)
         {
-            enemy.TakeDamage(impactDamage);
             StickToTarget(collision.transform, collision.contacts[0]);
+            damageable.TakeDamage(impactDamage, collision.contacts[0].point);
         }
     }
 
@@ -99,7 +97,6 @@ public class Spear : MonoBehaviour
         _rb.angularVelocity = 0f;
         transform.position = contact.point;
 
-        // Gestione Rotazione e PlatformEffector
         if (Mathf.Abs(contact.normal.x) > 0.7f)
         {
             bool isFacingLeft = contact.normal.x < 0;
