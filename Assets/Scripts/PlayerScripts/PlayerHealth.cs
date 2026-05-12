@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
+using Unity.VisualScripting;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
     private PlayerPogo _pogo;
     private PlayerKnockback _knockback;
     private SpriteRenderer _sprite;
+    private CinemachineImpulseSource _impulseSource;
 
     void Awake()
     {
@@ -28,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
         _pogo = GetComponent<PlayerPogo>();
         _knockback = GetComponent<PlayerKnockback>();
         _sprite = GetComponentInChildren<SpriteRenderer>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     void FixedUpdate()
@@ -84,12 +88,12 @@ public class PlayerHealth : MonoBehaviour
     {
         _currentHealth -= amount;
         _iFramesCounter = iFramesDuration;
+        _impulseSource.GenerateImpulse();
 
         if (_dash.IsDashing) _dash.StopDash();
 
         _knockback.ApplyKnockback(sourcePos, damageForce, damageFrames);
         VFXManager.Instance.PlayVFX(VFXType.HitGeneric, transform.position, Vector2.zero);
-        
         if (_currentHealth <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

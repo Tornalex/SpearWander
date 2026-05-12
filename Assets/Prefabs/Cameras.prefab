@@ -89,6 +89,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Virtual Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 6966454953644245909, guid: 1b382067a8bf8924c9fca0d750d303cd, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1775173320129111242, guid: 1b382067a8bf8924c9fca0d750d303cd, type: 3}
     m_RemovedGameObjects:
@@ -98,6 +102,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6966454953644245909, guid: 1b382067a8bf8924c9fca0d750d303cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6292008378284414566}
+    - targetCorrespondingSourceObject: {fileID: 6966454953644245909, guid: 1b382067a8bf8924c9fca0d750d303cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5054379707665397754}
   m_SourcePrefab: {fileID: 100100000, guid: 1b382067a8bf8924c9fca0d750d303cd, type: 3}
 --- !u!1 &3649680755639228695 stripped
 GameObject:
@@ -117,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineBrain
   ShowDebugText: 0
-  ShowCameraFrustum: 1
+  ShowCameraFrustum: 0
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1
@@ -136,6 +143,57 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!20 &5054379707665397754
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649680755639228695}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19250624, g: 0.24728036, b: 0.3962264, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
+  orthographic: 1
+  orthographic size: 10
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!4 &6971819489984086541 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3660147159076493455, guid: 1b382067a8bf8924c9fca0d750d303cd, type: 3}
@@ -209,17 +267,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 7786457181842634019, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7485726208333380449, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
+    - {fileID: 7198565901258463453, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7786457181842634019, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
-      insertIndex: 2
+      insertIndex: 1
       addedObject: {fileID: 4171614986635140369}
     - targetCorrespondingSourceObject: {fileID: 7786457181842634019, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8939455215716104679}
+    - targetCorrespondingSourceObject: {fileID: 7786457181842634019, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4486191894518119984}
   m_SourcePrefab: {fileID: 100100000, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
 --- !u!1 &3560109867900311445 stripped
 GameObject:
@@ -300,6 +366,30 @@ MonoBehaviour:
     Time: 0.6
     Smoothing: 7.5
     IgnoreY: 1
+--- !u!114 &4486191894518119984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3560109867900311445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 3
+  ChannelMask: -1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 0
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!4 &4550861934168175986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7079914027962046404, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
