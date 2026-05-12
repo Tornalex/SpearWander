@@ -122,7 +122,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!58 &699867639926128440
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fba377ea602f9342b547badc1dfd8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyLife: 300
-  enemySpeed: 4
+  enemyLife: 3
+  enemySpeed: 5
   knockbackForce: {x: 10, y: 1}
   knockbackFrames: 5
   isDead: 0

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1128805968306364368}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0452, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b122dbb55c8284b86fa5d6a0ba20a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFeet
-  isGrounded: 1
 --- !u!61 &7004460250817916996
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -76,7 +75,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -90,7 +89,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.4, y: 0.1}
+  m_Size: {x: 0.74, y: 0.1}
   m_EdgeRadius: 0
 --- !u!1 &2243085630845255235
 GameObject:
@@ -199,9 +198,10 @@ GameObject:
   - component: {fileID: 2534398102193285702}
   - component: {fileID: 7837380986689464844}
   - component: {fileID: 2746718217424856509}
+  - component: {fileID: 3281315049897957862}
+  - component: {fileID: 8199112534537086976}
   - component: {fileID: 3796082680852283278}
   - component: {fileID: 4206864715731901079}
-  - component: {fileID: 8199112534537086976}
   m_Layer: 3
   m_Name: Player New
   m_TagString: Player
@@ -362,7 +362,7 @@ MonoBehaviour:
   spearPrefab: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   firePoint: {fileID: 4615831717237239827}
   aimIndicator: {fileID: 8008089452326454830}
-  throwCooldownFrames: 25
+  throwCooldownFrames: 30
   activeSpears: []
 --- !u!114 &2746718217424856509
 MonoBehaviour:
@@ -377,12 +377,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
   dashDurationFrames: 8
-  dashCooldownFrames: 20
+  dashCooldownFrames: 35
   dashSpeed: 30
   dashDamage: 1
   postDashIFrames: 3
-  knockbackForce: {x: 20, y: 25}
-  knockbackFrames: 25
+  knockbackForce: {x: 10, y: 20}
+  knockbackFrames: 20
+--- !u!114 &3281315049897957862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c89f00bb398fa4fb956558656b8afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPogo
+  plungeSpeed: 20
+  bounceForce: 20
+  pogoLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  postPogoIFrames: 2
+  pogoStunFrames: 20
+--- !u!114 &8199112534537086976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb0527df80bbcd14ea1a087cbd2e74ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerKnockback
 --- !u!114 &3796082680852283278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,18 +600,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &8199112534537086976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6286765099597975374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb0527df80bbcd14ea1a087cbd2e74ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerKnockback
 --- !u!1 &7957684855799199361
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,7 +772,7 @@ Transform:
   m_GameObject: {fileID: 8949874722100583517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

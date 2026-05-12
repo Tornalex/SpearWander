@@ -10,6 +10,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool DashTriggered { get; private set; }
     public bool FireTriggered { get; private set; }
     public bool RecallTriggered { get; private set; }
+    public bool DownTriggered { get; private set; }
     public bool DownInputHeld => MoveInput.y < -0.5f;
 
     private PlayerInputActions _actions;
@@ -50,6 +51,7 @@ public class PlayerInputHandler : MonoBehaviour
         DashTriggered = _actions.Player.Dash.WasPerformedThisFrame();
         FireTriggered = _actions.Player.Fire.WasPerformedThisFrame();
         RecallTriggered = _actions.Player.Recall.WasPerformedThisFrame();
+        DownTriggered = _actions.Player.Down.WasPerformedThisFrame();
     }
 
     public bool IsRecallHeld() => _actions.Player.Recall.IsPressed();

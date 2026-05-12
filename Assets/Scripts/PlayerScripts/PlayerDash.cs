@@ -96,7 +96,7 @@ public class PlayerDash : MonoBehaviour
             {
                 damageable.TakeDamage(dashDamage, collision.contacts[0].point);
                 SFXManager.Instance.PlaySFX(SFXType.HitDash);
-                _cooldownFrameCounter = 0;
+                //_cooldownFrameCounter = 0;
                 StopDash();
                 _knockback.ApplyKnockback(collision.transform.position, knockbackForce, knockbackFrames);
             }

@@ -6,8 +6,11 @@ public class PlayerPogo : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float plungeSpeed = 20f;
     [SerializeField] private float bounceForce = 15f;
-    [SerializeField] private LayerMask pogoLayer;
+    //[SerializeField] private LayerMask pogoLayer;
+    
+    [Header("Timers")]
     [SerializeField] private int postPogoIFrames = 10;
+    [SerializeField] private int pogoStunFrames = 8; // Per quanti frame il giocatore non può muoversi
 
     private Rigidbody2D _rb;
     private PlayerInputHandler _input;
@@ -16,6 +19,8 @@ public class PlayerPogo : MonoBehaviour
 
     public bool IsPlunging { get; private set; }
     public bool HasPostPogoProtection { get; private set; }
+    public bool IsPogoStunned { get; private set; } // NUOVA VARIABILE
+
     private bool _canPlunge = true;
     private bool _waitingForInputRelease;
 
@@ -34,7 +39,7 @@ public class PlayerPogo : MonoBehaviour
             _waitingForInputRelease = false;
         }
 
-        if (!_feet.IsGrounded() && _input.DownInputHeld && _canPlunge && !IsPlunging && !_waitingForInputRelease)
+        if (!_feet.IsGrounded() && (_input.DownInputHeld || _input.DownTriggered) && _canPlunge && !IsPlunging && !_waitingForInputRelease && !IsPogoStunned)
         {
             StartPlunge();
         }
@@ -56,7 +61,7 @@ public class PlayerPogo : MonoBehaviour
 
     public void OnPogoHit(Collision2D hit)
     {
-        if (((1 << hit.gameObject.layer) & pogoLayer) != 0)
+        if (hit.gameObject.CompareTag("Enemy"))
         {
             ExecuteBounce(hit);
         }
@@ -68,11 +73,14 @@ public class PlayerPogo : MonoBehaviour
         _canPlunge = true;
 
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.2f);
+        
+        // Applica il rimbalzo perfetto mantenendo la velocità X attuale (o azzerandola se preferisci)
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, bounceForce);
 
         if (_dashScript != null) _dashScript.ResetAirDash();
         
         StartCoroutine(PostPogoProtectionRoutine());
+        StartCoroutine(PogoStunRoutine()); // ATTIVA IL BLOCCO DEI COMANDI
 
         IDamageable damageable = hit.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
@@ -88,5 +96,13 @@ public class PlayerPogo : MonoBehaviour
         HasPostPogoProtection = true;
         for (int i = 0; i < postPogoIFrames; i++) yield return new WaitForFixedUpdate();
         HasPostPogoProtection = false;
+    }
+
+    // NUOVA COROUTINE PER IL BLOCCO MOVIMENTO
+    private IEnumerator PogoStunRoutine()
+    {
+        IsPogoStunned = true;
+        for (int i = 0; i < pogoStunFrames; i++) yield return new WaitForFixedUpdate();
+        IsPogoStunned = false;
     }
 }
