@@ -10,6 +10,7 @@ TagManager:
   - PlayerFeet
   - Enemy
   - EnemyDirectionChanger
+  - Bouncer
   layers:
   - Default
   - TransparentFX
