@@ -88,24 +88,29 @@ public class Spear : MonoBehaviour
         }
     }
 
-    void StickToTarget(Transform target, ContactPoint2D contact)
+void StickToTarget(Transform target, ContactPoint2D contact)
     {
+        Vector2 flyDirection = _rb.linearVelocity.normalized;
+        
         currentState = SpearState.Embedded;
 
         _rb.bodyType = RigidbodyType2D.Kinematic;
         _rb.linearVelocity = Vector2.zero;
         _rb.angularVelocity = 0f;
-        transform.position = contact.point;
 
-        if (Mathf.Abs(contact.normal.x) > 0.7f)
+        if (Mathf.Abs(contact.normal.x) > 0.5f) 
         {
-            bool isFacingLeft = contact.normal.x < 0;
-            transform.rotation = Quaternion.Euler(0, 0, isFacingLeft ? 180 : 0);
+            float targetAngle = (flyDirection.x > 0) ? 0f : 180f;
+            transform.rotation = Quaternion.Euler(0, 0, targetAngle);
+        }
+        transform.position = (Vector3)contact.point + (Vector3)flyDirection * 0.15f;
 
-            if (_effector != null)
-            {
-                _effector.rotationalOffset = isFacingLeft ? 180 : 0;
-            }
+        if (_effector != null)
+        {
+            float currentAngle = transform.eulerAngles.z;
+            if (currentAngle < 0) currentAngle += 360;
+            
+            _effector.rotationalOffset = (currentAngle > 90 && currentAngle < 270) ? 180 : 0;
         }
 
         if (target != null) 
@@ -116,7 +121,6 @@ public class Spear : MonoBehaviour
         else 
         {
             _collider.isTrigger = false;
-            
             if (_playerCollider != null)
             {
                 Physics2D.IgnoreCollision(_collider, _playerCollider, false);

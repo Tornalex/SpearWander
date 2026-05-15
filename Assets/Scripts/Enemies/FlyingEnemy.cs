@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FlyingEnemy : MonoBehaviour, IDamageable
+public class FlyingEnemy : MonoBehaviour, IDamageable, IBounceable
 {
     [Header("Stats")]
     [SerializeField] private int life = 2;
@@ -61,14 +61,8 @@ public class FlyingEnemy : MonoBehaviour, IDamageable
             if (distanceToPlayer > loseRadius) _isChasing = false;
         }
 
-        if (_isChasing)
-        {
-            ChasePlayer();
-        }
-        else
-        {
-            Patrol();
-        }
+        if (_isChasing) ChasePlayer();
+        else Patrol();
 
         FlipSprite();
     }
@@ -76,11 +70,7 @@ public class FlyingEnemy : MonoBehaviour, IDamageable
     private void Patrol()
     {
         transform.position = Vector2.MoveTowards(transform.position, _targetPatrolPoint, flySpeed * Time.fixedDeltaTime);
-
-        if (Vector2.Distance(transform.position, _targetPatrolPoint) < 0.2f)
-        {
-            SetNewPatrolPoint();
-        }
+        if (Vector2.Distance(transform.position, _targetPatrolPoint) < 0.2f) SetNewPatrolPoint();
     }
 
     private void SetNewPatrolPoint()
@@ -96,9 +86,7 @@ public class FlyingEnemy : MonoBehaviour, IDamageable
     private void FlipSprite()
     {
         float directionX = _isChasing ? (_player.position.x - transform.position.x) : (_targetPatrolPoint.x - transform.position.x);
-
-        if (Mathf.Abs(directionX) > 0.1f)
-            _sprite.flipX = directionX < 0;
+        if (Mathf.Abs(directionX) > 0.1f) _sprite.flipX = directionX < 0;
     }
 
     public void TakeDamage(int damage, Vector2 hitPoint)
@@ -108,44 +96,31 @@ public class FlyingEnemy : MonoBehaviour, IDamageable
         life -= damage;
         _isStunned = true;
         _stunTimer = stunDuration;
-        
         _rb.linearVelocity = Vector2.zero;
-        _rb.angularVelocity = 0f;
 
-        if (_player != null && Vector2.Distance(transform.position, _player.position) < loseRadius)
-        {
-            _isChasing = true;
-        }
+        if (_player != null && Vector2.Distance(transform.position, _player.position) < loseRadius) _isChasing = true;
         
         if (_hitFlash != null) _hitFlash.Flash();
         SFXManager.Instance.PlaySFX(SFXType.EnemyPierced);
-        
-        Vector2 bounceDirection = (hitPoint - (Vector2)transform.position).normalized;
-        VFXManager.Instance.PlayVFX(VFXType.HitDash, hitPoint, bounceDirection);
+        VFXManager.Instance.PlayVFX(VFXType.HitDash, hitPoint, (hitPoint - (Vector2)transform.position).normalized);
 
         if (life <= 0) Die();
+    }
+
+    public float GetBounceMultiplier() => 1f;
+
+    public void OnPogoBounce()
+    {
+        _isStunned = true;
+        _stunTimer = stunDuration;
+        if (_hitFlash != null) _hitFlash.Flash();
     }
 
     private void Die()
     {
         _isDead = true;
-
         Spear[] attachedSpears = GetComponentsInChildren<Spear>();
-        foreach (Spear spear in attachedSpears)
-        {
-            spear.OnEnemyDeath();
-        }
-
+        foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
         Destroy(gameObject, 0.05f);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(Application.isPlaying ? _startPosition : (Vector2)transform.position, patrolRadius);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, loseRadius);
     }
 }

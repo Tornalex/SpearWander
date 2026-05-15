@@ -1,25 +1,26 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Cinemachine;
 
 public class PlayerPogo : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float plungeSpeed = 20f;
     [SerializeField] private float bounceForce = 15f;
-    //[SerializeField] private LayerMask pogoLayer;
     
     [Header("Timers")]
     [SerializeField] private int postPogoIFrames = 10;
-    [SerializeField] private int pogoStunFrames = 8; // Per quanti frame il giocatore non può muoversi
+    [SerializeField] private int pogoStunFrames = 8;
 
     private Rigidbody2D _rb;
     private PlayerInputHandler _input;
     private PlayerDash _dashScript;
     private PlayerFeet _feet;
+    private CinemachineImpulseSource _impulse;
 
     public bool IsPlunging { get; private set; }
     public bool HasPostPogoProtection { get; private set; }
-    public bool IsPogoStunned { get; private set; } // NUOVA VARIABILE
+    public bool IsPogoStunned { get; private set; }
 
     private bool _canPlunge = true;
     private bool _waitingForInputRelease;
@@ -30,6 +31,7 @@ public class PlayerPogo : MonoBehaviour
         _input = GetComponent<PlayerInputHandler>();
         _dashScript = GetComponent<PlayerDash>();
         _feet = GetComponentInChildren<PlayerFeet>();
+        _impulse = GetComponent<CinemachineImpulseSource>();
     }
 
     void Update()
@@ -61,33 +63,38 @@ public class PlayerPogo : MonoBehaviour
 
     public void OnPogoHit(Collision2D hit)
     {
-        if (hit.gameObject.CompareTag("Enemy"))
+        IBounceable bounceable = hit.collider.GetComponent<IBounceable>();
+
+        if (bounceable != null)
         {
-            ExecuteBounce(hit);
+            ExecuteBounce(bounceable, hit.collider.gameObject);
         }
     }
 
-    private void ExecuteBounce(Collision2D hit)
+    private void ExecuteBounce(IBounceable bounceable, GameObject hitObj)
     {
         IsPlunging = false;
         _canPlunge = true;
 
+        bounceable.OnPogoBounce();
+
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.2f);
         
-        // Applica il rimbalzo perfetto mantenendo la velocità X attuale (o azzerandola se preferisci)
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, bounceForce);
+        float finalForce = bounceForce * bounceable.GetBounceMultiplier();
+        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, finalForce);
 
         if (_dashScript != null) _dashScript.ResetAirDash();
         
         StartCoroutine(PostPogoProtectionRoutine());
-        StartCoroutine(PogoStunRoutine()); // ATTIVA IL BLOCCO DEI COMANDI
+        StartCoroutine(PogoStunRoutine());
 
-        IDamageable damageable = hit.gameObject.GetComponent<IDamageable>();
+        IDamageable damageable = hitObj.GetComponent<IDamageable>();
         if (damageable != null)
         {
             damageable.TakeDamage(1, transform.position);
         }
 
+        if (_impulse != null) _impulse.GenerateImpulse();
         SFXManager.Instance.PlaySFX(SFXType.PogoHit);
     }
 
@@ -98,7 +105,6 @@ public class PlayerPogo : MonoBehaviour
         HasPostPogoProtection = false;
     }
 
-    // NUOVA COROUTINE PER IL BLOCCO MOVIMENTO
     private IEnumerator PogoStunRoutine()
     {
         IsPogoStunned = true;
