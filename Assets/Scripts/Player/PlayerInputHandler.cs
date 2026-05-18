@@ -7,6 +7,7 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 AimInput { get; private set; }
     public bool IsGamepad { get; private set; }
     public bool JumpTriggered { get; private set; }
+    public bool HealTriggered { get; private set; }
     public bool DashTriggered { get; private set; }
     public bool FireTriggered { get; private set; }
     public bool RecallTriggered { get; private set; }
@@ -52,6 +53,7 @@ public class PlayerInputHandler : MonoBehaviour
         FireTriggered = _actions.Player.Fire.WasPerformedThisFrame();
         RecallTriggered = _actions.Player.Recall.WasPerformedThisFrame();
         DownTriggered = _actions.Player.Down.WasPerformedThisFrame();
+        HealTriggered = _actions.Player.Heal.WasPerformedThisFrame();
     }
 
     public bool IsRecallHeld() => _actions.Player.Recall.IsPressed();

@@ -128,6 +128,14 @@ public class PlayerCombat : MonoBehaviour
         currentSpears++;
         _isSpearReturning = false;
         _returningSpear = null;
+        if (spear.HasHitEnemy)
+        {
+            PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.AddEssenceFromCatch(false); 
+            }
+        }
         Destroy(spear.gameObject);
     }
 }

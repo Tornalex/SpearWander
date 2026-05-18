@@ -20,6 +20,8 @@ public class Spear : MonoBehaviour
     private PlayerCombat _playerCombat;
     private int _spearLayer;
 
+    public bool HasHitEnemy { get; private set; }
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -35,6 +37,7 @@ public class Spear : MonoBehaviour
     {
         _playerCollider = playerCol;
         _collider.isTrigger = false;
+        HasHitEnemy = false;
 
         if (_playerCollider != null)
         {
@@ -83,12 +86,13 @@ public class Spear : MonoBehaviour
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
         if (damageable != null)
         {
+            HasHitEnemy = true;
             StickToTarget(collision.transform, collision.contacts[0]);
             damageable.TakeDamage(impactDamage, collision.contacts[0].point);
         }
     }
 
-void StickToTarget(Transform target, ContactPoint2D contact)
+    void StickToTarget(Transform target, ContactPoint2D contact)
     {
         Vector2 flyDirection = _rb.linearVelocity.normalized;
         
@@ -103,13 +107,13 @@ void StickToTarget(Transform target, ContactPoint2D contact)
             float targetAngle = (flyDirection.x > 0) ? 0f : 180f;
             transform.rotation = Quaternion.Euler(0, 0, targetAngle);
         }
+
         transform.position = (Vector3)contact.point + (Vector3)flyDirection * 0.15f;
 
         if (_effector != null)
         {
             float currentAngle = transform.eulerAngles.z;
             if (currentAngle < 0) currentAngle += 360;
-            
             _effector.rotationalOffset = (currentAngle > 90 && currentAngle < 270) ? 180 : 0;
         }
 

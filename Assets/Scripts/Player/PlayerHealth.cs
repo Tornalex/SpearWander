@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -13,25 +12,45 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Vector2 damageForce = new Vector2(15f, 10f);
     [SerializeField] private int damageFrames = 25;
 
+    [Header("Essence Settings")]
+    [SerializeField] private float maxEssence = 100f;
+    [SerializeField] private float essencePerBaseCatch = 20f;
+    [SerializeField] private float essenceCostPerHeal = 30f;
+    [SerializeField] private int healthPerHeal = 1;
+
     private int _currentHealth;
     private int _iFramesCounter;
     private bool _isTouchingEnemy;
     private Vector2 _lastEnemyPosition;
+    private float _currentEssence;
     
     private PlayerDash _dash;
     private PlayerPogo _pogo;
     private PlayerKnockback _knockback;
     private SpriteRenderer _sprite;
     private CinemachineImpulseSource _impulseSource;
+    private PlayerInputHandler _input;
+
+    public float CurrentEssence => _currentEssence;
 
     void Awake()
     {
         _currentHealth = maxHealth;
+        _currentEssence = 0f;
         _dash = GetComponent<PlayerDash>();
         _pogo = GetComponent<PlayerPogo>();
         _knockback = GetComponent<PlayerKnockback>();
         _sprite = GetComponentInChildren<SpriteRenderer>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
+        _input = GetComponent<PlayerInputHandler>();
+    }
+
+    void Update()
+    {
+        if (_input.HealTriggered)
+        {
+            TryHeal();
+        }
     }
 
     void FixedUpdate()
@@ -95,5 +114,31 @@ public class PlayerHealth : MonoBehaviour
         _knockback.ApplyKnockback(sourcePos, damageForce, damageFrames);
         VFXManager.Instance.PlayVFX(VFXType.HitGeneric, transform.position, Vector2.zero);
         if (_currentHealth <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void AddEssenceFromCatch(bool perfectCatch)
+    {
+        float amountToAdd = perfectCatch ? 40f : essencePerBaseCatch;
+        _currentEssence = Mathf.Clamp(_currentEssence + amountToAdd, 0f, maxEssence);
+    }
+
+    private void TryHeal()
+    {
+        if (_currentHealth < maxHealth && _currentEssence >= essenceCostPerHeal)
+        {
+            _currentEssence -= essenceCostPerHeal;
+            _currentHealth = Mathf.Clamp(_currentHealth + healthPerHeal, 0, maxHealth);
+            //SFXManager.Instance.PlaySFX(SFXType.PlayerHeal);
+        }
+    }
+
+    public bool ConsumeEssence(float amount)
+    {
+        if (_currentEssence >= amount)
+        {
+            _currentEssence -= amount;
+            return true;
+        }
+        return false;
     }
 }
