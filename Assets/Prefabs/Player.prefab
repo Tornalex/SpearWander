@@ -313,10 +313,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 919c80b523f05cd45b8966f64319ab6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 3
+  maxHealth: 5
   iFramesDuration: 25
   damageForce: {x: 10, y: 15}
   damageFrames: 15
+  maxEssence: 10
+  essencePerBaseCatch: 2
+  essenceCostPerHeal: 5
+  healthPerHeal: 2
 --- !u!114 &8022682608026822374
 MonoBehaviour:
   m_ObjectHideFlags: 0

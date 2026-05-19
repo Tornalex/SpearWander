@@ -19,10 +19,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int healthPerHeal = 1;
 
     private int _currentHealth;
+    private float _currentEssence;
     private int _iFramesCounter;
     private bool _isTouchingEnemy;
     private Vector2 _lastEnemyPosition;
-    private float _currentEssence;
     
     private PlayerDash _dash;
     private PlayerPogo _pogo;
@@ -30,8 +30,8 @@ public class PlayerHealth : MonoBehaviour
     private SpriteRenderer _sprite;
     private CinemachineImpulseSource _impulseSource;
     private PlayerInputHandler _input;
-
     public float CurrentEssence => _currentEssence;
+
 
     void Awake()
     {

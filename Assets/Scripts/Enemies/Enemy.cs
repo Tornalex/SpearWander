@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour, IDamageable, IBounceable
         foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
 
         isDead = true;
-        Destroy(gameObject, 0.1f);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

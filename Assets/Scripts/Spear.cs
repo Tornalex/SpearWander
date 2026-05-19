@@ -47,7 +47,8 @@ public class Spear : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentState == SpearState.Flying || currentState == SpearState.Returning)
+        // Aggiorniamo la rotazione anche quando cade (Dropped) per realismo
+        if (currentState == SpearState.Flying || currentState == SpearState.Returning || currentState == SpearState.Dropped)
         {
             UpdateRotation();
         }
@@ -60,7 +61,8 @@ public class Spear : MonoBehaviour
 
     private void UpdateRotation()
     {
-        if (_rb.linearVelocity.sqrMagnitude > 0.1f)
+        // Evitiamo rotazioni strane se la velocità è quasi nulla
+        if (_rb.linearVelocity.sqrMagnitude > 0.5f)
         {
             transform.right = _rb.linearVelocity;
         }
@@ -69,15 +71,25 @@ public class Spear : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == _spearLayer) return;
-        if (currentState != SpearState.Flying) return;
 
-        if (collision.gameObject.CompareTag("Enemy"))
+        // MODIFICA QUI: Permettiamo la collisione se Flying O Dropped
+        if (currentState == SpearState.Flying || currentState == SpearState.Dropped)
         {
-            HandleEnemyHit(collision);
-        }
-        else
-        {
-            StickToTarget(null, collision.contacts[0]);
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                // Solo se sta volando (lanciata) può danneggiare e piantarsi nei nemici
+                if (currentState == SpearState.Flying)
+                {
+                    HandleEnemyHit(collision);
+                }
+                // Se è 'Dropped', ignoriamo la collisione fisica con i nemici (ci passa attraverso)
+                // o puoi lasciarla rimbalzare non mettendo nulla qui.
+            }
+            else // Probabilmente Environment/Wall/Ground
+            {
+                // Sia Flying che Dropped si conficcano nel terreno
+                StickToTarget(null, collision.contacts[0]);
+            }
         }
     }
 
@@ -94,7 +106,8 @@ public class Spear : MonoBehaviour
 
     void StickToTarget(Transform target, ContactPoint2D contact)
     {
-        Vector2 flyDirection = _rb.linearVelocity.normalized;
+        // Se la velocità è zero (es. appena caduta), usiamo transform.right come direzione di caduta
+        Vector2 flyDirection = _rb.linearVelocity.sqrMagnitude > 0.1f ? _rb.linearVelocity.normalized : (Vector2)transform.right;
         
         currentState = SpearState.Embedded;
 
@@ -102,6 +115,7 @@ public class Spear : MonoBehaviour
         _rb.linearVelocity = Vector2.zero;
         _rb.angularVelocity = 0f;
 
+        // Snap orizzontale solo su pareti verticali
         if (Mathf.Abs(contact.normal.x) > 0.5f) 
         {
             float targetAngle = (flyDirection.x > 0) ? 0f : 180f;
@@ -183,8 +197,9 @@ public class Spear : MonoBehaviour
         
         _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.gravityScale = 1.5f;
+        
         _rb.linearVelocity = Vector2.zero;
-        _rb.AddForce(new Vector2(Random.Range(-4f, 4f), 7f), ForceMode2D.Impulse);
+        _rb.AddForce(new Vector2(Random.Range(-6f, 6f), 10f), ForceMode2D.Impulse);
         
         _collider.isTrigger = false;
     }
