@@ -21,23 +21,17 @@ public class PlayerDash : MonoBehaviour
     private int _dashFrameCounter;
     private int _cooldownFrameCounter;
     
-    private Rigidbody2D _rb;
-    private PlayerInputHandler _input;
-    private PlayerJump _jump;
-    private PlayerKnockback _knockback;
+    private Player _player;
 
     void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _input = GetComponent<PlayerInputHandler>();
-        _jump = GetComponent<PlayerJump>();
-        _knockback = GetComponent<PlayerKnockback>();
+        _player = GetComponent<Player>();
     }
 
     void Update()
     {
-        if (_jump.IsGrounded() && !IsDashing) _canAirDash = true;
-        if (_input.DashTriggered && CanDash()) StartDash();
+        if (_player.Jump.IsGrounded() && !IsDashing) _canAirDash = true;
+        if (_player.Input.DashTriggered && CanDash()) StartDash();
     }
 
     void FixedUpdate()
@@ -48,29 +42,29 @@ public class PlayerDash : MonoBehaviour
         {
             _dashFrameCounter--;
             float direction = Mathf.Sign(transform.localScale.x);
-            _rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
+            _player.Rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
 
             if (_dashFrameCounter <= 0) StopDash();
         }
     }
 
-    private bool CanDash() => !IsDashing && !_knockback.IsKnockedBack && _cooldownFrameCounter <= 0 && (_jump.IsGrounded() || _canAirDash);
+    private bool CanDash() => !IsDashing && !_player.Knockback.IsKnockedBack && _cooldownFrameCounter <= 0 && (_player.Jump.IsGrounded() || _canAirDash);
 
     private void StartDash()
     {
         IsDashing = true;
         _dashFrameCounter = dashDurationFrames;
         _cooldownFrameCounter = dashCooldownFrames;
-        if (!_jump.IsGrounded()) _canAirDash = false;
-        _rb.gravityScale = 0f;
-        _rb.linearVelocity = Vector2.zero;
+        if (!_player.Jump.IsGrounded()) _canAirDash = false;
+        _player.Rb.gravityScale = 0f;
+        _player.Rb.linearVelocity = Vector2.zero;
     }
 
     public void StopDash()
     {
         if (!IsDashing) return;
         IsDashing = false;
-        _rb.gravityScale = 5f;
+        _player.Rb.gravityScale = 5f;
         StartCoroutine(PostDashProtectionRoutine());
     }
 
@@ -98,7 +92,7 @@ public class PlayerDash : MonoBehaviour
                 SFXManager.Instance.PlaySFX(SFXType.HitDash);
                 //_cooldownFrameCounter = 0;
                 StopDash();
-                _knockback.ApplyKnockback(collision.transform.position, knockbackForce, knockbackFrames);
+                _player.Knockback.ApplyKnockback(collision.transform.position, knockbackForce, knockbackFrames);
             }
         }
     }

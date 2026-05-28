@@ -6,6 +6,7 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 MoveInput { get; private set; }
     public Vector2 AimInput { get; private set; }
     public bool IsGamepad { get; private set; }
+    public bool InteractTriggered { get; private set; }
     public bool JumpTriggered { get; private set; }
     public bool HealTriggered { get; private set; }
     public bool DashTriggered { get; private set; }
@@ -47,7 +48,8 @@ public class PlayerInputHandler : MonoBehaviour
             AimInput = _actions.Player.AimWithMouse.ReadValue<Vector2>();
             IsGamepad = false;
         }
-
+        
+        InteractTriggered = _actions.Player.Interact.WasPerformedThisFrame();
         JumpTriggered = _actions.Player.Jump.WasPerformedThisFrame();
         DashTriggered = _actions.Player.Dash.WasPerformedThisFrame();
         FireTriggered = _actions.Player.Fire.WasPerformedThisFrame();

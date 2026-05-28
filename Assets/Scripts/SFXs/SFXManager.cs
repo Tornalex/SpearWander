@@ -51,8 +51,6 @@ public class SFXManager : MonoBehaviour
     {
         if (_sfxDict.TryGetValue(type, out SFXMapping mapping))
         {
-            // Un trucco da professionisti: variamo leggermente il pitch (tonalità) 
-            // ogni volta che il suono viene riprodotto. Così il gioco sembra più "vivo".
             sfxSource.pitch = 1f + Random.Range(-globalPitchVariation, globalPitchVariation);
             
             sfxSource.PlayOneShot(mapping.clip, mapping.volume);

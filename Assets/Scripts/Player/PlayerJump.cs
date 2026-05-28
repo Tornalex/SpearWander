@@ -6,36 +6,30 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private float jumpForce = 12f;
     [SerializeField] private float jumpCutMultiplier = 0.5f;
 
-    private Rigidbody2D _rb;
-    private PlayerInputHandler _input;
-    private PlayerDash _dash;
-    private PlayerKnockback _knockback;
+    private Player _player;
     private bool _isJumping;
 
     void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _input = GetComponent<PlayerInputHandler>();
-        _dash = GetComponent<PlayerDash>();
-        _knockback = GetComponent<PlayerKnockback>();
+        _player = GetComponent<Player>();
     }
 
     void Update()
     {
-        if (_dash != null && (_dash.IsDashing || _knockback.IsKnockedBack)) return;
+        if (_player.Dash != null && (_player.Dash.IsDashing || _player.Knockback.IsKnockedBack)) return;
 
-        if (_input.JumpTriggered && IsGrounded())
+        if (_player.Input.JumpTriggered && IsGrounded())
         {
             Jump();
         }
 
-        if (!_input.IsJumpHeld() && _rb.linearVelocity.y > 0 && _isJumping)
+        if (!_player.Input.IsJumpHeld() && _player.Rb.linearVelocity.y > 0 && _isJumping)
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _rb.linearVelocity.y * jumpCutMultiplier);
+            _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, _player.Rb.linearVelocity.y * jumpCutMultiplier);
             _isJumping = false;
         }
 
-        if (_rb.linearVelocity.y <= 0)
+        if (_player.Rb.linearVelocity.y <= 0)
         {
             _isJumping = false;
         }
@@ -43,12 +37,12 @@ public class PlayerJump : MonoBehaviour
 
     private void Jump()
     {
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
+        _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, jumpForce);
         _isJumping = true;
     }
 
     public bool IsGrounded()
     {
-        return Mathf.Abs(_rb.linearVelocity.y) < 0.05f;
+        return Mathf.Abs(_player.Rb.linearVelocity.y) < 0.05f;
     }
 }

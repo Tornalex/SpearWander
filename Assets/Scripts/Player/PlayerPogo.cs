@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.Cinemachine;
 
 public class PlayerPogo : MonoBehaviour
 {
@@ -12,11 +11,8 @@ public class PlayerPogo : MonoBehaviour
     [SerializeField] private int postPogoIFrames = 10;
     [SerializeField] private int pogoStunFrames = 8;
 
-    private Rigidbody2D _rb;
-    private PlayerInputHandler _input;
-    private PlayerDash _dashScript;
+    private Player _player;
     private PlayerFeet _feet;
-    private CinemachineImpulseSource _impulse;
 
     public bool IsPlunging { get; private set; }
     public bool HasPostPogoProtection { get; private set; }
@@ -27,21 +23,18 @@ public class PlayerPogo : MonoBehaviour
 
     void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _input = GetComponent<PlayerInputHandler>();
-        _dashScript = GetComponent<PlayerDash>();
+        _player = GetComponent<Player>();
         _feet = GetComponentInChildren<PlayerFeet>();
-        _impulse = GetComponent<CinemachineImpulseSource>();
     }
 
     void Update()
     {
-        if (!_input.DownInputHeld)
+        if (!_player.Input.DownInputHeld)
         {
             _waitingForInputRelease = false;
         }
 
-        if (!_feet.IsGrounded() && (_input.DownInputHeld || _input.DownTriggered) && _canPlunge && !IsPlunging && !_waitingForInputRelease && !IsPogoStunned)
+        if (!_feet.IsGrounded() && (_player.Input.DownInputHeld || _player.Input.DownTriggered) && _canPlunge && !IsPlunging && !_waitingForInputRelease && !IsPogoStunned)
         {
             StartPlunge();
         }
@@ -58,7 +51,7 @@ public class PlayerPogo : MonoBehaviour
         IsPlunging = true;
         _canPlunge = false;
         _waitingForInputRelease = true;
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, -plungeSpeed);
+        _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, -plungeSpeed);
     }
 
     public void OnPogoHit(Collision2D hit)
@@ -81,9 +74,9 @@ public class PlayerPogo : MonoBehaviour
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.2f);
         
         float finalForce = bounceForce * bounceable.GetBounceMultiplier();
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, finalForce);
+        _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, finalForce);
 
-        if (_dashScript != null) _dashScript.ResetAirDash();
+        if (_player.Dash != null) _player.Dash.ResetAirDash();
         
         StartCoroutine(PostPogoProtectionRoutine());
         StartCoroutine(PogoStunRoutine());
@@ -94,7 +87,7 @@ public class PlayerPogo : MonoBehaviour
             damageable.TakeDamage(1, transform.position);
         }
 
-        if (_impulse != null) _impulse.GenerateImpulse();
+        if (_player.ImpulseSource != null) _player.ImpulseSource.GenerateImpulse();
         SFXManager.Instance.PlaySFX(SFXType.PogoHit);
     }
 

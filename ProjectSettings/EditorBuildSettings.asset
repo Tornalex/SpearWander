@@ -9,8 +9,20 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Level 1.unity
-    guid: b11a9da4fe760d7488a8a3f4fe439ce9
+    path: Assets/Scenes/Master.unity
+    guid: e511698b51977334cb3086c7919d5d85
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Beginning.unity
+    guid: 9a4f9055f4b8b174f86cc0ceee7fc5b9
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Movement_Tutorial_1.unity
+    guid: 3b85a79588fad5244b06c0849e17fd5c
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Movement_Tutorial_2.unity
+    guid: 479985e8c8edb5c4895d2027a5ea3de5
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Movement_Tutorial_3.unity
+    guid: a7cb49c98c7d3334281fc0817faf1a17
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0034084e1c777c040b3e449f40cea1a0, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c38a0e040731c7743bbf1fbcc7c49e2d, type: 3}

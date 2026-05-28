@@ -3,12 +3,11 @@ using UnityEngine;
 public class PlayerFeet : MonoBehaviour
 {
     private bool _isGrounded;
-    private PlayerPogo _pogoScript;
+    private Player _player;
 
     void Awake()
     {
-        // Cerca lo script Pogo nell'oggetto padre (il Player)
-        _pogoScript = GetComponentInParent<PlayerPogo>();
+        _player = GetComponentInParent<Player>();
     }
 
     public bool IsGrounded() => _isGrounded;
@@ -18,9 +17,9 @@ public class PlayerFeet : MonoBehaviour
         _isGrounded = true;
 
         // Se il giocatore sta effettuando un pogo, passa la collisione al relativo script
-        if (_pogoScript != null && _pogoScript.IsPlunging)
+        if (_player != null && _player.Pogo != null && _player.Pogo.IsPlunging)
         {
-            _pogoScript.OnPogoHit(collision);
+            _player.Pogo.OnPogoHit(collision);
         }
     }
 

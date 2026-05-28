@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.Cinemachine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -20,34 +19,27 @@ public class PlayerHealth : MonoBehaviour
 
     private int _currentHealth;
     private float _currentEssence;
-    private int _iFramesCounter;
+    [HideInInspector] public int _iFramesCounter;
     private bool _isTouchingEnemy;
     private Vector2 _lastEnemyPosition;
     
-    private PlayerDash _dash;
-    private PlayerPogo _pogo;
-    private PlayerKnockback _knockback;
-    private SpriteRenderer _sprite;
-    private CinemachineImpulseSource _impulseSource;
-    private PlayerInputHandler _input;
+    private Player _player;
     public float CurrentEssence => _currentEssence;
+    public int CurrentHealth => _currentHealth;
+    public int MaxHealth => maxHealth;
+    public float MaxEssence => maxEssence;
 
 
     void Awake()
     {
         _currentHealth = maxHealth;
         _currentEssence = 0f;
-        _dash = GetComponent<PlayerDash>();
-        _pogo = GetComponent<PlayerPogo>();
-        _knockback = GetComponent<PlayerKnockback>();
-        _sprite = GetComponentInChildren<SpriteRenderer>();
-        _impulseSource = GetComponent<CinemachineImpulseSource>();
-        _input = GetComponent<PlayerInputHandler>();
+        _player = GetComponent<Player>();
     }
 
     void Update()
     {
-        if (_input.HealTriggered)
+        if (_player.Input.HealTriggered)
         {
             TryHeal();
         }
@@ -59,13 +51,13 @@ public class PlayerHealth : MonoBehaviour
         {
             _iFramesCounter--;
             float alpha = (_iFramesCounter % 6 < 3) ? 0.2f : 1f;
-            _sprite.color = new Color(1f, 1f, 1f, alpha);
+            _player.Sprite.color = new Color(1f, 1f, 1f, alpha);
         }
         else 
         {
-            if (_sprite.color.a < 1f) _sprite.color = Color.white;
+            if (_player.Sprite.color.a < 1f) _player.Sprite.color = Color.white;
 
-            if (_isTouchingEnemy && !_dash.IsDashing && !_dash.HasPostDashProtection && !_pogo.IsPlunging && !_pogo.HasPostPogoProtection)
+            if (_isTouchingEnemy && !_player.Dash.IsDashing && !_player.Dash.HasPostDashProtection && !_player.Pogo.IsPlunging && !_player.Pogo.HasPostPogoProtection)
             {
                 TakeDamage(1, _lastEnemyPosition);
             }
@@ -79,7 +71,7 @@ public class PlayerHealth : MonoBehaviour
             _isTouchingEnemy = true;
             _lastEnemyPosition = collision.transform.position;
 
-            if (!_dash.IsDashing && !_dash.HasPostDashProtection && _iFramesCounter <= 0 && !_pogo.IsPlunging && !_pogo.HasPostPogoProtection)
+            if (!_player.Dash.IsDashing && !_player.Dash.HasPostDashProtection && _iFramesCounter <= 0 && !_player.Pogo.IsPlunging && !_player.Pogo.HasPostPogoProtection)
             {
                 TakeDamage(1, _lastEnemyPosition);
             }
@@ -107,11 +99,15 @@ public class PlayerHealth : MonoBehaviour
     {
         _currentHealth -= amount;
         _iFramesCounter = iFramesDuration;
-        _impulseSource.GenerateImpulse();
+        
+        if (_player.ImpulseSource != null)
+        {
+            _player.ImpulseSource.GenerateImpulse();
+        }
 
-        if (_dash.IsDashing) _dash.StopDash();
+        if (_player.Dash.IsDashing) _player.Dash.StopDash();
 
-        _knockback.ApplyKnockback(sourcePos, damageForce, damageFrames);
+        _player.Knockback.ApplyKnockback(sourcePos, damageForce, damageFrames);
         VFXManager.Instance.PlayVFX(VFXType.HitGeneric, transform.position, Vector2.zero);
         if (_currentHealth <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
