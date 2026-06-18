@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Spear_Wander_Build.slnx",
+    "dotnet.defaultSolution": "Spear Wander.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
