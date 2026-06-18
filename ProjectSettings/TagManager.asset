@@ -25,8 +25,8 @@ TagManager:
   - Pixel
   - Enemy
   - Uninteractable
-  - 
-  - 
+  - Background
+  - GlowParticles
   - 
   - 
   - 
@@ -60,4 +60,5 @@ TagManager:
   - Default
   - Terrain
   - BG
+  - Background
   m_MigratedRenderPipelines: []

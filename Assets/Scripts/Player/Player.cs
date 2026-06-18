@@ -21,6 +21,11 @@ public class Player : MonoBehaviour
     public PlayerHealth Health { get; private set; }
     public PlayerKnockback Knockback { get; private set; }
 
+    [Header("V2 Spear System")]
+    [SerializeField] private bool useV2SpearSystem = false;
+    public PlayerCombatV2 CombatV2 { get; private set; }
+    public PlayerRopeClimb RopeClimb { get; private set; }
+
     void Awake()
     {
         // Cache Unity standard components
@@ -39,5 +44,19 @@ public class Player : MonoBehaviour
         Combat = GetComponent<PlayerCombat>();
         Health = GetComponent<PlayerHealth>();
         Knockback = GetComponent<PlayerKnockback>();
+        CombatV2 = GetComponent<PlayerCombatV2>();
+        RopeClimb = GetComponent<PlayerRopeClimb>();
+
+        if (useV2SpearSystem)
+        {
+            Combat.enabled = false;
+            if (CombatV2 != null) CombatV2.enabled = true;
+            if (RopeClimb != null) RopeClimb.enabled = true;
+        }
+        else
+        {
+            if (CombatV2 != null) CombatV2.enabled = false;
+            if (RopeClimb != null) RopeClimb.enabled = false;
+        }
     }
 }

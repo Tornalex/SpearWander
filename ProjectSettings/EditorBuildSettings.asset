@@ -23,6 +23,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Rooms/R_Movement_Tutorial_3.unity
     guid: a7cb49c98c7d3334281fc0817faf1a17
+  - enabled: 1
+    path: Assets/Scenes/Old.unity
+    guid: b11a9da4fe760d7488a8a3f4fe439ce9
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_First_Spear.unity
+    guid: 426032067b0516a4784f04a7e0af9361
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Enemies.unity
+    guid: 760cf0d6d2c355846910c3e0340cfbca
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Lever.unity
+    guid: 50c8b93c117f86248b4e32d5174b91ca
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Spear_1.unity
+    guid: 3d20e87af324ba04984efc861dc8bd53
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Spear_2.unity
+    guid: a5a1bef80f6cf694da9875c103328876
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0034084e1c777c040b3e449f40cea1a0, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c38a0e040731c7743bbf1fbcc7c49e2d, type: 3}

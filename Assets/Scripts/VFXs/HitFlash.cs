@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class HitFlash : MonoBehaviour
 {
-    [SerializeField] private int flashDurationFrames = 4;
+    [SerializeField] private float flashDuration = 0.067f;
 
     [SerializeField] private Material hitFlashMaterial;
     private Material _originalMaterial;
     private SpriteRenderer _spriteRenderer;
     private Color _originalColor;
-    private int _flashFramesLeft;
+    private float _flashTimer;
 
     void Awake()
     {
@@ -18,16 +18,16 @@ public class HitFlash : MonoBehaviour
 
     public void Flash()
     {
-        _flashFramesLeft = flashDurationFrames;
+        _flashTimer = flashDuration;
         _spriteRenderer.material = hitFlashMaterial;
     }
 
     void FixedUpdate()
     {
-        if (_flashFramesLeft > 0)
+        if (_flashTimer > 0)
         {
-            _flashFramesLeft--;
-            if (_flashFramesLeft <= 0)
+            _flashTimer -= Time.deltaTime;
+            if (_flashTimer <= 0)
             {
                 _spriteRenderer.material = _originalMaterial;
             }
