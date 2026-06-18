@@ -1,13 +1,10 @@
 using UnityEngine;
 
-public class FlyingEnemy : MonoBehaviour, IDamageable, IBounceable
+public class FlyingEnemy : BaseEnemy
 {
-    [Header("Stats")]
-    [SerializeField] private int life = 2;
+    [Header("Flight Settings")]
     [SerializeField] private float flySpeed = 2.5f;
     [SerializeField] private float chaseSpeed = 4.5f;
-    
-    [Header("Movement Limits")]
     [SerializeField] private float patrolRadius = 3f;
     [SerializeField] private float detectionRadius = 7f;
     [SerializeField] private float loseRadius = 12f;
@@ -18,19 +15,14 @@ public class FlyingEnemy : MonoBehaviour, IDamageable, IBounceable
     private Vector2 _startPosition;
     private Vector2 _targetPatrolPoint;
     private Transform _player;
-    private Rigidbody2D _rb;
-    private SpriteRenderer _sprite;
-    private HitFlash _hitFlash;
-    private bool _isDead = false;
     private bool _isStunned = false;
     private bool _isChasing = false;
     private float _stunTimer = 0f;
 
-    void Awake()
+    protected override void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _sprite = GetComponent<SpriteRenderer>();
-        _hitFlash = GetComponent<HitFlash>();
+        base.Awake();
+        
         _startPosition = transform.position;
         
         GameObject playerObj = GameObject.FindWithTag("Player");
@@ -41,7 +33,7 @@ public class FlyingEnemy : MonoBehaviour, IDamageable, IBounceable
 
     void FixedUpdate()
     {
-        if (_isDead || _player == null) return;
+        if (isDead || _player == null) return;
 
         if (_isStunned)
         {
@@ -51,20 +43,36 @@ public class FlyingEnemy : MonoBehaviour, IDamageable, IBounceable
         }
 
         float distanceToPlayer = Vector2.Distance(transform.position, _player.position);
-
-        if (!_isChasing)
-        {
-            if (distanceToPlayer < detectionRadius) _isChasing = true;
-        }
-        else
-        {
-            if (distanceToPlayer > loseRadius) _isChasing = false;
-        }
+        _isChasing = distanceToPlayer < (_isChasing ? loseRadius : detectionRadius);
 
         if (_isChasing) ChasePlayer();
         else Patrol();
 
         FlipSprite();
+    }
+
+    public override void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
+    {
+        base.TakeDamage(damage, hitPoint, damageSourcePosition); // Esegue logica base (vita, flash, knockback)
+
+        if (!isDead)
+        {
+            ApplyStun();
+            if (Vector2.Distance(transform.position, _player.position) < loseRadius) _isChasing = true;
+        }
+    }
+
+    public override void OnPogoBounce()
+    {
+        base.OnPogoBounce();
+        ApplyStun();
+    }
+
+    private void ApplyStun()
+    {
+        _isStunned = true;
+        _stunTimer = stunDuration;
+        rb.linearVelocity = Vector2.zero;
     }
 
     private void Patrol()
@@ -85,42 +93,7 @@ public class FlyingEnemy : MonoBehaviour, IDamageable, IBounceable
 
     private void FlipSprite()
     {
-        float directionX = _isChasing ? (_player.position.x - transform.position.x) : (_targetPatrolPoint.x - transform.position.x);
-        if (Mathf.Abs(directionX) > 0.1f) _sprite.flipX = directionX < 0;
-    }
-
-    public void TakeDamage(int damage, Vector2 hitPoint)
-    {
-        if (_isDead) return;
-
-        life -= damage;
-        _isStunned = true;
-        _stunTimer = stunDuration;
-        _rb.linearVelocity = Vector2.zero;
-
-        if (_player != null && Vector2.Distance(transform.position, _player.position) < loseRadius) _isChasing = true;
-        
-        if (_hitFlash != null) _hitFlash.Flash();
-        SFXManager.Instance.PlaySFX(SFXType.EnemyPierced);
-        VFXManager.Instance.PlayVFX(VFXType.HitDash, hitPoint, (hitPoint - (Vector2)transform.position).normalized);
-
-        if (life <= 0) Die();
-    }
-
-    public float GetBounceMultiplier() => 1f;
-
-    public void OnPogoBounce()
-    {
-        _isStunned = true;
-        _stunTimer = stunDuration;
-        if (_hitFlash != null) _hitFlash.Flash();
-    }
-
-    private void Die()
-    {
-        _isDead = true;
-        Spear[] attachedSpears = GetComponentsInChildren<Spear>();
-        foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
-        Destroy(gameObject, 0.05f);
+        float dirX = _isChasing ? (_player.position.x - transform.position.x) : (_targetPatrolPoint.x - transform.position.x);
+        if (Mathf.Abs(dirX) > 0.1f) spriteRenderer.flipX = dirX < 0; // 'spriteRenderer' viene da BaseEnemy
     }
 }

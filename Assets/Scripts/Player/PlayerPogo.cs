@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerPogo : MonoBehaviour
 {
@@ -8,11 +7,13 @@ public class PlayerPogo : MonoBehaviour
     [SerializeField] private float bounceForce = 15f;
     
     [Header("Timers")]
-    [SerializeField] private int postPogoIFrames = 10;
-    [SerializeField] private int pogoStunFrames = 8;
+    [SerializeField] private float postPogoInvincibility = 0.17f;
+    [SerializeField] private float pogoStunDuration = 0.13f;
 
     private Player _player;
     private PlayerFeet _feet;
+    private float _postPogoProtectionTimer;
+    private float _pogoStunTimer;
 
     public bool IsPlunging { get; private set; }
     public bool HasPostPogoProtection { get; private set; }
@@ -43,6 +44,21 @@ public class PlayerPogo : MonoBehaviour
         {
             IsPlunging = false;
             _canPlunge = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (_postPogoProtectionTimer > 0)
+        {
+            _postPogoProtectionTimer -= Time.deltaTime;
+            if (_postPogoProtectionTimer <= 0) HasPostPogoProtection = false;
+        }
+
+        if (_pogoStunTimer > 0)
+        {
+            _pogoStunTimer -= Time.deltaTime;
+            if (_pogoStunTimer <= 0) IsPogoStunned = false;
         }
     }
 
@@ -77,31 +93,19 @@ public class PlayerPogo : MonoBehaviour
         _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, finalForce);
 
         if (_player.Dash != null) _player.Dash.ResetAirDash();
-        
-        StartCoroutine(PostPogoProtectionRoutine());
-        StartCoroutine(PogoStunRoutine());
+
+        _postPogoProtectionTimer = postPogoInvincibility;
+        HasPostPogoProtection = true;
+        _pogoStunTimer = pogoStunDuration;
+        IsPogoStunned = true;
 
         IDamageable damageable = hitObj.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(1, transform.position);
+            damageable.TakeDamage(1, transform.position, transform.position);
         }
 
         if (_player.ImpulseSource != null) _player.ImpulseSource.GenerateImpulse();
-        SFXManager.Instance.PlaySFX(SFXType.PogoHit);
-    }
-
-    private IEnumerator PostPogoProtectionRoutine()
-    {
-        HasPostPogoProtection = true;
-        for (int i = 0; i < postPogoIFrames; i++) yield return new WaitForFixedUpdate();
-        HasPostPogoProtection = false;
-    }
-
-    private IEnumerator PogoStunRoutine()
-    {
-        IsPogoStunned = true;
-        for (int i = 0; i < pogoStunFrames; i++) yield return new WaitForFixedUpdate();
-        IsPogoStunned = false;
+        SFXManager.Instance?.PlaySFX(SFXType.PogoHit);
     }
 }

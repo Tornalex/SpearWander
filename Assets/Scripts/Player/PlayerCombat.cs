@@ -14,10 +14,10 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform aimIndicator;
 
     [Header("Cooldown Settings")]
-    [SerializeField] private int throwCooldownFrames = 25;
+    [SerializeField] private float throwCooldown = 0.42f;
 
     private Player _player;
-    private int _cooldownTimer;
+    private float _throwCooldownTimer;
     private bool _isSpearReturning;
     private bool _waitingForRecallRelease;
     private Spear _returningSpear;
@@ -35,8 +35,8 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         HandleAiming();
-        
-        if (_player.Input.FireTriggered && currentSpears > 0 && _cooldownTimer <= 0)
+
+        if (_player.Input.FireTriggered && currentSpears > 0 && _throwCooldownTimer <= 0)
         {
             Fire();
         }
@@ -44,7 +44,7 @@ public class PlayerCombat : MonoBehaviour
         if (!_player.Input.IsRecallHeld())
         {
             _waitingForRecallRelease = false;
-            
+
             if (_isSpearReturning && _returningSpear != null)
             {
                 AbortRecall();
@@ -59,7 +59,7 @@ public class PlayerCombat : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_cooldownTimer > 0) _cooldownTimer--;
+        if (_throwCooldownTimer > 0) _throwCooldownTimer -= Time.deltaTime;
     }
 
     void HandleAiming()
@@ -86,7 +86,7 @@ public class PlayerCombat : MonoBehaviour
     void Fire()
     {
         currentSpears--;
-        _cooldownTimer = throwCooldownFrames;
+        _throwCooldownTimer = throwCooldown;
 
         GameObject s = Instantiate(spearPrefab, firePoint.position, aimIndicator.rotation);
         Spear spearScript = s.GetComponentInChildren<Spear>();
@@ -103,7 +103,7 @@ public class PlayerCombat : MonoBehaviour
         if (activeSpears.Count > 0)
         {
             _returningSpear = activeSpears[0];
-            
+
             if (_returningSpear.currentState != Spear.SpearState.Returning)
             {
                 _isSpearReturning = true;
@@ -113,7 +113,7 @@ public class PlayerCombat : MonoBehaviour
 
                 _returningSpear.OnSpearReturned += CatchSpear;
 
-                activeSpears.RemoveAt(0); 
+                activeSpears.RemoveAt(0);
             }
         }
     }
@@ -140,10 +140,10 @@ public class PlayerCombat : MonoBehaviour
         {
             if (_player.Health != null)
             {
-                _player.Health.AddEssenceFromCatch(false); 
+                _player.Health.AddEssenceFromCatch(false);
             }
         }
-        
+
         Destroy(spear.gameObject);
     }
 
@@ -151,6 +151,5 @@ public class PlayerCombat : MonoBehaviour
     {
         maxSpears += amount;
         currentSpears += amount;
-        Debug.Log($"[COMBAT] Nuova capacità massima sbloccata! Max: {maxSpears}, Attuali: {currentSpears}");
     }
 }

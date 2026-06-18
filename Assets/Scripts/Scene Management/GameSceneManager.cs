@@ -207,7 +207,6 @@ public class GameSceneManager : MonoBehaviour
             if (door.DoorID == _targetDoorID)
             {
                 playerTransform.position = door.SpawnPoint.position;
-                // Gestito già da SetPlayerControl, ma lo teniamo per sicurezza fissa
                 Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
                 if (rb != null) rb.linearVelocity = Vector2.zero;
                 return;

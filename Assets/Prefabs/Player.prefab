@@ -273,6 +273,8 @@ GameObject:
   - component: {fileID: 5292336909829181117}
   - component: {fileID: 2326225928742478579}
   - component: {fileID: 524479099075650053}
+  - component: {fileID: 5441092156383267662}
+  - component: {fileID: 1686030079073546667}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -370,7 +372,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.75, y: 1.625}
+  m_Size: {x: 0.75, y: 1.8}
   m_EdgeRadius: 0
 --- !u!114 &4163864494818057746
 MonoBehaviour:
@@ -385,9 +387,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 5
-  iFramesDuration: 40
+  iFramesDuration: 0.8
   damageForce: {x: 10, y: 15}
-  damageFrames: 15
+  damageKnockbackDuration: 0.2
   maxEssence: 10
   essencePerBaseCatch: 2
   essenceCostPerHeal: 5
@@ -438,7 +440,7 @@ MonoBehaviour:
   spearPrefab: {fileID: 6286952566564233334, guid: 15f5aa6a694c406429983c59a554f984, type: 3}
   firePoint: {fileID: 4615831717237239827}
   aimIndicator: {fileID: 8008089452326454830}
-  throwCooldownFrames: 30
+  throwCooldown: 0.8
   activeSpears: []
 --- !u!114 &2746718217424856509
 MonoBehaviour:
@@ -452,13 +454,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584f5016b0192aa4b98f842d948236b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
-  dashDurationFrames: 8
-  dashCooldownFrames: 35
+  dashDuration: 0.17
+  dashCooldown: 0.83
   dashSpeed: 30
   dashDamage: 1
-  postDashIFrames: 3
+  postDashInvincibility: 0.05
   knockbackForce: {x: 10, y: 20}
-  knockbackFrames: 20
+  knockbackDuration: 0.2
 --- !u!114 &3281315049897957862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,8 +475,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPogo
   plungeSpeed: 25
   bounceForce: 24
-  postPogoIFrames: 2
-  pogoStunFrames: 20
+  postPogoInvincibility: 0.1
+  pogoStunDuration: 0.1
 --- !u!114 &8199112534537086976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ef04c2ae54ad940a30f0dc2690ee91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  useV2SpearSystem: 1
 --- !u!114 &524479099075650053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,6 +765,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29cc6fb7c63ceec4aba123a1796c6850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
+--- !u!114 &5441092156383267662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211eb5c722475a841bfabfa409e80f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatV2
+  shootForce: 40
+  spearPrefab: {fileID: 6286952566564233334, guid: 91dcab081fd92fe42a305306c597e6c1, type: 3}
+  firePoint: {fileID: 4615831717237239827}
+  aimIndicator: {fileID: 8008089452326454830}
+  throwCooldown: 0.42
+--- !u!114 &1686030079073546667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24262b16766c7684d91cca9d358df2b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRopeClimb
+  climbSpeed: 10
+  dismountJumpForce: 15
+  dismountCooldown: 0.5
 --- !u!1 &7957684855799199361
 GameObject:
   m_ObjectHideFlags: 0

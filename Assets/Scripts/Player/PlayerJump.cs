@@ -7,16 +7,20 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private float jumpCutMultiplier = 0.5f;
 
     private Player _player;
+    private PlayerFeet _feet;
     private bool _isJumping;
 
     void Awake()
     {
         _player = GetComponent<Player>();
+        _feet = GetComponentInChildren<PlayerFeet>();
     }
 
     void Update()
     {
         if (_player.Dash != null && (_player.Dash.IsDashing || _player.Knockback.IsKnockedBack)) return;
+        _player.Animator.SetFloat("yVelocity", _player.Rb.linearVelocity.y);
+        _player.Animator.SetBool("IsGrounded", IsGrounded());
 
         if (_player.Input.JumpTriggered && IsGrounded())
         {
@@ -39,10 +43,11 @@ public class PlayerJump : MonoBehaviour
     {
         _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, jumpForce);
         _isJumping = true;
+        _player.Animator.SetTrigger("JumpTrigger");
     }
 
     public bool IsGrounded()
     {
-        return Mathf.Abs(_player.Rb.linearVelocity.y) < 0.05f;
+        return _feet != null && _feet.IsGrounded();
     }
 }

@@ -121,6 +121,7 @@ public class Spear : MonoBehaviour
         if (other.gameObject.layer == _spearLayer || other.transform.IsChildOf(transform)) return;
         if (currentState == SpearState.Embedded) return;
         if (other.CompareTag(cameraBoundsTag)) return;
+        if (_playerCollider != null && other == _playerCollider) return;
 
         Vector2 hitPoint = other.ClosestPoint(transform.position);
         Vector2 flyDir = _rb.linearVelocity.sqrMagnitude > 0.1f ? _rb.linearVelocity.normalized : (Vector2)transform.right;
@@ -142,7 +143,7 @@ public class Spear : MonoBehaviour
             {
                 HasHitEnemy = true;
                 StickToTarget(other.transform, hitPoint, other, normal);
-                damageable.TakeDamage(impactDamage, hitPoint);
+                damageable.TakeDamage(impactDamage, hitPoint, transform.position);
             }
             else if (currentState == SpearState.Returning)
             {
@@ -150,7 +151,7 @@ public class Spear : MonoBehaviour
                 {
                     _enemiesHitDuringReturn.Add(damageable);
                     HasHitEnemy = true;
-                    damageable.TakeDamage(recallDamage, hitPoint);
+                    damageable.TakeDamage(recallDamage, hitPoint, transform.position);
                 }
             }
         }
@@ -221,11 +222,21 @@ public class Spear : MonoBehaviour
         }
     }
 
-    // REFRACTORING DISACCOPPIAMENTO: Non passiamo più il PlayerCombat
     public void StartReturn(Transform player)
     {
         ResetIgnoredWall();
         _enemiesHitDuringReturn.Clear();
+
+        // ====================================================================
+        // FIX: IGNORA IL NEMICO IN CUI LA LANCIA È CONFICCATA
+        // Controlliamo se siamo figli di un oggetto con l'interfaccia IDamageable
+        // PRIMA di staccare il transform con SetParent(null)
+        // ====================================================================
+        if (transform.parent != null && transform.parent.TryGetComponent(out IDamageable embeddedEnemy))
+        {
+            _enemiesHitDuringReturn.Add(embeddedEnemy);
+        }
+
         _playerTransform = player;
         _returnTimer = 0f;
         currentState = SpearState.Returning;

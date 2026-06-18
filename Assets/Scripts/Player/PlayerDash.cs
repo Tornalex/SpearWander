@@ -1,31 +1,33 @@
 using UnityEngine;
-using System.Collections;
 
 public class PlayerDash : MonoBehaviour
 {
     [Header("Dash Settings")]
-    [SerializeField] private int dashDurationFrames = 10;
-    [SerializeField] private int dashCooldownFrames = 50; 
+    [SerializeField] private float dashDuration = 0.17f;
+    [SerializeField] private float dashCooldown = 0.83f; 
     [SerializeField] private float dashSpeed = 25f;
     [SerializeField] private int dashDamage = 1;
-    [SerializeField] private int postDashIFrames = 3;
+    [SerializeField] private float postDashInvincibility = 0.05f;
 
     [Header("Knockback Settings")]
     [SerializeField] private Vector2 knockbackForce = new Vector2(10f, 5f);
-    [SerializeField] private int knockbackFrames = 12;
+    [SerializeField] private float knockbackDuration = 0.2f;
 
     public bool IsDashing { get; private set; }
     public bool HasPostDashProtection { get; private set; }
 
     private bool _canAirDash = true;
-    private int _dashFrameCounter;
-    private int _cooldownFrameCounter;
+    private float _dashTimer;
+    private float _dashCooldownTimer;
+    private float _postDashProtectionTimer;
+    private float _originalGravityScale;
     
     private Player _player;
 
     void Awake()
     {
         _player = GetComponent<Player>();
+        _originalGravityScale = _player.Rb.gravityScale;
     }
 
     void Update()
@@ -36,25 +38,31 @@ public class PlayerDash : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_cooldownFrameCounter > 0) _cooldownFrameCounter--;
-        
+        if (_dashCooldownTimer > 0) _dashCooldownTimer -= Time.deltaTime;
+
+        if (_postDashProtectionTimer > 0)
+        {
+            _postDashProtectionTimer -= Time.deltaTime;
+            if (_postDashProtectionTimer <= 0) HasPostDashProtection = false;
+        }
+
         if (IsDashing)
         {
-            _dashFrameCounter--;
+            _dashTimer -= Time.deltaTime;
             float direction = Mathf.Sign(transform.localScale.x);
             _player.Rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
 
-            if (_dashFrameCounter <= 0) StopDash();
+            if (_dashTimer <= 0) StopDash();
         }
     }
 
-    private bool CanDash() => !IsDashing && !_player.Knockback.IsKnockedBack && _cooldownFrameCounter <= 0 && (_player.Jump.IsGrounded() || _canAirDash);
+    private bool CanDash() => !IsDashing && !_player.Knockback.IsKnockedBack && _dashCooldownTimer <= 0 && (_player.Jump.IsGrounded() || _canAirDash);
 
     private void StartDash()
     {
         IsDashing = true;
-        _dashFrameCounter = dashDurationFrames;
-        _cooldownFrameCounter = dashCooldownFrames;
+        _dashTimer = dashDuration;
+        _dashCooldownTimer = dashCooldown;
         if (!_player.Jump.IsGrounded()) _canAirDash = false;
         _player.Rb.gravityScale = 0f;
         _player.Rb.linearVelocity = Vector2.zero;
@@ -64,21 +72,15 @@ public class PlayerDash : MonoBehaviour
     {
         if (!IsDashing) return;
         IsDashing = false;
-        _player.Rb.gravityScale = 5f;
-        StartCoroutine(PostDashProtectionRoutine());
+        _player.Rb.gravityScale = _originalGravityScale;
+        _postDashProtectionTimer = postDashInvincibility;
+        HasPostDashProtection = true;
     }
 
     public void ResetAirDash()
     {
         _canAirDash = true;
-        _cooldownFrameCounter = 0;
-    }
-
-    private IEnumerator PostDashProtectionRoutine()
-    {
-        HasPostDashProtection = true;
-        for (int i = 0; i < postDashIFrames; i++) yield return new WaitForFixedUpdate();
-        HasPostDashProtection = false;
+        _dashCooldownTimer = 0f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -88,11 +90,10 @@ public class PlayerDash : MonoBehaviour
             IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(dashDamage, collision.contacts[0].point);
-                SFXManager.Instance.PlaySFX(SFXType.HitDash);
-                //_cooldownFrameCounter = 0;
+                damageable.TakeDamage(dashDamage, collision.contacts[0].point, transform.position);
+                SFXManager.Instance?.PlaySFX(SFXType.HitDash);
                 StopDash();
-                _player.Knockback.ApplyKnockback(collision.transform.position, knockbackForce, knockbackFrames);
+                _player.Knockback.ApplyKnockback(collision.transform.position, knockbackForce, knockbackDuration);
             }
         }
     }

@@ -1,9 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerFeet : MonoBehaviour
 {
     private bool _isGrounded;
     private Player _player;
+    private HashSet<int> _groundColliders = new HashSet<int>();
 
     void Awake()
     {
@@ -12,11 +14,23 @@ public class PlayerFeet : MonoBehaviour
 
     public bool IsGrounded() => _isGrounded;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
+        bool isGround = false;
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            ContactPoint2D contact = collision.GetContact(i);
+            if (contact.normal.y > 0.9f && contact.point.y <= transform.position.y + 0.2f)
+            {
+                isGround = true;
+                break;
+            }
+        }
+        if (!isGround) return;
+
+        _groundColliders.Add(collision.collider.GetEntityId());
         _isGrounded = true;
 
-        // Se il giocatore sta effettuando un pogo, passa la collisione al relativo script
         if (_player != null && _player.Pogo != null && _player.Pogo.IsPlunging)
         {
             _player.Pogo.OnPogoHit(collision);
@@ -25,6 +39,7 @@ public class PlayerFeet : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        _isGrounded = false;
+        _groundColliders.Remove(collision.collider.GetEntityId());
+        _isGrounded = _groundColliders.Count > 0;
     }
 }
