@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class SpearPickup : MonoBehaviour, IInteractable
 {
-    [SerializeField] private int spearsCapacityToBuild = 1;
     [SerializeField] private string promptMessage = "Premi E per raccogliere la Lancia";
 
     public void Interact(Player player)
     {
         if (player.Combat != null)
         {
-            player.Combat.IncreaseMaxSpears(spearsCapacityToBuild);
+            // V2: Single spear system - pickup just enables the spear ability
+            // Could add upgrades here later (e.g., longer rope, faster return, etc.)
 
             PlayerInteract playerInteract = player.GetComponent<PlayerInteract>();
             if (playerInteract != null)
@@ -21,7 +21,7 @@ public class SpearPickup : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.LogError("Il componente PlayerCombat non è stato trovato sul Player!");
+            Debug.LogError("Il componente PlayerCombatV2 non è stato trovato sul Player!");
         }
     }
 

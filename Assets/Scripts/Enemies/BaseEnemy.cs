@@ -45,6 +45,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         SFXManager.Instance.PlaySFX(SFXType.EnemyPierced);
         VFXManager.Instance.PlayVFX(VFXType.HitDash, hitPoint, (hitPoint - (Vector2)transform.position).normalized);
 
+        animator.SetTrigger("TookHit");
+
         if (hitFlash != null) hitFlash.Flash();
 
         if (currentHealth <= 0) Die();
@@ -59,9 +61,6 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 
     protected virtual void Die()
     {
-        Spear[] attachedSpears = GetComponentsInChildren<Spear>();
-        foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
-
         SpearV2[] attachedSpearsV2 = GetComponentsInChildren<SpearV2>();
         foreach (SpearV2 spear in attachedSpearsV2) spear.OnEnemyDeath();
 

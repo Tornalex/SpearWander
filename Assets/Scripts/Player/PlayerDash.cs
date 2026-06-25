@@ -66,6 +66,8 @@ public class PlayerDash : MonoBehaviour
         if (!_player.Jump.IsGrounded()) _canAirDash = false;
         _player.Rb.gravityScale = 0f;
         _player.Rb.linearVelocity = Vector2.zero;
+
+        _player.Animator.SetBool("IsDashing", true);
     }
 
     public void StopDash()
@@ -75,6 +77,8 @@ public class PlayerDash : MonoBehaviour
         _player.Rb.gravityScale = _originalGravityScale;
         _postDashProtectionTimer = postDashInvincibility;
         HasPostDashProtection = true;
+
+        _player.Animator.SetBool("IsDashing", false);
     }
 
     public void ResetAirDash()

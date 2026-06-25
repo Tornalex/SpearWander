@@ -12,12 +12,24 @@ public class PlayerCombatV2 : MonoBehaviour
     [Header("Cooldown Settings")]
     [SerializeField] private float throwCooldown = 0.42f;
 
+    public enum SpearUIState { Ready, Thrown, Returning }
+
     private Player _player;
     private float _throwCooldownTimer;
     private bool _isSpearReturning;
     private bool _waitingForRecallRelease;
     private SpearV2 _currentSpear;
     private Camera _mainCam;
+
+    public SpearUIState CurrentSpearUIState
+    {
+        get
+        {
+            if (_currentSpear == null) return SpearUIState.Ready;
+            if (_isSpearReturning || _currentSpear.currentState == SpearV2.SpearState.Returning) return SpearUIState.Returning;
+            return SpearUIState.Thrown;
+        }
+    }
 
     void Awake()
     {
@@ -93,7 +105,7 @@ public class PlayerCombatV2 : MonoBehaviour
 
         GameObject s = Instantiate(spearPrefab, firePoint.position, aimIndicator.rotation);
         _currentSpear = s.GetComponentInChildren<SpearV2>();
-        _currentSpear.Initialize(_player.Collider);
+        _currentSpear.Initialize(_player.Collider, _player.RopeClimb.enabled);
         s.GetComponent<Rigidbody2D>().AddForce(aimIndicator.right * shootForce, ForceMode2D.Impulse);
     }
 

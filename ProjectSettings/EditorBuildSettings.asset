@@ -36,11 +36,26 @@ EditorBuildSettings:
     path: Assets/Scenes/Rooms/R_Lever.unity
     guid: 50c8b93c117f86248b4e32d5174b91ca
   - enabled: 1
-    path: Assets/Scenes/Rooms/R_Spear_1.unity
+    path: Assets/Scenes/Rooms/R_Rope_2.unity
     guid: 3d20e87af324ba04984efc861dc8bd53
   - enabled: 1
     path: Assets/Scenes/Rooms/R_Spear_2.unity
     guid: a5a1bef80f6cf694da9875c103328876
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Rope.unity
+    guid: c014bcd726f458542b3b08336ce75a7e
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Rope_1.unity
+    guid: 150cfb4cd617a534cb5cf49af435f830
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Rope_3.unity
+    guid: df444b4ade76f964f963184809e0ab11
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Rope_Maze.unity
+    guid: fbffe5889d94caa4bb0bd29183629cc8
+  - enabled: 1
+    path: Assets/Scenes/Rooms/R_Spear_1.unity
+    guid: 2fe46c5e7091da7418b89a5dae4e206a
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 0034084e1c777c040b3e449f40cea1a0, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c38a0e040731c7743bbf1fbcc7c49e2d, type: 3}

@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 438817866760361401}
   - component: {fileID: 4096552270889920767}
-  - component: {fileID: 5757178609748486761}
+  - component: {fileID: 5098321973409089637}
   m_Layer: 0
   m_Name: SpearPickup
   m_TagString: SpearPickup
@@ -171,7 +171,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5757178609748486761
+--- !u!114 &5098321973409089637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,8 +180,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5076808148981505559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0de3cbe7259867349949c2e41046c184, type: 3}
+  m_Script: {fileID: 11500000, guid: df77003ad3a4d7c4ba2ab8484f532a4b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpearPickup
-  spearsToAdd: 1
-  promptMessage: Premi E per raccogliere la Lancia
+  m_EditorClassIdentifier: Assembly-CSharp::AbilityPickup
+  componentName: PlayerCombat
+  enableOnPickup: 1
+  destroyOnPickup: 1
+  promptMessage: Premi E per raccogliere

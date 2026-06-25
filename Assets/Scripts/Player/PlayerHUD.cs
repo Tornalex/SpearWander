@@ -15,20 +15,17 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Slider essenceSlider;
     [SerializeField] private TextMeshProUGUI essenceText;
 
-    [Header("Spears UI (Lance)")]
-    [SerializeField] private TextMeshProUGUI spearsText;
+    [Header("Spear UI (Lancia)")]
+    [SerializeField] private TextMeshProUGUI spearStateText;
 
-    // Cache variables to optimize UI updates (prevent layout recalculations every frame)
     private int _lastHealth = -1;
     private int _lastMaxHealth = -1;
     private float _lastEssence = -1f;
     private float _lastMaxEssence = -1f;
-    private int _lastSpears = -1;
-    private int _lastMaxSpears = -1;
+    private PlayerCombatV2.SpearUIState _lastSpearState = PlayerCombatV2.SpearUIState.Ready;
 
     void Start()
     {
-        // Se non assegnato, cerca automaticamente il Player nella scena
         if (player == null)
         {
 #if UNITY_2023_1_OR_NEWER
@@ -50,7 +47,7 @@ public class PlayerHUD : MonoBehaviour
 
         UpdateHealthUI();
         UpdateEssenceUI();
-        UpdateSpearsUI();
+        UpdateSpearUI();
     }
 
     private void UpdateHealthUI()
@@ -60,23 +57,20 @@ public class PlayerHUD : MonoBehaviour
         int currentHealth = player.Health.CurrentHealth;
         int maxHealth = player.Health.MaxHealth;
 
-        // Aggiorna solo se i valori sono cambiati
         if (currentHealth != _lastHealth || maxHealth != _lastMaxHealth)
         {
             _lastHealth = currentHealth;
             _lastMaxHealth = maxHealth;
 
-            // Aggiorna lo Slider
             if (healthSlider != null)
             {
                 healthSlider.maxValue = maxHealth;
                 healthSlider.value = currentHealth;
             }
 
-            // Aggiorna il testo
             if (healthText != null)
             {
-                healthText.text = $"Vita: {currentHealth} / {maxHealth}";
+                healthText.text = $"Life: {currentHealth} / {maxHealth}";
             }
         }
     }
@@ -88,46 +82,44 @@ public class PlayerHUD : MonoBehaviour
         float currentEssence = player.Health.CurrentEssence;
         float maxEssence = player.Health.MaxEssence;
 
-        // Aggiorna solo se i valori sono cambiati
         if (!Mathf.Approximately(currentEssence, _lastEssence) || !Mathf.Approximately(maxEssence, _lastMaxEssence))
         {
             _lastEssence = currentEssence;
             _lastMaxEssence = maxEssence;
 
-            // Aggiorna lo Slider
             if (essenceSlider != null)
             {
                 essenceSlider.maxValue = maxEssence;
                 essenceSlider.value = currentEssence;
             }
 
-            // Aggiorna il testo
             if (essenceText != null)
             {
-                // Mostra la percentuale arrotondata
                 int essencePercentage = Mathf.RoundToInt((currentEssence / maxEssence) * 100f);
-                essenceText.text = $"Essenza: {essencePercentage}%";
+                essenceText.text = $"Essence: {essencePercentage}%";
             }
         }
     }
 
-    private void UpdateSpearsUI()
+    private void UpdateSpearUI()
     {
         if (player.Combat == null) return;
 
-        int currentSpears = player.Combat.currentSpears;
-        int maxSpears = player.Combat.MaxSpears;
+        var currentState = player.Combat.CurrentSpearUIState;
 
-        // Aggiorna solo se i valori sono cambiati
-        if (currentSpears != _lastSpears || maxSpears != _lastMaxSpears)
+        if (currentState != _lastSpearState)
         {
-            _lastSpears = currentSpears;
-            _lastMaxSpears = maxSpears;
+            _lastSpearState = currentState;
 
-            // Aggiorna il testo
-            if (spearsText != null)
+            if (spearStateText != null)
             {
-                spearsText.text = $"Lance: {currentSpears} / {maxSpears}";
+                spearStateText.text = currentState switch
+                {
+                    PlayerCombatV2.SpearUIState.Ready => "Spear: Ready",
+                    PlayerCombatV2.SpearUIState.Thrown => "Spear: Thrown",
+                    PlayerCombatV2.SpearUIState.Returning => "Spear: Returning",
+                    _ => "Spear: Ready"
+                };
             }
         }
     }

@@ -52,6 +52,7 @@ public class SpearV2 : MonoBehaviour
     public bool HasHitEnemy { get; private set; }
 
     private GameObject _rope;
+    private bool _canSpawnRope;
 
     void Awake()
     {
@@ -71,7 +72,7 @@ public class SpearV2 : MonoBehaviour
         DestroyRope();
     }
 
-    public void Initialize(Collider2D playerCol)
+    public void Initialize(Collider2D playerCol, bool canSpawnRope)
     {
         ResetIgnoredWall();
         _playerCollider = playerCol;
@@ -79,6 +80,7 @@ public class SpearV2 : MonoBehaviour
         _collider.isTrigger = true;
         HasHitEnemy = false;
         _lastPosition = transform.position;
+        _canSpawnRope = canSpawnRope;
 
         IgnoreAllPlayerColliders(true);
     }
@@ -184,6 +186,7 @@ public class SpearV2 : MonoBehaviour
     private void CreateRope()
     {
         if (_rope != null) return;
+        if (!_canSpawnRope) return;
 
         _rope = new GameObject("Rope");
         _rope.transform.SetParent(transform, false);
