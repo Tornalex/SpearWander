@@ -5,13 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 {
-    [Header("Base Stats")]
-    [SerializeField] protected int maxHealth = 3;
+    [SerializeField] protected EnemyData enemyData;
     protected int currentHealth;
-
-    [Header("Knockback Settings")]
-    [SerializeField] protected Vector2 knockbackForce = new Vector2(10f, 5f);
-    [SerializeField] protected float knockbackDuration = 0.2f;
 
     [HideInInspector] public bool isDead = false;
 
@@ -28,7 +23,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         hitFlash = GetComponent<HitFlash>();
         knockback = GetComponent<PlayerKnockback>();
         animator = GetComponent<Animator>();
-        currentHealth = maxHealth;
+        currentHealth = enemyData.maxHealth;
     }
 
     public virtual void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
@@ -39,7 +34,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 
         if (knockback != null)
         {
-            knockback.ApplyKnockback(damageSourcePosition, knockbackForce, knockbackDuration);
+            knockback.ApplyKnockback(damageSourcePosition, enemyData.knockbackForce, enemyData.knockbackDuration);
         }
 
         SFXManager.Instance.PlaySFX(SFXType.EnemyPierced);
@@ -61,8 +56,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 
     protected virtual void Die()
     {
-        SpearV2[] attachedSpearsV2 = GetComponentsInChildren<SpearV2>();
-        foreach (SpearV2 spear in attachedSpearsV2) spear.OnEnemyDeath();
+        Spear[] attachedSpears = GetComponentsInChildren<Spear>();
+        foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
 
         isDead = true;
         Destroy(gameObject);

@@ -2,14 +2,6 @@ using UnityEngine;
 
 public class PlayerPogo : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] private float plungeSpeed = 20f;
-    [SerializeField] private float bounceForce = 15f;
-    
-    [Header("Timers")]
-    [SerializeField] private float postPogoInvincibility = 0.17f;
-    [SerializeField] private float pogoStunDuration = 0.13f;
-
     private Player _player;
     private PlayerFeet _feet;
     private float _postPogoProtectionTimer;
@@ -30,6 +22,8 @@ public class PlayerPogo : MonoBehaviour
 
     void Update()
     {
+        if (!_player.HasControl) return;
+
         if (!_player.Input.DownInputHeld)
         {
             _waitingForInputRelease = false;
@@ -67,7 +61,7 @@ public class PlayerPogo : MonoBehaviour
         IsPlunging = true;
         _canPlunge = false;
         _waitingForInputRelease = true;
-        _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, -plungeSpeed);
+        _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, -_player.PogoStats.plungeSpeed);
     }
 
     public void OnPogoHit(Collision2D hit)
@@ -89,20 +83,20 @@ public class PlayerPogo : MonoBehaviour
 
         transform.position = new Vector2(transform.position.x, transform.position.y + 0.2f);
         
-        float finalForce = bounceForce * bounceable.GetBounceMultiplier();
+        float finalForce = _player.PogoStats.bounceForce * bounceable.GetBounceMultiplier();
         _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, finalForce);
 
         if (_player.Dash != null) _player.Dash.ResetAirDash();
 
-        _postPogoProtectionTimer = postPogoInvincibility;
+        _postPogoProtectionTimer = _player.PogoStats.postPogoInvincibility;
         HasPostPogoProtection = true;
-        _pogoStunTimer = pogoStunDuration;
+        _pogoStunTimer = _player.PogoStats.pogoStunDuration;
         IsPogoStunned = true;
 
         IDamageable damageable = hitObj.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(1, transform.position, transform.position);
+            damageable.TakeDamage(_player.CombatStats.pogoDamage, transform.position, transform.position);
         }
 
         if (_player.ImpulseSource != null) _player.ImpulseSource.GenerateImpulse();

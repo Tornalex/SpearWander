@@ -5,7 +5,7 @@ public class PlayerFeet : MonoBehaviour
 {
     private bool _isGrounded;
     private Player _player;
-    private HashSet<int> _groundColliders = new HashSet<int>();
+    private HashSet<EntityId> _groundColliders = new HashSet<EntityId>();
 
     void Awake()
     {

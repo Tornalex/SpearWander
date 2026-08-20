@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 10f;
-    [SerializeField] private float runSpeed = 16f;
-
     private Player _player;
+
+    public bool IsForcedWalk { get; set; }
 
     void Awake()
     {
@@ -15,14 +13,17 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_player.Knockback.IsKnockedBack || _player.Dash.IsDashing) 
+        if (IsForcedWalk) return;
+
+        if (!_player.HasControl || _player.Knockback.IsKnockedBack || _player.Dash.IsDashing)
         {
             _player.Animator.SetFloat("Speed", 0f);
+            if (!_player.HasControl) _player.Rb.linearVelocity = new Vector2(0f, _player.Rb.linearVelocity.y);
             return;
         }
 
         float moveInput = _player.Input.MoveInput.x;
-        float targetSpeed = (_player.Input.IsDashHeld() && Mathf.Abs(moveInput) > 0.1f) ? runSpeed : walkSpeed;
+        float targetSpeed = (_player.Input.IsDashHeld() && Mathf.Abs(moveInput) > 0.1f) ? _player.PlayerStats.runSpeed : _player.PlayerStats.walkSpeed;
         _player.Animator.SetFloat("Speed", Mathf.Abs(moveInput * targetSpeed));
 
         _player.Rb.linearVelocity = new Vector2(moveInput * targetSpeed, _player.Rb.linearVelocity.y);

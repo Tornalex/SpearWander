@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1461490880977630557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67,7 +67,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.8, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -332,13 +332,11 @@ MonoBehaviour:
     m_RotationOrder: 4
   returnDuration: 0.5
   maxReturnSpeed: 50
-  impactDamage: 1
-  recallDamage: 1
   cameraBoundsTag: CameraBounds
-  embedDepth: 0.15
+  tipPenetration: 0.4
+  tipToPivotOffset: 0
   catchDistance: 0.7
   tipRaycastLength: 1.5
-  ropeLength: 5
   ropeAttachOffset: {x: -0.8, y: 0}
   ropeWidth: 0.1
   ropeMaterial: {fileID: 2100000, guid: 79809b4fc57ad41b982c1dd5ceb812b2, type: 2}

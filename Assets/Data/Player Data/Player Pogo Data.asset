@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce57fa48c49431547b0ff4ed24ba7949, type: 3}
+  m_Name: Player Pogo Data
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPogoData
+  plungeSpeed: 25
+  bounceForce: 24
+  postPogoInvincibility: 0.05
+  pogoStunDuration: 0.15

@@ -172,7 +172,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4723107735738678597, guid: d0a39d6cc7a23f64e87132256cefa760, type: 3}
+  m_Sprite: {fileID: 4944230376442633554, guid: b387c6f634843cd4580ed9595259e6d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -221,11 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fba377ea602f9342b547badc1dfd8c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  knockbackForce: {x: 10, y: 1}
-  knockbackDuration: 0.2
+  enemyData: {fileID: 11400000, guid: 0882c989109e56d4eb0bbdf240f98860, type: 2}
   isDead: 0
-  speed: 2
 --- !u!114 &3692270765275885642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,11 +305,11 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.15}
+  m_Offset: {x: 0, y: -0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 2.4375}
+    oldSize: {x: 9.375, y: 9.375}
     newSize: {x: 3.6, y: 2.72}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

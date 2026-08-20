@@ -264,6 +264,8 @@ GameObject:
   - component: {fileID: 4163864494818057746}
   - component: {fileID: 8022682608026822374}
   - component: {fileID: 2534398102193285702}
+  - component: {fileID: 5441092156383267662}
+  - component: {fileID: 2713314442468354696}
   - component: {fileID: 2746718217424856509}
   - component: {fileID: 3281315049897957862}
   - component: {fileID: 8199112534537086976}
@@ -272,7 +274,6 @@ GameObject:
   - component: {fileID: 5292336909829181117}
   - component: {fileID: 2326225928742478579}
   - component: {fileID: 524479099075650053}
-  - component: {fileID: 5441092156383267662}
   - component: {fileID: 1686030079073546667}
   m_Layer: 3
   m_Name: Player
@@ -386,14 +387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 919c80b523f05cd45b8966f64319ab6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 5
-  iFramesDuration: 0.8
-  damageForce: {x: 10, y: 15}
-  damageKnockbackDuration: 0.2
-  maxEssence: 10
-  essencePerBaseCatch: 2
-  essenceCostPerHeal: 5
-  healthPerHeal: 2
 --- !u!114 &8022682608026822374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,8 +399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf506aa9781358f468db6d91dbb05938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  walkSpeed: 10
-  runSpeed: 16
 --- !u!114 &2534398102193285702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,8 +411,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75b2fa5d0e7b8246bfac43f151c73dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerJump
-  jumpForce: 21
-  jumpCutMultiplier: 0.2
+--- !u!114 &5441092156383267662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211eb5c722475a841bfabfa409e80f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatV2
+  spearPrefab: {fileID: 6286952566564233334, guid: 91dcab081fd92fe42a305306c597e6c1, type: 3}
+  firePoint: {fileID: 4615831717237239827}
+  aimIndicator: {fileID: 8008089452326454830}
+--- !u!114 &2713314442468354696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbcc0c580f2e7784a954a8a6b81bb6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEssence
 --- !u!114 &2746718217424856509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,13 +450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584f5016b0192aa4b98f842d948236b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
-  dashDuration: 0.17
-  dashCooldown: 0.83
-  dashSpeed: 30
-  dashDamage: 1
-  postDashInvincibility: 0.05
-  knockbackForce: {x: 10, y: 20}
-  knockbackDuration: 0.2
 --- !u!114 &3281315049897957862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,10 +462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c89f00bb398fa4fb956558656b8afd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPogo
-  plungeSpeed: 25
-  bounceForce: 24
-  postPogoInvincibility: 0.1
-  pogoStunDuration: 0.1
 --- !u!114 &8199112534537086976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,6 +737,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ef04c2ae54ad940a30f0dc2690ee91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  playerStats: {fileID: 11400000, guid: 3acccc3d7e364004dac8de84fed05bdb, type: 2}
+  combatStats: {fileID: 11400000, guid: d098263875e868041954205e8b112a46, type: 2}
+  essenceStats: {fileID: 11400000, guid: 5bfacd39beeafc64bbd4ca0a686970e6, type: 2}
+  dashStats: {fileID: 11400000, guid: 4d28a731a4e0ccb4ebde9401be385ee3, type: 2}
+  ropeStats: {fileID: 11400000, guid: bc08cb7c629f02a43825dbdf584440ee, type: 2}
+  pogoStats: {fileID: 11400000, guid: 71414d51c12a35645a375a781e857a98, type: 2}
 --- !u!114 &524479099075650053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -744,7 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29cc6fb7c63ceec4aba123a1796c6850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
---- !u!114 &5441092156383267662
+--- !u!114 &1686030079073546667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -753,29 +764,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6286765099597975374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 211eb5c722475a841bfabfa409e80f04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatV2
-  shootForce: 40
-  spearPrefab: {fileID: 6286952566564233334, guid: 91dcab081fd92fe42a305306c597e6c1, type: 3}
-  firePoint: {fileID: 4615831717237239827}
-  aimIndicator: {fileID: 8008089452326454830}
-  throwCooldown: 0.42
---- !u!114 &1686030079073546667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6286765099597975374}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24262b16766c7684d91cca9d358df2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRopeClimb
-  climbSpeed: 10
-  dismountJumpForce: 15
-  dismountCooldown: 0.5
 --- !u!1 &7741264064636097618
 GameObject:
   m_ObjectHideFlags: 0

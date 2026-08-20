@@ -2,11 +2,6 @@ using UnityEngine;
 
 public class PlayerRopeClimb : MonoBehaviour
 {
-    [Header("Climb Settings")]
-    [SerializeField] private float climbSpeed = 5f;
-    [SerializeField] private float dismountJumpForce = 10f;
-    [SerializeField] private float dismountCooldown = 0.5f;
-
     public bool IsClimbing { get; private set; }
 
     private Player _player;
@@ -40,7 +35,7 @@ public class PlayerRopeClimb : MonoBehaviour
             if (_player.Input.JumpTriggered)
             {
                 StopClimbing();
-                _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, dismountJumpForce);
+                _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, _player.RopeStats.dismountJumpForce);
                 return;
             }
 
@@ -55,7 +50,7 @@ public class PlayerRopeClimb : MonoBehaviour
             {
                 _canAutoDismount = false;
                 StopClimbing();
-                _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, dismountJumpForce);
+                _player.Rb.linearVelocity = new Vector2(_player.Rb.linearVelocity.x, _player.RopeStats.dismountJumpForce);
                 return;
             }
         }
@@ -84,7 +79,7 @@ public class PlayerRopeClimb : MonoBehaviour
 
         if (Mathf.Abs(_player.Input.MoveInput.y) > 0.1f)
         {
-            _player.Rb.linearVelocity = new Vector2(0, _player.Input.MoveInput.y * climbSpeed);
+            _player.Rb.linearVelocity = new Vector2(0, _player.Input.MoveInput.y * _player.RopeStats.climbSpeed);
         }
         else
         {
@@ -100,6 +95,7 @@ public class PlayerRopeClimb : MonoBehaviour
     void OnTriggerStay2D(Collider2D other)
     {
         if (IsClimbing) return;
+        if (!_player.HasControl) return;
 
         Rope rope = other.GetComponent<Rope>();
         if (rope == null) return;
@@ -158,7 +154,7 @@ public class PlayerRopeClimb : MonoBehaviour
         IsClimbing = false;
         _currentRope = null;
         _canAutoDismount = false;
-        _dismountCooldownTimer = dismountCooldown;
+        _dismountCooldownTimer = _player.RopeStats.dismountCooldown;
 
         _player.Movement.enabled = _wasMovementEnabled;
         _player.Dash.enabled = _wasDashEnabled;
