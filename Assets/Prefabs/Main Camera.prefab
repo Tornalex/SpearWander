@@ -178,5 +178,5 @@ MonoBehaviour:
   Weight: 1
   FocusTracking: 0
   FocusTarget: {fileID: 0}
-  FocusOffset: 0
+  FocusOffset: 10
   Profile: {fileID: 11400000, guid: 181495561537b8744b1058e78fd3354b, type: 2}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ebe15002e5aa1140942aa668e3081ff, type: 3}
   m_Name: Player Combat Data
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatData
-  shootForce: 40
+  shootForce: 80
   throwCooldown: 0
   spearImpactDamage: 1
   spearRecallDamage: 1

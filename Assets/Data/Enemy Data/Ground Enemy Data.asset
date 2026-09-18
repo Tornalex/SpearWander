@@ -15,4 +15,4 @@ MonoBehaviour:
   maxHealth: 4
   speed: 5
   knockbackForce: {x: 10, y: 5}
-  knockbackDuration: 0.2
+  knockbackDuration: 0.1

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using Unity.Cinemachine; // Cinemachine 3 (Unity 6)
+using SpearWander.Abilities;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -194,6 +195,17 @@ public class GameSceneManager : MonoBehaviour
         Physics2D.SyncTransforms();
         yield return null;
 
+        // Register enemies in this room for death tracking
+        Debug.Log($"[GameSceneManager.ReloadRoomRoutine] Calling RegisterRoom for '{_currentRoomScene}'");
+        DeadEnemyTracker.RegisterRoom(_currentRoomScene);
+
+        // Re-fetch player after scene reload (old reference was destroyed)
+        player = FindAnyObjectByType<Player>();
+        if (player != null)
+        {
+            playerTransform = player.transform;
+        }
+
         if (overrideSpawn.HasValue)
         {
             playerTransform.position = overrideSpawn.Value;
@@ -224,6 +236,12 @@ public class GameSceneManager : MonoBehaviour
 
         if (player != null) player.RemoveControlRequest(Player.ControlReason.Death);
 
+        // Restore abilities after scene reload (abilities are permanent)
+        if (player != null && AbilityManager.Instance != null)
+        {
+            AbilityManager.Instance.RestoreAbilities(player);
+        }
+
         yield return StartCoroutine(FadeFromBlack());
 
         SetPlayerControl(true);
@@ -242,17 +260,23 @@ public class GameSceneManager : MonoBehaviour
         {
             if (door.DoorID == firstRoomDoorID)
             {
-                playerTransform.position = door.SpawnPoint.position;
-                Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
-                if (rb != null) rb.linearVelocity = Vector2.zero;
+                if (playerTransform != null)
+                {
+                    playerTransform.position = door.SpawnPoint.position;
+                    Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
+                    if (rb != null) rb.linearVelocity = Vector2.zero;
+                }
                 return;
             }
         }
 
         RoomTransition first = doors[0];
-        playerTransform.position = first.SpawnPoint.position;
-        Rigidbody2D rb2 = playerTransform.GetComponent<Rigidbody2D>();
-        if (rb2 != null) rb2.linearVelocity = Vector2.zero;
+        if (playerTransform != null)
+        {
+            playerTransform.position = first.SpawnPoint.position;
+            Rigidbody2D rb2 = playerTransform.GetComponent<Rigidbody2D>();
+            if (rb2 != null) rb2.linearVelocity = Vector2.zero;
+        }
     }
 
     public void LoadInitialRoom(string sceneName, string targetDoorID)
@@ -316,6 +340,7 @@ public class GameSceneManager : MonoBehaviour
 
     private void FocusTargetDoor()
     {
+        if (playerTransform == null) return;
         RoomTransition[] doors = FindObjectsByType<RoomTransition>(FindObjectsInactive.Exclude);
         foreach (RoomTransition door in doors)
         {

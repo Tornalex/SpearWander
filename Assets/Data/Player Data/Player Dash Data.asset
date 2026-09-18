@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e88672842ea71844baf9c473f7ce8cf, type: 3}
   m_Name: Player Dash Data
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDashData
-  dashSpeed: 30
-  dashDuration: 0.25
+  dashSpeed: 18
+  dashDuration: 0.3
   dashCooldown: 0.8
   postDashInvincibility: 0.05

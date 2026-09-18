@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections.Generic;
+using SpearWander.Abilities;
 
 [DefaultExecutionOrder(-100)]
 public class Player : MonoBehaviour
@@ -76,6 +77,12 @@ public class Player : MonoBehaviour
         Health.ResetState();
         Essence.ResetState();
         Combat.ResetState();
+        
+        if (AbilityManager.Instance != null)
+        {
+            AbilityManager.Instance.RestoreAbilities(this);
+        }
+        
         _controlReasons.Clear();
     }
 }

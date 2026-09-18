@@ -1,4 +1,5 @@
 using UnityEngine;
+using SpearWander.Abilities;
 
 // Questa classe è "abstract" perché non la assegnerai mai direttamente a un nemico.
 // È un "modello" da cui gli altri nemici prenderanno le funzioni.
@@ -7,6 +8,10 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 {
     [SerializeField] protected EnemyData enemyData;
     protected int currentHealth;
+
+    [Header("Persistent Death Tracking (Auto-Assigned)")]
+    [SerializeField] public int enemyIndex;
+    [SerializeField] public string roomName;
 
     [HideInInspector] public bool isDead = false;
 
@@ -26,6 +31,26 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         currentHealth = enemyData.maxHealth;
     }
 
+        protected virtual void Start()
+    {
+        // Auto-register room and get index
+        if (GameSceneManager.Instance != null)
+        {
+            roomName = GameSceneManager.Instance.CurrentRoom;
+            DeadEnemyTracker.RegisterRoom(roomName);
+        }
+        else
+        {
+            roomName = "Unknown";
+        }
+
+        // Check if this enemy should be dead
+        if (DeadEnemyTracker.IsDead(roomName, enemyIndex))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public virtual void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
     {
         if (isDead) return;
@@ -40,7 +65,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         SFXManager.Instance.PlaySFX(SFXType.EnemyPierced);
         VFXManager.Instance.PlayVFX(VFXType.HitDash, hitPoint, (hitPoint - (Vector2)transform.position).normalized);
 
-        animator.SetTrigger("TookHit");
+        if (animator != null) animator.SetTrigger("TookHit");
 
         if (hitFlash != null) hitFlash.Flash();
 
@@ -60,6 +85,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
 
         isDead = true;
+        Debug.Log($"[BaseEnemy.Die] {name} - roomName='{roomName}', enemyIndex={enemyIndex}");
+        DeadEnemyTracker.MarkDead(roomName, enemyIndex);
         Destroy(gameObject);
     }
 }

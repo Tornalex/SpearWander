@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md"
+  ],
+  "ignore": [
+    "Library/**",
+    "Temp/**",
+    "Logs/**",
+    "Obj/**",
+    "UserSettings/**",
+    "*.csproj",
+    "*.sln"
+  ]
+}

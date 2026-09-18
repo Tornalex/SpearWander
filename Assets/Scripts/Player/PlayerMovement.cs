@@ -1,4 +1,5 @@
 using UnityEngine;
+using SpearWander.Abilities;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,7 +24,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         float moveInput = _player.Input.MoveInput.x;
-        float targetSpeed = (_player.Input.IsDashHeld() && Mathf.Abs(moveInput) > 0.1f) ? _player.PlayerStats.runSpeed : _player.PlayerStats.walkSpeed;
+        bool canRun = AbilityManager.Instance != null && AbilityManager.Instance.IsUnlocked(AbilityType.Dash);
+        float targetSpeed = (canRun && _player.Input.IsDashHeld() && Mathf.Abs(moveInput) > 0.1f) 
+            ? _player.PlayerStats.runSpeed 
+            : _player.PlayerStats.walkSpeed;
         _player.Animator.SetFloat("Speed", Mathf.Abs(moveInput * targetSpeed));
 
         _player.Rb.linearVelocity = new Vector2(moveInput * targetSpeed, _player.Rb.linearVelocity.y);

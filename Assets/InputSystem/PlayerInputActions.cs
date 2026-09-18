@@ -240,8 +240,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""55fbe99f-5c71-421e-80d0-0b854f24f16d"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Recall"",
@@ -251,7 +251,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
