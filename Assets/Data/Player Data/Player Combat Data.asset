@@ -17,6 +17,4 @@ MonoBehaviour:
   spearImpactDamage: 1
   spearRecallDamage: 1
   dashDamage: 1
-  dashKnockbackForce: {x: 10, y: 5}
-  dashKnockbackDuration: 0.2
   pogoDamage: 1

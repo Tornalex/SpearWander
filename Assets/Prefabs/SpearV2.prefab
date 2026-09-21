@@ -234,7 +234,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDamping: 0
   m_AngularDamping: 0
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -359,6 +359,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   returnDuration: 0.8
   maxReturnSpeed: 60
+  enemyBounceSpeed: 10
   cameraBoundsTag: CameraBounds
   directionChangerTag: EnemyDirectionChanger
   catchDistance: 0.7

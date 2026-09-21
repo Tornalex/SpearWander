@@ -21,9 +21,10 @@ public class Player : MonoBehaviour
     public PlayerPogo Pogo { get; private set; }
     public PlayerCombat Combat { get; private set; }
     public PlayerHealth Health { get; private set; }
-    public PlayerKnockback Knockback { get; private set; }
+    public Knockback Knockback { get; private set; }
     public PlayerRopeClimb RopeClimb { get; private set; }
     public PlayerEssence Essence { get; private set; }
+    public PlayerFeet Feet { get; private set; }
 
     // --- HasControl System ---
     public enum ControlReason { Death, Respawn, Cutscene, Transition, Pickup, Pause }
@@ -67,9 +68,10 @@ public class Player : MonoBehaviour
         Pogo = GetComponent<PlayerPogo>();
         Combat = GetComponent<PlayerCombat>();
         Health = GetComponent<PlayerHealth>();
-        Knockback = GetComponent<PlayerKnockback>();
+        Knockback = GetComponent<Knockback>();
         RopeClimb = GetComponent<PlayerRopeClimb>();
         Essence = GetComponent<PlayerEssence>();
+        Feet = GetComponentInChildren<PlayerFeet>();
     }
 
     public void ResetState()

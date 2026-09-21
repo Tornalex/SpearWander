@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91e44128d210554bae484a1bd945365, type: 3}
   m_Name: Ground Enemy Data
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  maxHealth: 4
+  maxHealth: 40
   speed: 5
   knockbackForce: {x: 10, y: 5}
   knockbackDuration: 0.1

@@ -137,6 +137,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             _player.PlayerStats.damageKnockbackDuration
         );
 
+        _player.Movement.StartPlayerKnockback(
+            _player.PlayerStats.damageKnockbackDuration
+        );
+
         VFXManager.Instance?.PlayVFX(
             VFXType.HitGeneric,
             transform.position,

@@ -48,7 +48,7 @@ namespace SpearWander.Boss
 
         // Components
         protected HitFlash hitFlashComponent;
-        protected PlayerKnockback knockbackComponent;
+        protected Knockback knockbackComponent;
 
         public bool IsDead => isDead;
         public int CurrentHealth => currentHealth;
@@ -61,7 +61,7 @@ namespace SpearWander.Boss
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             hitFlashComponent = GetComponent<HitFlash>();
-            knockbackComponent = GetComponent<PlayerKnockback>();
+            knockbackComponent = GetComponent<Knockback>();
 
             if (bossData != null)
             {

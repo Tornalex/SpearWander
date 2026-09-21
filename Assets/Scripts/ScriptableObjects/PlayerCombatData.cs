@@ -11,8 +11,6 @@ public class PlayerCombatData : ScriptableObject
 
     [Header("Dash")]
     public int dashDamage = 1;
-    public Vector2 dashKnockbackForce = new Vector2(10f, 5f);
-    public float dashKnockbackDuration = 0.2f;
 
     [Header("Pogo")]
     public int pogoDamage = 1;

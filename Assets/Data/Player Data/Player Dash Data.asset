@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDashData
   dashSpeed: 18
   dashDuration: 0.3
-  dashCooldown: 0.8
+  dashCooldown: 1.5
   postDashInvincibility: 0.05
+  knockbackForce: {x: 15, y: 15}
+  knockbackDuration: 0.3

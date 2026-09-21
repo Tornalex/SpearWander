@@ -18,7 +18,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
     protected Rigidbody2D rb;
     protected SpriteRenderer spriteRenderer;
     protected HitFlash hitFlash;
-    protected PlayerKnockback knockback;
+    protected Knockback knockback;
     protected Animator animator;
 
     protected virtual void Awake()
@@ -26,7 +26,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         hitFlash = GetComponent<HitFlash>();
-        knockback = GetComponent<PlayerKnockback>();
+        knockback = GetComponent<Knockback>();
         animator = GetComponent<Animator>();
         currentHealth = enemyData.maxHealth;
     }

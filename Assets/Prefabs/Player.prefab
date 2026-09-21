@@ -351,7 +351,6 @@ GameObject:
   - component: {fileID: 5441092156383267662}
   - component: {fileID: 2713314442468354696}
   - component: {fileID: 2746718217424856509}
-  - component: {fileID: 3281315049897957862}
   - component: {fileID: 8199112534537086976}
   - component: {fileID: 3796082680852283278}
   - component: {fileID: 4206864715731901079}
@@ -359,6 +358,7 @@ GameObject:
   - component: {fileID: 2326225928742478579}
   - component: {fileID: 524479099075650053}
   - component: {fileID: 1686030079073546667}
+  - component: {fileID: 3281315049897957862}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -535,18 +535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584f5016b0192aa4b98f842d948236b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
---- !u!114 &3281315049897957862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6286765099597975374}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c89f00bb398fa4fb956558656b8afd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerPogo
 --- !u!114 &8199112534537086976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -855,6 +843,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24262b16766c7684d91cca9d358df2b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerRopeClimb
+--- !u!114 &3281315049897957862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286765099597975374}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c89f00bb398fa4fb956558656b8afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPogo
 --- !u!1 &7741264064636097618
 GameObject:
   m_ObjectHideFlags: 0
