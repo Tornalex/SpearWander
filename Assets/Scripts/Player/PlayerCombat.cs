@@ -16,12 +16,19 @@ public class PlayerCombat : MonoBehaviour
     private Spear _currentSpear;
     private Camera _mainCam;
 
+    public bool HasSpear =>
+        _currentSpear == null &&
+        !_isSpearReturning;
+
     public SpearUIState CurrentSpearUIState
     {
         get
         {
-            if (_currentSpear == null) return SpearUIState.Ready;
-            if (_isSpearReturning || _currentSpear.currentState == Spear.SpearState.Returning)
+            if (_currentSpear == null)
+                return SpearUIState.Ready;
+
+            if (_isSpearReturning ||
+                _currentSpear.currentState == Spear.SpearState.Returning)
                 return SpearUIState.Returning;
 
             return SpearUIState.Thrown;
@@ -46,7 +53,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        if (!_player.HasControl) return;
+        if (!_player.HasControl)
+            return;
 
         HandleAiming();
 
@@ -66,7 +74,8 @@ public class PlayerCombat : MonoBehaviour
         {
             _waitingForRecallRelease = false;
 
-            if (_isSpearReturning && _currentSpear != null)
+            if (_isSpearReturning &&
+                _currentSpear != null)
             {
                 AbortRecall();
             }
@@ -169,7 +178,8 @@ public class PlayerCombat : MonoBehaviour
 
     void RecallSpear()
     {
-        if (_currentSpear == null) return;
+        if (_currentSpear == null)
+            return;
 
         if (_currentSpear.currentState ==
             Spear.SpearState.Returning)
@@ -184,7 +194,8 @@ public class PlayerCombat : MonoBehaviour
 
     void AbortRecall()
     {
-        if (_currentSpear == null) return;
+        if (_currentSpear == null)
+            return;
 
         _currentSpear.OnSpearReturned -= CatchSpear;
         _currentSpear.AbortReturn();

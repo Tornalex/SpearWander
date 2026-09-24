@@ -39,17 +39,11 @@ public class PlayerDash : MonoBehaviour
 
         if (_player.Knockback.IsPersistentKnockback())
         {
-            // La protezione dal danno rimane attiva per tutto
-            // il knockback.
             HasPostDashProtection = true;
 
-            // Durante la knockback duration il giocatore non
-            // può interrompere il knockback.
             if (_player.Knockback.IsControlLocked())
                 return;
 
-            // Dopo la knockback duration:
-            // movimento -> termina il knockback.
             float moveInput =
                 _player.Input.MoveInput.x;
 
@@ -59,16 +53,12 @@ public class PlayerDash : MonoBehaviour
                 return;
             }
 
-            // Dopo la knockback duration:
-            // terreno -> termina il knockback.
             if (_player.Feet.IsGrounded())
             {
                 EndDashKnockback();
                 return;
             }
 
-            // Ancora in aria e nessun input:
-            // non tocchiamo la velocity.
             return;
         }
 
@@ -179,20 +169,29 @@ public class PlayerDash : MonoBehaviour
             return;
 
         // ---------------------------------------------------------
-        // DASH HIT
+        // SPEAR NON EQUIPAGGIATA
         // ---------------------------------------------------------
 
-        // Il Dash termina.
+        if (!_player.Combat.HasSpear)
+        {
+            // Il Dash non può danneggiare il nemico.
+            // Il Player subisce invece il normale danno
+            // da contatto e viene respinto.
+            _player.Health.TakeDamage(
+                1,
+                collision.transform.position
+            );
+
+            return;
+        }
+
+        // ---------------------------------------------------------
+        // DASH CON SPEAR
+        // ---------------------------------------------------------
+
         StopDash();
 
-        // La protezione deve essere attiva PRIMA di applicare
-        // il danno al nemico, così PlayerHealth non può
-        // interpretare questa collisione come un danno al Player.
         HasPostDashProtection = true;
-
-        // ---------------------------------------------------------
-        // NEMICO
-        // ---------------------------------------------------------
 
         damageable.TakeDamage(
             _player.CombatStats.dashDamage,
@@ -203,10 +202,6 @@ public class PlayerDash : MonoBehaviour
         SFXManager.Instance?.PlaySFX(
             SFXType.HitDash
         );
-
-        // ---------------------------------------------------------
-        // PLAYER KNOCKBACK
-        // ---------------------------------------------------------
 
         _player.Knockback.ApplyKnockback(
             collision.transform.position,
