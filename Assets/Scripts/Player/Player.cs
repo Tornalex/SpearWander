@@ -27,8 +27,16 @@ public class Player : MonoBehaviour
     public PlayerFeet Feet { get; private set; }
 
     // --- HasControl System ---
-    public enum ControlReason { Death, Respawn, Cutscene, Transition, Pickup, Pause }
-
+    public enum ControlReason
+    {
+        Death,
+        Respawn,
+        Cutscene,
+        Transition,
+        Pickup,
+        Pause,
+        TextBox
+    }
     private HashSet<ControlReason> _controlReasons = new();
 
     public bool HasControl => _controlReasons.Count == 0;

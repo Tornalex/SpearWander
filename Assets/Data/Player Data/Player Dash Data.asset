@@ -16,5 +16,5 @@ MonoBehaviour:
   dashDuration: 0.3
   dashCooldown: 1.5
   postDashInvincibility: 0.05
-  knockbackForce: {x: 15, y: 15}
-  knockbackDuration: 0.3
+  knockbackForce: {x: 20, y: 25}
+  knockbackDuration: 0.5

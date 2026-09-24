@@ -59,6 +59,9 @@ public class PlayerInteract : MonoBehaviour
 
     private void UpdatePrompt()
     {
+        if (_interactPromptRoot == null)
+            return;
+
         if (_interactablesInRange.Count > 0)
         {
             IInteractable interactable = _interactablesInRange[^1];
