@@ -58,9 +58,15 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (_actions.Player.enabled)
         {
-            MoveInput = _actions.Player.Move.ReadValue<Vector2>();
+            MoveInput =
+                _actions.Player.Move.ReadValue<Vector2>();
 
-            Vector2 stickInput = _actions.Player.AimWithController.ReadValue<Vector2>();
+            Vector2 stickInput =
+                _actions.Player.AimWithController.ReadValue<Vector2>();
+
+            // ---------------------------------------------------------
+            // AIM INPUT
+            // ---------------------------------------------------------
 
             if (stickInput.sqrMagnitude > 0.1f)
             {
@@ -69,9 +75,23 @@ public class PlayerInputHandler : MonoBehaviour
             }
             else
             {
-                AimInput = _actions.Player.AimWithMouse.ReadValue<Vector2>();
-                IsGamepad = false;
+                // Manteniamo il dispositivo precedentemente utilizzato.
+                // Se il controller è ancora il dispositivo attivo,
+                // AimInput rimane neutro invece di passare al mouse.
+                if (!IsGamepad)
+                {
+                    AimInput =
+                        _actions.Player.AimWithMouse.ReadValue<Vector2>();
+                }
+                else
+                {
+                    AimInput = Vector2.zero;
+                }
             }
+
+            // ---------------------------------------------------------
+            // INPUT TRIGGERED
+            // ---------------------------------------------------------
 
             if (_suppressInteractFrames > 0)
             {
@@ -79,15 +99,59 @@ public class PlayerInputHandler : MonoBehaviour
             }
             else
             {
-                InteractTriggered = _actions.Player.Interact.WasPerformedThisFrame();
+                InteractTriggered =
+                    _actions.Player.Interact.WasPerformedThisFrame();
             }
 
-            JumpTriggered = _actions.Player.Jump.WasPerformedThisFrame();
-            DashTriggered = _actions.Player.Dash.WasPerformedThisFrame();
-            FireTriggered = _actions.Player.Fire.WasPerformedThisFrame();
-            RecallTriggered = _actions.Player.Recall.WasPerformedThisFrame();
-            DownTriggered = _actions.Player.Down.WasPerformedThisFrame();
-            HealTriggered = _actions.Player.Heal.WasPerformedThisFrame();
+            JumpTriggered =
+                _actions.Player.Jump.WasPerformedThisFrame();
+
+            DashTriggered =
+                _actions.Player.Dash.WasPerformedThisFrame();
+
+            FireTriggered =
+                _actions.Player.Fire.WasPerformedThisFrame();
+
+            RecallTriggered =
+                _actions.Player.Recall.WasPerformedThisFrame();
+
+            DownTriggered =
+                _actions.Player.Down.WasPerformedThisFrame();
+
+            HealTriggered =
+                _actions.Player.Heal.WasPerformedThisFrame();
+
+            // ---------------------------------------------------------
+            // FIRE DEVICE
+            // ---------------------------------------------------------
+
+            // Se il Fire è stato premuto in questo frame,
+            // usiamo il dispositivo che ha effettivamente generato
+            // l'input.
+            if (FireTriggered)
+            {
+                InputControl fireControl =
+                    _actions.Player.Fire.activeControl;
+
+                if (fireControl != null)
+                {
+                    IsGamepad =
+                        fireControl.device is Gamepad;
+                }
+
+                // Se il Fire arriva dal controller e lo stick
+                // è neutro, la mira deve rimanere neutra.
+                if (IsGamepad &&
+                    stickInput.sqrMagnitude <= 0.1f)
+                {
+                    AimInput = Vector2.zero;
+                }
+                else if (!IsGamepad)
+                {
+                    AimInput =
+                        _actions.Player.AimWithMouse.ReadValue<Vector2>();
+                }
+            }
         }
         else
         {
@@ -98,8 +162,11 @@ public class PlayerInputHandler : MonoBehaviour
 
         if (_actions.UI.enabled)
         {
-            NavigateInput = _actions.UI.Navigate.ReadValue<Vector2>();
-            CancelTriggered = _actions.UI.Cancel.WasPerformedThisFrame();
+            NavigateInput =
+                _actions.UI.Navigate.ReadValue<Vector2>();
+
+            CancelTriggered =
+                _actions.UI.Cancel.WasPerformedThisFrame();
         }
     }
 
@@ -119,7 +186,12 @@ public class PlayerInputHandler : MonoBehaviour
         _suppressInteractFrames = 1;
     }
 
-    public bool IsRecallHeld() => _actions.Player.Recall.IsPressed();
-    public bool IsJumpHeld() => _actions.Player.Jump.IsPressed();
-    public bool IsDashHeld() => _actions.Player.Dash.IsPressed();
+    public bool IsRecallHeld() =>
+        _actions.Player.Recall.IsPressed();
+
+    public bool IsJumpHeld() =>
+        _actions.Player.Jump.IsPressed();
+
+    public bool IsDashHeld() =>
+        _actions.Player.Dash.IsPressed();
 }
