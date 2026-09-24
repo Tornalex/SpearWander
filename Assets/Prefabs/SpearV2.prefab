@@ -172,7 +172,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 669170358810041067, guid: 4fc2d4fdd5706f44fb5efa2d8cb7f316, type: 3}
+  m_Sprite: {fileID: -7193363872986352788, guid: 9f9c2265f15e77f489adcd3bdffce85f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -323,7 +323,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427e076fbbd120745ad43f6f0cd705e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpearV2
-  currentState: 0
+  enemyBounceSpeed: 10
+  bounceAngle: 90
+  cameraBoundsTag: CameraBounds
+  directionChangerTag: EnemyDirectionChanger
+  tipRaycastLength: 1.5
+  embedDepth: 0
   returnCurve:
     serializedVersion: 2
     m_Curve:
@@ -359,12 +364,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   returnDuration: 0.8
   maxReturnSpeed: 60
-  enemyBounceSpeed: 10
-  cameraBoundsTag: CameraBounds
-  directionChangerTag: EnemyDirectionChanger
   catchDistance: 0.7
-  tipRaycastLength: 1.5
-  embedDepth: 0
   ropeAttachOffset: {x: -0.8, y: 0}
   ropeWidth: 0.1
   ropeMaterial: {fileID: 2100000, guid: 79809b4fc57ad41b982c1dd5ceb812b2, type: 2}
+  currentState: 0
