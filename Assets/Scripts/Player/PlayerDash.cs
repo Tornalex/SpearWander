@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerDash : MonoBehaviour
@@ -13,19 +14,73 @@ public class PlayerDash : MonoBehaviour
 
     private Player _player;
 
+    // ---------------------------------------------------------
+    // DASH READY FEEDBACK
+    // ---------------------------------------------------------
+
+    [SerializeField] private Material dashReadyFlashMaterial;
+
+    private Material _originalMaterial;
+    private SpriteRenderer _spriteRenderer;
+    private Coroutine _dashReadyBlinkCoroutine;
+
+    private bool _dashAvailabilityInitialized;
+    private bool _wasDashAvailable;
+
+    private const float DashReadyBlinkInterval = 0.05f;
+    private const int DashReadyBlinkCount = 3;
+
     void Awake()
     {
         _player = GetComponent<Player>();
         _originalGravityScale = _player.Rb.gravityScale;
+
+        _spriteRenderer = _player.Sprite;
+        _originalMaterial = _spriteRenderer.material;
     }
 
     void Update()
     {
-        if (_player.Jump.IsGrounded() && !IsDashing)
-            _canAirDash = true;
+        // ---------------------------------------------------------
+        // AIR DASH RESET ON LANDING
+        // ---------------------------------------------------------
 
-        if (_player.Input.DashTriggered && CanDash())
+        if (_player.Jump.IsGrounded() &&
+            !IsDashing &&
+            _dashCooldownTimer <= 0f)
+        {
+            _canAirDash = true;
+        }
+
+        // ---------------------------------------------------------
+        // DASH AVAILABILITY
+        // ---------------------------------------------------------
+
+        bool dashAvailable = CanDash();
+
+        if (!_dashAvailabilityInitialized)
+        {
+            _wasDashAvailable = dashAvailable;
+            _dashAvailabilityInitialized = true;
+        }
+        else if (dashAvailable &&
+                 !_wasDashAvailable &&
+                 !_player.Input.DashTriggered)
+        {
+            StartDashReadyBlink();
+        }
+
+        _wasDashAvailable = dashAvailable;
+
+        // ---------------------------------------------------------
+        // DASH INPUT
+        // ---------------------------------------------------------
+
+        if (_player.Input.DashTriggered &&
+            dashAvailable)
+        {
             StartDash();
+        }
     }
 
     void FixedUpdate()
@@ -153,6 +208,48 @@ public class PlayerDash : MonoBehaviour
         _dashCooldownTimer = 0f;
     }
 
+    // ---------------------------------------------------------
+    // DASH READY BLINK
+    // ---------------------------------------------------------
+
+    private void StartDashReadyBlink()
+    {
+        if (_dashReadyBlinkCoroutine != null)
+            StopCoroutine(_dashReadyBlinkCoroutine);
+
+        _dashReadyBlinkCoroutine =
+            StartCoroutine(DashReadyBlink());
+    }
+
+    private IEnumerator DashReadyBlink()
+    {
+        for (int i = 0; i < DashReadyBlinkCount; i++)
+        {
+            _spriteRenderer.material =
+                dashReadyFlashMaterial;
+
+            yield return new WaitForSeconds(
+                DashReadyBlinkInterval
+            );
+
+            _spriteRenderer.material =
+                _originalMaterial;
+
+            yield return new WaitForSeconds(
+                DashReadyBlinkInterval
+            );
+        }
+
+        _spriteRenderer.material =
+            _originalMaterial;
+
+        _dashReadyBlinkCoroutine = null;
+    }
+
+    // ---------------------------------------------------------
+    // COLLISION
+    // ---------------------------------------------------------
+
     private void OnCollisionEnter2D(
         Collision2D collision)
     {
@@ -211,11 +308,27 @@ public class PlayerDash : MonoBehaviour
         );
     }
 
+    // ---------------------------------------------------------
+    // DASH KNOCKBACK END
+    // ---------------------------------------------------------
+
     private void EndDashKnockback()
     {
         _player.Knockback.EndKnockback();
 
         HasPostDashProtection = false;
         _postDashProtectionTimer = 0f;
+    }
+
+    private void OnDisable()
+    {
+        if (_dashReadyBlinkCoroutine != null)
+        {
+            StopCoroutine(_dashReadyBlinkCoroutine);
+            _dashReadyBlinkCoroutine = null;
+        }
+
+        if (_spriteRenderer != null)
+            _spriteRenderer.material = _originalMaterial;
     }
 }

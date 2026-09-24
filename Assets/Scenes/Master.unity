@@ -2397,6 +2397,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2746718217424856509, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
+      propertyPath: dashReadyFlashMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 80ee9c733b92f474fa17186ddeb532be, type: 2}
     - target: {fileID: 3913124700853137542, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.5
