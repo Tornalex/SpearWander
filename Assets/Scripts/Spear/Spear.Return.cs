@@ -18,8 +18,7 @@ public partial class Spear : MonoBehaviour
 
         ResetIgnoredWall();
 
-        _enemiesHitDuringThrow.Clear();
-        _enemiesHitDuringReturn.Clear();
+        ClearHitLists();
 
         if (transform.parent != null &&
             transform.parent.TryGetComponent(

@@ -16,6 +16,12 @@ public partial class Spear : MonoBehaviour
     private List<IDamageable> _enemiesHitDuringThrow =
         new List<IDamageable>();
 
+    private void ClearHitLists()
+    {
+        _enemiesHitDuringThrow.Clear();
+        _enemiesHitDuringReturn.Clear();
+    }
+
     public void SetDamage(
         int impact,
         int recall)

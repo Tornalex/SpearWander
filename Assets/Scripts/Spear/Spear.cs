@@ -52,8 +52,7 @@ public partial class Spear : MonoBehaviour
 
         HasHitEnemy = false;
 
-        _enemiesHitDuringThrow.Clear();
-        _enemiesHitDuringReturn.Clear();
+        ClearHitLists();
 
         _lastPosition = transform.position;
         _lastVelocity = Vector2.zero;
