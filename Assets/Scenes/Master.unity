@@ -2417,6 +2417,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5441092156383267662, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
+      propertyPath: recallDelayFrames
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 6263702516798798323, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
       propertyPath: m_Radius
       value: 0.8

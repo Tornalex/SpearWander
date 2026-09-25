@@ -194,4 +194,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool IsDashHeld() =>
         _actions.Player.Dash.IsPressed();
+    public bool IsFireHeld() =>
+    _actions.Player.Fire.IsPressed();
 }
