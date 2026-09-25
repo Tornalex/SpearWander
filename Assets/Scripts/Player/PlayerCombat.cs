@@ -7,7 +7,15 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private Transform aimIndicator;
 
-    public enum SpearUIState { Ready, Thrown, Returning }
+    [Header("Spear Recall")]
+    [SerializeField] private int recallDelayFrames = 15;
+
+    public enum SpearUIState
+    {
+        Ready,
+        Thrown,
+        Returning
+    }
 
     private Player _player;
     private float _throwCooldownTimer;
@@ -15,6 +23,8 @@ public class PlayerCombat : MonoBehaviour
     private bool _waitingForRecallRelease;
     private Spear _currentSpear;
     private Camera _mainCam;
+
+    private int _recallDelayCounter;
 
     public bool HasSpear =>
         _currentSpear == null &&
@@ -29,7 +39,9 @@ public class PlayerCombat : MonoBehaviour
 
             if (_isSpearReturning ||
                 _currentSpear.currentState == Spear.SpearState.Returning)
+            {
                 return SpearUIState.Returning;
+            }
 
             return SpearUIState.Thrown;
         }
@@ -58,6 +70,7 @@ public class PlayerCombat : MonoBehaviour
 
         HandleAiming();
 
+        // LANCIO
         if (_player.Input.FireTriggered &&
             _throwCooldownTimer <= 0 &&
             _currentSpear == null &&
@@ -65,12 +78,18 @@ public class PlayerCombat : MonoBehaviour
         {
             if (_player.RopeClimb != null &&
                 _player.RopeClimb.IsClimbing)
+            {
                 return;
+            }
 
             Fire();
+
+            _recallDelayCounter =
+                recallDelayFrames;
         }
 
-        if (!_player.Input.IsRecallHeld())
+        // RILASCIO DEL TASTO
+        if (!_player.Input.IsFireHeld())
         {
             _waitingForRecallRelease = false;
 
@@ -81,7 +100,10 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        if (_player.Input.IsRecallHeld() &&
+        // RICHIAMO
+        if (_player.Input.IsFireHeld() &&
+            !_player.Input.FireTriggered &&
+            _recallDelayCounter <= 0 &&
             !_isSpearReturning &&
             !_waitingForRecallRelease)
         {
@@ -93,6 +115,9 @@ public class PlayerCombat : MonoBehaviour
     {
         if (_throwCooldownTimer > 0)
             _throwCooldownTimer -= Time.fixedDeltaTime;
+
+        if (_recallDelayCounter > 0)
+            _recallDelayCounter--;
     }
 
     void HandleAiming()
@@ -101,24 +126,18 @@ public class PlayerCombat : MonoBehaviour
 
         if (_player.Input.IsGamepad)
         {
-            // Controller:
-            // usa la direzione dello stick destro.
             dir = _player.Input.AimInput;
 
-            // Se lo stick è neutro, usa la direzione
-            // verso cui sta guardando il personaggio.
             if (dir.sqrMagnitude <= 0.01f)
             {
                 dir = new Vector2(
                     Mathf.Sign(transform.localScale.x),
-                    0.1f
+                    0.15f
                 );
             }
         }
         else
         {
-            // Mouse + tastiera:
-            // la mira dipende sempre dalla posizione del mouse.
             Vector3 mousePos =
                 _mainCam.ScreenToWorldPoint(
                     new Vector3(
@@ -136,10 +155,15 @@ public class PlayerCombat : MonoBehaviour
         if (dir.sqrMagnitude > 0.01f)
         {
             float angle =
-                Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                Mathf.Atan2(dir.y, dir.x) *
+                Mathf.Rad2Deg;
 
             aimIndicator.rotation =
-                Quaternion.Euler(0, 0, angle);
+                Quaternion.Euler(
+                    0,
+                    0,
+                    angle
+                );
         }
     }
 
@@ -183,7 +207,9 @@ public class PlayerCombat : MonoBehaviour
 
         if (_currentSpear.currentState ==
             Spear.SpearState.Returning)
+        {
             return;
+        }
 
         _isSpearReturning = true;
         _waitingForRecallRelease = true;
@@ -199,6 +225,7 @@ public class PlayerCombat : MonoBehaviour
 
         _currentSpear.OnSpearReturned -= CatchSpear;
         _currentSpear.AbortReturn();
+
         _isSpearReturning = false;
     }
 
@@ -207,7 +234,9 @@ public class PlayerCombat : MonoBehaviour
         if (_currentSpear != null)
         {
             if (_isSpearReturning)
+            {
                 _currentSpear.OnSpearReturned -= CatchSpear;
+            }
 
             Destroy(_currentSpear.gameObject);
             _currentSpear = null;
@@ -216,6 +245,7 @@ public class PlayerCombat : MonoBehaviour
         _isSpearReturning = false;
         _waitingForRecallRelease = false;
         _throwCooldownTimer = 0f;
+        _recallDelayCounter = 0;
     }
 
     void CatchSpear(Spear spear)
@@ -257,5 +287,6 @@ public class PlayerCombat : MonoBehaviour
         _isSpearReturning = false;
         _waitingForRecallRelease = false;
         _throwCooldownTimer = 0f;
+        _recallDelayCounter = 0;
     }
 }

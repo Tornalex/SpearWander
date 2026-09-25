@@ -4,26 +4,46 @@ using SpearWander.Boss;
 
 public partial class Spear : MonoBehaviour
 {
-    private void OnCollisionEnter2D(
-        Collision2D collision)
+private void OnCollisionEnter2D(
+    Collision2D collision)
+{
+    if (currentState != SpearState.Flying &&
+        currentState != SpearState.Dropped)
     {
-        if (currentState != SpearState.Flying)
+        return;
+    }
+
+    Boss boss =
+        collision.collider.GetComponentInParent<Boss>();
+
+    if (boss != null &&
+        currentState == SpearState.Flying)
+    {
+        WeakPoint weakPoint =
+            collision.collider.GetComponent<WeakPoint>();
+
+        if (weakPoint != null)
             return;
 
-        Boss boss =
-            collision.collider.GetComponentInParent<Boss>();
-
-        if (boss != null)
-        {
-            WeakPoint weakPoint =
-                collision.collider.GetComponent<WeakPoint>();
-
-            if (weakPoint != null)
-                return;
-
-            BounceOffBoss(collision);
-        }
+        BounceOffBoss(collision);
+        return;
     }
+
+    if (currentState == SpearState.Dropped)
+    {
+        Vector2 hitPoint =
+            collision.contacts[0].point;
+
+        Vector2 normal =
+            collision.contacts[0].normal;
+
+        ProcessHit(
+            collision.collider,
+            hitPoint,
+            normal
+        );
+    }
+}
 
     public void OnTipHit(Collider2D other)
     {

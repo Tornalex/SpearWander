@@ -27,79 +27,74 @@ public partial class Spear : MonoBehaviour
     public int RecallDamage =>
         _recallDamage;
 
-    private void ProcessHit(
-        Collider2D other,
-        Vector2 hitPoint,
-        Vector2 normal)
+private void ProcessHit(
+    Collider2D other,
+    Vector2 hitPoint,
+    Vector2 normal)
+{
+    if (currentState == SpearState.Embedded)
+        return;
+
+    if (other.CompareTag(directionChangerTag))
+        return;
+
+    if (other.TryGetComponent(
+        out IDamageable damageable))
     {
-        if (currentState == SpearState.Embedded)
-            return;
-
-        if (other.CompareTag(directionChangerTag))
-            return;
-
-        if (other.TryGetComponent(
-            out IDamageable damageable))
+        if (currentState == SpearState.Returning)
         {
-            if (currentState == SpearState.Flying ||
-                currentState == SpearState.BouncedOff)
-            {
-                if (_enemiesHitDuringThrow.Contains(
-                    damageable))
-                {
-                    return;
-                }
+            if (_enemiesHitDuringReturn.Contains(damageable))
+                return;
 
-                _enemiesHitDuringThrow.Add(
-                    damageable
-                );
+            _enemiesHitDuringReturn.Add(damageable);
 
-                HasHitEnemy = true;
+            HasHitEnemy = true;
 
-                damageable.TakeDamage(
-                    _impactDamage,
-                    hitPoint,
-                    transform.position
-                );
+            damageable.TakeDamage(
+                _recallDamage,
+                hitPoint,
+                transform.position
+            );
 
-                BounceOffEnemy();
-            }
-            else if (currentState == SpearState.Returning)
-            {
-                if (!_enemiesHitDuringReturn.Contains(
-                    damageable))
-                {
-                    _enemiesHitDuringReturn.Add(
-                        damageable
-                    );
-
-                    HasHitEnemy = true;
-
-                    damageable.TakeDamage(
-                        _recallDamage,
-                        hitPoint,
-                        transform.position
-                    );
-                }
-            }
+            return;
         }
-        else
-        {
-            if (currentState == SpearState.Flying ||
-                currentState == SpearState.BouncedOff ||
-                currentState == SpearState.Dropped)
-            {
-                StickToTarget(
-                    null,
-                    hitPoint,
-                    other,
-                    normal
-                );
 
-                CreateRope();
-            }
+        if (_enemiesHitDuringThrow.Contains(damageable))
+            return;
+
+        _enemiesHitDuringThrow.Add(damageable);
+
+        HasHitEnemy = true;
+
+        damageable.TakeDamage(
+            _impactDamage,
+            hitPoint,
+            transform.position
+        );
+
+        if (currentState == SpearState.Flying ||
+            currentState == SpearState.BouncedOff)
+        {
+            BounceOffEnemy();
         }
     }
+    else
+    {
+        if (currentState == SpearState.Flying ||
+            currentState == SpearState.BouncedOff ||
+            currentState == SpearState.Dropped)
+        {
+            StickToTarget(
+                null,
+                hitPoint,
+                other,
+                normal
+            );
+
+            CreateRope();
+        }
+    }
+}
 
     private void BounceOffEnemy()
     {
