@@ -155,9 +155,7 @@ private void ProcessHit(
 
     public void OnEnemyDeath()
     {
-        DestroyRope();
-
-        ResetIgnoredWall();
+        ClearRopeAndIgnoredWall();
 
         transform.SetParent(null);
 

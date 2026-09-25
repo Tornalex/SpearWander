@@ -11,12 +11,17 @@ public partial class Spear : MonoBehaviour
     [SerializeField] private float returnDuration = 0.5f;
     [SerializeField] private float maxReturnSpeed = 50f;
     [SerializeField] private float catchDistance = 0.7f;    
+
+    private void ClearRopeAndIgnoredWall()
+    {
+        DestroyRope();
+        ResetIgnoredWall();
+    }
+
     public void StartReturn(
         Transform player)
     {
-        DestroyRope();
-
-        ResetIgnoredWall();
+        ClearRopeAndIgnoredWall();
 
         ClearHitLists();
 
@@ -57,9 +62,7 @@ public partial class Spear : MonoBehaviour
 
     public void AbortReturn()
     {
-        DestroyRope();
-
-        ResetIgnoredWall();
+        ClearRopeAndIgnoredWall();
 
         currentState =
             SpearState.Dropped;
