@@ -41,36 +41,8 @@ private void ProcessHit(
     if (other.TryGetComponent(
         out IDamageable damageable))
     {
-        if (currentState == SpearState.Returning)
-        {
-            if (_enemiesHitDuringReturn.Contains(damageable))
-                return;
-
-            _enemiesHitDuringReturn.Add(damageable);
-
-            HasHitEnemy = true;
-
-            damageable.TakeDamage(
-                _recallDamage,
-                hitPoint,
-                transform.position
-            );
-
+        if (!ProcessDamageableHit(damageable, hitPoint))
             return;
-        }
-
-        if (_enemiesHitDuringThrow.Contains(damageable))
-            return;
-
-        _enemiesHitDuringThrow.Add(damageable);
-
-        HasHitEnemy = true;
-
-        damageable.TakeDamage(
-            _impactDamage,
-            hitPoint,
-            transform.position
-        );
 
         if (currentState == SpearState.Flying ||
             currentState == SpearState.BouncedOff)
@@ -95,6 +67,44 @@ private void ProcessHit(
         }
     }
 }
+
+    private bool ProcessDamageableHit(
+        IDamageable damageable,
+        Vector2 hitPoint)
+    {
+        if (currentState == SpearState.Returning)
+        {
+            if (_enemiesHitDuringReturn.Contains(damageable))
+                return false;
+
+            _enemiesHitDuringReturn.Add(damageable);
+
+            HasHitEnemy = true;
+
+            damageable.TakeDamage(
+                _recallDamage,
+                hitPoint,
+                transform.position
+            );
+
+            return false;
+        }
+
+        if (_enemiesHitDuringThrow.Contains(damageable))
+            return false;
+
+        _enemiesHitDuringThrow.Add(damageable);
+
+        HasHitEnemy = true;
+
+        damageable.TakeDamage(
+            _impactDamage,
+            hitPoint,
+            transform.position
+        );
+
+        return true;
+    }
 
     private void BounceOffEnemy()
     {
