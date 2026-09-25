@@ -37,12 +37,12 @@ public class Player : MonoBehaviour
         Pause,
         TextBox
     }
-    private HashSet<ControlReason> _controlReasons = new();
+    private HashSet<ControlReason> _activeControlReasons = new();
 
-    public bool HasControl => _controlReasons.Count == 0;
+    public bool HasControl => _activeControlReasons.Count == 0;
 
-    public void AddControlRequest(ControlReason reason) => _controlReasons.Add(reason);
-    public void RemoveControlRequest(ControlReason reason) => _controlReasons.Remove(reason);
+    public void AddControlRequest(ControlReason reason) => _activeControlReasons.Add(reason);
+    public void RemoveControlRequest(ControlReason reason) => _activeControlReasons.Remove(reason);
 
     [Header("Scriptable Objects")]
     [SerializeField] private PlayerStatsData playerStats;
@@ -93,6 +93,6 @@ public class Player : MonoBehaviour
             AbilityManager.Instance.RestoreAbilities(this);
         }
         
-        _controlReasons.Clear();
+        _activeControlReasons.Clear();
     }
 }
