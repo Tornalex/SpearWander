@@ -22,6 +22,12 @@ public partial class Spear : MonoBehaviour
         _enemiesHitDuringReturn.Clear();
     }
 
+    private void InitializeCombatState()
+    {
+        HasHitEnemy = false;
+        ClearHitLists();
+    }
+
     public void SetDamage(
         int impact,
         int recall)

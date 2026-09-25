@@ -50,9 +50,7 @@ public partial class Spear : MonoBehaviour
 
         _collider.isTrigger = true;
 
-        HasHitEnemy = false;
-
-        ClearHitLists();
+        InitializeCombatState();
 
         _lastPosition = transform.position;
         _lastVelocity = Vector2.zero;
