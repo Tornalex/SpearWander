@@ -18,11 +18,8 @@ public partial class Spear : MonoBehaviour
         ResetIgnoredWall();
     }
 
-    public void StartReturn(
-        Transform player)
+    private void InitializeReturnHitTracking()
     {
-        ClearRopeAndIgnoredWall();
-
         ClearHitLists();
 
         if (transform.parent != null &&
@@ -33,6 +30,14 @@ public partial class Spear : MonoBehaviour
                 embeddedEnemy
             );
         }
+    }
+
+    public void StartReturn(
+        Transform player)
+    {
+        ClearRopeAndIgnoredWall();
+
+        InitializeReturnHitTracking();
 
         _playerTransform =
             player;
