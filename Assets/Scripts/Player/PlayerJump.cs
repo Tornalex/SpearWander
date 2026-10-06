@@ -18,7 +18,12 @@ public class PlayerJump : MonoBehaviour
 
     void Update()
     {
-        if (!_player.HasControl) return;
+        if (!_player.HasControl)
+        {
+            _jumpBufferTimer = 0f;
+            _coyoteTimer = 0f;
+            return;
+        }
 
         bool grounded = IsGrounded();
 

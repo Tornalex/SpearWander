@@ -16,7 +16,7 @@ public class PlayerEssence : MonoBehaviour
 
     void Update()
     {
-        if (_player.Input.HealTriggered)
+        if (_player.HasControl && _player.Input.HealTriggered)
         {
             TryHeal();
         }

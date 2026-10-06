@@ -84,6 +84,8 @@ public class Player : MonoBehaviour
 
     public void ResetState()
     {
+        TextBoxUI.Instance?.Close();
+
         Health.ResetState();
         Essence.ResetState();
         Combat.ResetState();
