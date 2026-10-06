@@ -195,10 +195,6 @@ public class GameSceneManager : MonoBehaviour
         Physics2D.SyncTransforms();
         yield return null;
 
-        // Register enemies in this room for death tracking
-        Debug.Log($"[GameSceneManager.ReloadRoomRoutine] Calling RegisterRoom for '{_currentRoomScene}'");
-        DeadEnemyTracker.RegisterRoom(_currentRoomScene);
-
         // Re-fetch player after scene reload (old reference was destroyed)
         player = FindAnyObjectByType<Player>();
         if (player != null)

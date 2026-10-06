@@ -247,6 +247,10 @@ PrefabInstance:
       value: RecallEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 5315335226398174838, guid: ca94c704f04d6814e86fda97081b864f, type: 3}
+      propertyPath: stableIdentity
+      value: GlobalObjectId_V1-2-59a575192c5caa9419ca413d19936112-5315335226398174838-314578011
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315335226398174838, guid: ca94c704f04d6814e86fda97081b864f, type: 3}
       propertyPath: spearDirectionThreshold
       value: 0.95
       objectReference: {fileID: 0}
