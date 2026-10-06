@@ -31,7 +31,7 @@ public class PlayerFeet : MonoBehaviour
         _groundColliders.Add(collision.collider.GetEntityId());
         _isGrounded = true;
 
-        if (_player != null && _player.Pogo != null && _player.Pogo.IsPlunging)
+        if (_player != null && _player.Pogo != null && _player.Pogo.enabled && _player.Pogo.IsPlunging)
         {
             _player.Pogo.OnPogoHit(collision);
         }

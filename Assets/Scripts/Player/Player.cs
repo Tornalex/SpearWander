@@ -41,7 +41,14 @@ public class Player : MonoBehaviour
 
     public bool HasControl => _activeControlReasons.Count == 0;
 
-    public void AddControlRequest(ControlReason reason) => _activeControlReasons.Add(reason);
+    public void AddControlRequest(ControlReason reason)
+    {
+        _activeControlReasons.Add(reason);
+
+        if (RopeClimb != null && RopeClimb.IsClimbing)
+            RopeClimb.StopClimbing();
+    }
+
     public void RemoveControlRequest(ControlReason reason) => _activeControlReasons.Remove(reason);
 
     [Header("Scriptable Objects")]

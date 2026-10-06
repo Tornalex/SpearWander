@@ -152,6 +152,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             _player.AddControlRequest(
                 Player.ControlReason.Death
             );
+            _player.Combat.ResetState();
 
             _player.Collider.enabled = false;
             _player.Rb.bodyType = RigidbodyType2D.Kinematic;
