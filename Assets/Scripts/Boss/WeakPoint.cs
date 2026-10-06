@@ -110,19 +110,29 @@ namespace SpearWander.Boss
         /// </summary>
         public float TakeDamageDirect(int baseDamage, Vector2 hitPoint, Vector2 damageSourcePosition)
         {
-            if (invulnerable) return 0;
+            if (!TryApplyDamageFeedback(baseDamage, hitPoint, damageSourcePosition, out int finalDamage))
+                return 0;
 
-            int finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
+            return finalDamage;
+        }
 
-            // Visual feedback
+        private bool TryApplyDamageFeedback(int baseDamage, Vector2 hitPoint, Vector2 damageSourcePosition, out int finalDamage)
+        {
+            if (invulnerable)
+            {
+                finalDamage = 0;
+                return false;
+            }
+
+            finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
+
+            // Preserve the existing feedback and event order for both damage paths.
             FlashHit();
-
-            // Invoke events
             OnHit?.Invoke();
             OnDamageTaken?.Invoke(finalDamage);
             OnDamageReceived?.Invoke(finalDamage, hitPoint, damageSourcePosition);
 
-            return finalDamage;
+            return true;
         }
 
         private void FlashHit()
@@ -179,17 +189,8 @@ namespace SpearWander.Boss
         /// </summary>
         private void TakeDamageInternal(int baseDamage, Vector2 hitPoint, Vector2 damageSourcePosition)
         {
-            if (invulnerable) return;
-
-            int finalDamage = Mathf.RoundToInt(baseDamage * damageMultiplier);
-
-            // Visual feedback
-            FlashHit();
-
-            // Invoke events
-            OnHit?.Invoke();
-            OnDamageTaken?.Invoke(finalDamage);
-            OnDamageReceived?.Invoke(finalDamage, hitPoint, damageSourcePosition);
+            if (!TryApplyDamageFeedback(baseDamage, hitPoint, damageSourcePosition, out int finalDamage))
+                return;
 
             // Forward damage to the boss
             if (boss != null)
