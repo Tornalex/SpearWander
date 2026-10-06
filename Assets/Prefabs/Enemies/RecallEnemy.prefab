@@ -127,7 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RecallEnemy
   enemyData: {fileID: 11400000, guid: 0882c989109e56d4eb0bbdf240f98860, type: 2}
-  enemyIndex: 0
   roomName: BaseRoom
   isDead: 0
   preferredDistance: 12

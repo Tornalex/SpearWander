@@ -11,6 +11,16 @@ namespace SpearWander.Abilities
         [Header("Optional Override")]
         [SerializeField] private string overridePrompt;
 
+        void Start()
+        {
+            if (abilityData != null &&
+                AbilityManager.Instance != null &&
+                AbilityManager.Instance.IsUnlocked(abilityData.abilityType))
+            {
+                Destroy(gameObject);
+            }
+        }
+
         public void Interact(Player player)
         {
             if (abilityData == null)

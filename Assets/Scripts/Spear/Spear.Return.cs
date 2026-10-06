@@ -11,15 +11,16 @@ public partial class Spear : MonoBehaviour
     [SerializeField] private float returnDuration = 0.5f;
     [SerializeField] private float maxReturnSpeed = 50f;
     [SerializeField] private float catchDistance = 0.7f;    
-    public void StartReturn(
-        Transform player)
+
+    private void ClearRopeAndIgnoredWall()
     {
         DestroyRope();
-
         ResetIgnoredWall();
+    }
 
-        _enemiesHitDuringThrow.Clear();
-        _enemiesHitDuringReturn.Clear();
+    private void InitializeReturnHitTracking()
+    {
+        ClearHitLists();
 
         if (transform.parent != null &&
             transform.parent.TryGetComponent(
@@ -29,6 +30,14 @@ public partial class Spear : MonoBehaviour
                 embeddedEnemy
             );
         }
+    }
+
+    public void StartReturn(
+        Transform player)
+    {
+        ClearRopeAndIgnoredWall();
+
+        InitializeReturnHitTracking();
 
         _playerTransform =
             player;
@@ -58,9 +67,7 @@ public partial class Spear : MonoBehaviour
 
     public void AbortReturn()
     {
-        DestroyRope();
-
-        ResetIgnoredWall();
+        ClearRopeAndIgnoredWall();
 
         currentState =
             SpearState.Dropped;

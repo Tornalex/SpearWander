@@ -16,7 +16,7 @@ public class PlayerEssence : MonoBehaviour
 
     void Update()
     {
-        if (_player.Input.HealTriggered)
+        if (_player.HasControl && _player.Input.HealTriggered)
         {
             TryHeal();
         }
@@ -24,6 +24,8 @@ public class PlayerEssence : MonoBehaviour
 
     public void AddEssenceFromCatch(bool perfectCatch)
     {
+        if (!_player.HasControl) return;
+
         float amountToAdd = perfectCatch ? 40f : _player.EssenceStats.essencePerBaseCatch;
         _currentEssence = Mathf.Clamp(_currentEssence + amountToAdd, 0f, _player.EssenceStats.maxEssence);
     }

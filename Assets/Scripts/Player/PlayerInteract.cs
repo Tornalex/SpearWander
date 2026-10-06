@@ -27,7 +27,7 @@ public class PlayerInteract : MonoBehaviour
             _interactPromptRoot.transform.position = _mainCamera.WorldToScreenPoint(worldPos);
         }
 
-        if (_player.Input.InteractTriggered && _interactablesInRange.Count > 0)
+        if (_player.HasControl && _player.Input.InteractTriggered && _interactablesInRange.Count > 0)
         {
             IInteractable target = _interactablesInRange[_interactablesInRange.Count - 1];
             if (target != null)

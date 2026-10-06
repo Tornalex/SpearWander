@@ -50,10 +50,7 @@ public partial class Spear : MonoBehaviour
 
         _collider.isTrigger = true;
 
-        HasHitEnemy = false;
-
-        _enemiesHitDuringThrow.Clear();
-        _enemiesHitDuringReturn.Clear();
+        InitializeCombatState();
 
         _lastPosition = transform.position;
         _lastVelocity = Vector2.zero;

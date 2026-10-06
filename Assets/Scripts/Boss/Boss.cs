@@ -367,7 +367,6 @@ namespace SpearWander.Boss
             }
 
             // Apply damage (weak point multiplier is already applied by WeakPoint component if hit there)
-            int healthBefore = currentHealth;
             currentHealth -= damage;
 
             // Notify weak point for visual feedback

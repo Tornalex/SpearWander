@@ -10,7 +10,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
     protected int currentHealth;
 
     [Header("Persistent Death Tracking (Auto-Assigned)")]
-    [SerializeField] public int enemyIndex;
+    [SerializeField, HideInInspector] private string stableIdentity;
     [SerializeField] public string roomName;
 
     [HideInInspector] public bool isDead = false;
@@ -33,11 +33,10 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 
         protected virtual void Start()
     {
-        // Auto-register room and get index
+        // Set the room used for persistent death tracking.
         if (GameSceneManager.Instance != null)
         {
             roomName = GameSceneManager.Instance.CurrentRoom;
-            DeadEnemyTracker.RegisterRoom(roomName);
         }
         else
         {
@@ -45,7 +44,7 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         }
 
         // Check if this enemy should be dead
-        if (DeadEnemyTracker.IsDead(roomName, enemyIndex))
+        if (DeadEnemyTracker.IsDead(roomName, stableIdentity))
         {
             Destroy(gameObject);
         }
@@ -85,8 +84,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         foreach (Spear spear in attachedSpears) spear.OnEnemyDeath();
 
         isDead = true;
-        Debug.Log($"[BaseEnemy.Die] {name} - roomName='{roomName}', enemyIndex={enemyIndex}");
-        DeadEnemyTracker.MarkDead(roomName, enemyIndex);
+        Debug.Log($"[BaseEnemy.Die] {name} - roomName='{roomName}', stableIdentity='{stableIdentity}'");
+        DeadEnemyTracker.MarkDead(roomName, stableIdentity);
         Destroy(gameObject);
     }
 }

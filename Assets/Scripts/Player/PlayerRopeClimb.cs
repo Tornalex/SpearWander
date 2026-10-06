@@ -147,7 +147,7 @@ public class PlayerRopeClimb : MonoBehaviour
         transform.position = pos;
     }
 
-    void StopClimbing()
+    public void StopClimbing()
     {
         if (!IsClimbing) return;
 
