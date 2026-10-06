@@ -195,13 +195,6 @@ public class GameSceneManager : MonoBehaviour
         Physics2D.SyncTransforms();
         yield return null;
 
-        // Re-fetch player after scene reload (old reference was destroyed)
-        player = FindAnyObjectByType<Player>();
-        if (player != null)
-        {
-            playerTransform = player.transform;
-        }
-
         if (overrideSpawn.HasValue)
         {
             playerTransform.position = overrideSpawn.Value;
@@ -232,8 +225,8 @@ public class GameSceneManager : MonoBehaviour
 
         if (player != null) player.RemoveControlRequest(Player.ControlReason.Death);
 
-        // Restore abilities after scene reload (abilities are permanent)
-        if (player != null && AbilityManager.Instance != null)
+        // Restore abilities after scene reload when the player state was not reset.
+        if (!resetState && player != null && AbilityManager.Instance != null)
         {
             AbilityManager.Instance.RestoreAbilities(player);
         }
