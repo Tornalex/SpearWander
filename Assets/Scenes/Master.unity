@@ -665,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameSceneManager
   playerTransform: {fileID: 928156122}
-  firstRoomSceneName: Parallax Testing
+  firstRoomSceneName: Playground
   firstRoomDoorID: Spawn
   cameraConfiner: {fileID: 1832488581}
   transitionCanvasGroup: {fileID: 1662714927}
@@ -2554,6 +2554,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5441092156383267662, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6286765099597975374, guid: 7a951fb9d51b6314db5ebd114d340b49, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3408,7 +3412,8 @@ PrefabInstance:
       propertyPath: Lookahead.Smoothing
       value: 15
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1895298279763228519, guid: 18b9e1a9d0732a0469455e92982ea462, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

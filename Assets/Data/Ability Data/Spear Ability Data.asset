@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpearWander.Abilities.AbilityData
   abilityType: 1
   displayName: Spear
-  description: Left Mouse to throw. Right Mouse to recall.
+  description: Press Fire to throw; press Fire again to recall.
   promptMessage: Interact - E
   destroyOnPickup: 1
   componentName: PlayerCombat

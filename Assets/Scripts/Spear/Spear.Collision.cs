@@ -77,17 +77,33 @@ private void OnCollisionEnter2D(
                 ? _lastVelocity.normalized
                 : (Vector2)transform.right;
 
-        RaycastHit2D hit =
-            Physics2D.Raycast(
+        RaycastHit2D[] hits =
+            Physics2D.RaycastAll(
                 hitPoint - flyDir * 0.5f,
                 flyDir,
                 tipRaycastLength,
                 1 << other.gameObject.layer
             );
 
+        RaycastHit2D actualColliderHit = default;
+        bool foundActualColliderHit = false;
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != other)
+                continue;
+
+            if (!foundActualColliderHit ||
+                hit.distance < actualColliderHit.distance)
+            {
+                actualColliderHit = hit;
+                foundActualColliderHit = true;
+            }
+        }
+
         Vector2 normal =
-            hit.collider != null
-                ? hit.normal
+            foundActualColliderHit
+                ? actualColliderHit.normal
                 : Vector2.up;
 
         ProcessHit(

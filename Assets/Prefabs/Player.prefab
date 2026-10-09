@@ -511,7 +511,6 @@ MonoBehaviour:
   spearPrefab: {fileID: 6286952566564233334, guid: 91dcab081fd92fe42a305306c597e6c1, type: 3}
   firePoint: {fileID: 4615831717237239827}
   aimIndicator: {fileID: 8008089452326454830}
-  recallDelayFrames: 15
 --- !u!114 &2713314442468354696
 MonoBehaviour:
   m_ObjectHideFlags: 0

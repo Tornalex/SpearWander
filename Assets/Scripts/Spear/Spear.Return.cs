@@ -3,6 +3,7 @@ using UnityEngine;
 public partial class Spear : MonoBehaviour
 {
     private float _returnTimer;
+    private bool _ignorePlayerCollisionsBeforeReturn;
 
     private Transform _playerTransform;
 
@@ -22,19 +23,29 @@ public partial class Spear : MonoBehaviour
     {
         ClearHitLists();
 
-        if (transform.parent != null &&
-            transform.parent.TryGetComponent(
+        Transform embeddedTarget =
+            _embeddedTargetTransform != null
+                ? _embeddedTargetTransform
+                : transform.parent;
+
+        if (embeddedTarget != null &&
+            embeddedTarget.TryGetComponent(
                 out IDamageable embeddedEnemy))
         {
             _enemiesHitDuringReturn.Add(
                 embeddedEnemy
             );
         }
+
+        _embeddedTargetTransform = null;
     }
 
     public void StartReturn(
         Transform player)
     {
+        _ignorePlayerCollisionsBeforeReturn =
+            _ignorePlayerCollisions;
+
         ClearRopeAndIgnoredWall();
 
         InitializeReturnHitTracking();
@@ -50,6 +61,8 @@ public partial class Spear : MonoBehaviour
 
         _lastPosition =
             transform.position;
+
+        NotifyEmbeddableRemoved();
 
         transform.SetParent(null);
 
@@ -83,6 +96,10 @@ public partial class Spear : MonoBehaviour
 
         _collider.isTrigger =
             false;
+
+        IgnoreAllPlayerColliders(
+            _ignorePlayerCollisionsBeforeReturn
+        );
     }
 
     private void MoveTowardsPlayer()

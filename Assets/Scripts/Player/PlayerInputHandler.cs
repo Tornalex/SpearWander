@@ -112,8 +112,10 @@ public class PlayerInputHandler : MonoBehaviour
             FireTriggered =
                 _actions.Player.Fire.WasPerformedThisFrame();
 
+            // Detect the physical press immediately, independently of the
+            // Gamepad binding's Hold interaction.
             RecallTriggered =
-                _actions.Player.Recall.WasPerformedThisFrame();
+                _actions.Player.Recall.WasPressedThisFrame();
 
             DownTriggered =
                 _actions.Player.Down.WasPerformedThisFrame();

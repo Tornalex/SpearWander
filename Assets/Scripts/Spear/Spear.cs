@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 
+[DefaultExecutionOrder(100)]
 public partial class Spear : MonoBehaviour
 {
     public enum SpearState
@@ -35,6 +36,7 @@ public partial class Spear : MonoBehaviour
 
     void OnDestroy()
     {
+        NotifyEmbeddableRemoved();
         DestroyRope();
     }
 
@@ -88,6 +90,15 @@ public partial class Spear : MonoBehaviour
         if (currentState == SpearState.Returning)
         {
             MoveTowardsPlayer();
+        }
+
+        if (currentState == SpearState.Embedded)
+        {
+            MoveEmbeddedWithTarget();
+        }
+        else
+        {
+            _embeddedTargetRigidbody = null;
         }
     }
 }

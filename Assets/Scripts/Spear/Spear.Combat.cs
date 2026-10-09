@@ -68,14 +68,34 @@ private void ProcessHit(
             currentState == SpearState.BouncedOff ||
             currentState == SpearState.Dropped)
         {
+            IEmbeddable embeddable =
+                other.GetComponentInParent<IEmbeddable>();
+
+            Component embeddableComponent =
+                embeddable as Component;
+
             StickToTarget(
-                null,
+                embeddableComponent != null
+                    ? embeddableComponent.transform
+                    : null,
                 hitPoint,
                 other,
                 normal
             );
 
+            if (embeddableComponent != null)
+                _currentEmbeddable = embeddable;
+
             CreateRope();
+
+            if (embeddableComponent != null)
+            {
+                embeddable.OnSpearEmbedded(
+                    this,
+                    hitPoint,
+                    normal
+                );
+            }
         }
     }
 }
@@ -162,6 +182,8 @@ private void ProcessHit(
     public void OnEnemyDeath()
     {
         ClearRopeAndIgnoredWall();
+
+        NotifyEmbeddableRemoved();
 
         transform.SetParent(null);
 

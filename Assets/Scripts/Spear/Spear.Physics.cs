@@ -18,9 +18,15 @@ public partial class Spear : MonoBehaviour
     private int _spearLayer;
 
     private Collider2D _ignoredEnvironmentCollider;
+    private IEmbeddable _currentEmbeddable;
+    private Transform _embeddedTargetTransform;
+    private Rigidbody2D _embeddedTargetRigidbody;
+    private Vector3 _embeddedTargetLocalPosition;
+    private Quaternion _embeddedTargetLocalRotation;
 
     private Vector2 _lastPosition;
     private Vector2 _lastVelocity;
+    private bool _ignorePlayerCollisions;
 
     private void InitializePhysics()
     {
@@ -81,6 +87,10 @@ public partial class Spear : MonoBehaviour
                     raycastDistance
                 );
 
+            RaycastHit2D nearestHit = default;
+            float nearestHitDistance = float.PositiveInfinity;
+            EntityId nearestHitColliderId = default;
+
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.collider == null)
@@ -108,10 +118,24 @@ public partial class Spear : MonoBehaviour
                 if (hit.collider.CompareTag(directionChangerTag))
                     continue;
 
+                EntityId colliderId = hit.collider.GetEntityId();
+
+                if (hit.distance < nearestHitDistance ||
+                    (hit.distance == nearestHitDistance &&
+                     colliderId.CompareTo(nearestHitColliderId) < 0))
+                {
+                    nearestHit = hit;
+                    nearestHitDistance = hit.distance;
+                    nearestHitColliderId = colliderId;
+                }
+            }
+
+            if (nearestHit.collider != null)
+            {
                 ProcessHit(
-                    hit.collider,
-                    hit.point,
-                    hit.normal
+                    nearestHit.collider,
+                    nearestHit.point,
+                    nearestHit.normal
                 );
 
                 return;
@@ -128,6 +152,9 @@ public partial class Spear : MonoBehaviour
         Collider2D surfaceCollider,
         Vector2 surfaceNormal)
     {
+        _embeddedTargetTransform = target;
+        _embeddedTargetRigidbody = null;
+
         currentState =
             SpearState.Embedded;
 
@@ -143,34 +170,23 @@ public partial class Spear : MonoBehaviour
         Vector2 embedDirection =
             surfaceNormal;
 
-        if (target == null)
+        bool isWall =
+            Mathf.Abs(surfaceNormal.x) >
+            Mathf.Abs(surfaceNormal.y);
+
+        if (isWall)
         {
-            bool isWall =
-                Mathf.Abs(surfaceNormal.x) >
-                Mathf.Abs(surfaceNormal.y);
+            float targetAngle =
+                surfaceNormal.x > 0
+                    ? 180f
+                    : 0f;
 
-            if (isWall)
-            {
-                embedDirection =
-                    surfaceNormal;
-
-                float targetAngle =
-                    surfaceNormal.x > 0
-                        ? 180f
-                        : 0f;
-
-                transform.rotation =
-                    Quaternion.Euler(
-                        0,
-                        0,
-                        targetAngle
-                    );
-            }
-            else
-            {
-                embedDirection =
-                    surfaceNormal;
-            }
+            transform.rotation =
+                Quaternion.Euler(
+                    0,
+                    0,
+                    targetAngle
+                );
         }
 
         Vector2 spearForward =
@@ -205,37 +221,123 @@ public partial class Spear : MonoBehaviour
 
         if (target != null)
         {
-            transform.SetParent(
-                target
-            );
+            Rigidbody2D targetRigidbody =
+                target.GetComponentInParent<Rigidbody2D>();
 
-            _collider.isTrigger =
-                true;
-        }
-        else
-        {
-            _collider.isTrigger =
-                false;
-
-            if (surfaceCollider != null)
+            if (targetRigidbody != null &&
+                targetRigidbody.bodyType != RigidbodyType2D.Static)
             {
-                _ignoredEnvironmentCollider =
-                    surfaceCollider;
+                Transform targetBodyTransform =
+                    targetRigidbody.transform;
 
-                Physics2D.IgnoreCollision(
-                    _collider,
-                    _ignoredEnvironmentCollider,
-                    true
+                _embeddedTargetRigidbody =
+                    targetRigidbody;
+
+                _embeddedTargetLocalPosition =
+                    targetBodyTransform.InverseTransformPoint(
+                        transform.position
+                    );
+
+                _embeddedTargetLocalRotation =
+                    Quaternion.Inverse(targetBodyTransform.rotation) *
+                    transform.rotation;
+
+                // Avoid nesting this Rigidbody2D under the moving target body.
+                transform.SetParent(null, true);
+            }
+            else
+            {
+                transform.SetParent(
+                    target
                 );
             }
-
-            IgnoreAllPlayerColliders(false);
         }
+
+        _collider.isTrigger =
+            false;
+
+        if (surfaceCollider != null)
+        {
+            _ignoredEnvironmentCollider =
+                surfaceCollider;
+
+            Physics2D.IgnoreCollision(
+                _collider,
+                _ignoredEnvironmentCollider,
+                true
+            );
+        }
+
+        IgnoreAllPlayerColliders(false);
+    }
+
+    private void MoveEmbeddedWithTarget()
+    {
+        if (_embeddedTargetRigidbody == null ||
+            !_embeddedTargetRigidbody.simulated)
+        {
+            return;
+        }
+
+        float fixedDeltaTime =
+            Time.fixedDeltaTime;
+
+        Transform targetTransform =
+            _embeddedTargetRigidbody.transform;
+
+        float angularStep =
+            _embeddedTargetRigidbody.angularVelocity *
+            fixedDeltaTime;
+
+        Quaternion targetRotationStep =
+            Quaternion.Euler(0f, 0f, angularStep);
+
+        Vector2 currentTargetOffset =
+            (Vector2)targetTransform.TransformPoint(
+                _embeddedTargetLocalPosition
+            ) -
+            _embeddedTargetRigidbody.position;
+
+        Vector2 nextPosition =
+            _embeddedTargetRigidbody.position +
+            _embeddedTargetRigidbody.linearVelocity *
+            fixedDeltaTime +
+            (Vector2)(targetRotationStep * currentTargetOffset);
+
+        Quaternion nextRotation =
+            targetRotationStep *
+            targetTransform.rotation *
+            _embeddedTargetLocalRotation;
+
+        _rb.MovePosition(nextPosition);
+        _rb.MoveRotation(nextRotation.eulerAngles.z);
+    }
+
+    private void NotifyEmbeddableRemoved()
+    {
+        IEmbeddable embeddable =
+            _currentEmbeddable;
+
+        _currentEmbeddable = null;
+
+        if (embeddable != null)
+        {
+            Component embeddableComponent =
+                embeddable as Component;
+
+            if (embeddableComponent != null)
+                embeddable.OnSpearRemoved(this);
+        }
+
+        _embeddedTargetTransform = null;
+        _embeddedTargetRigidbody = null;
     }
 
     private void IgnoreAllPlayerColliders(
         bool ignore)
     {
+        _ignorePlayerCollisions = ignore;
+
         if (_playerCollider == null)
             return;
 

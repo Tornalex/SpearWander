@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isPlayerKnockedBack;
     private float _knockbackControlTimer;
+    private float _airborneSupportMomentumX;
 
     public bool IsForcedWalk { get; set; }
 
@@ -18,6 +19,35 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         if (IsForcedWalk) return;
+
+        bool isGrounded = _player.Feet.IsGrounded();
+        float groundVelocityX = 0f;
+        float groundVelocityY = 0f;
+        if (isGrounded)
+        {
+            Vector2 groundVelocity = _player.Feet.GroundVelocity;
+            groundVelocityX = groundVelocity.x;
+            groundVelocityY = groundVelocity.y;
+            _airborneSupportMomentumX = groundVelocityX;
+        }
+
+        // Ground motion is sampled only while supported. In the air, retain
+        // the last support velocity as launch momentum, not ongoing carry.
+        float supportVelocityX = isGrounded
+            ? groundVelocityX
+            : _airborneSupportMomentumX;
+
+        float playerVelocityY = _player.Rb.linearVelocity.y;
+        if (isGrounded && Mathf.Abs(groundVelocityY) > 0.001f)
+        {
+            bool isJumpingUpward =
+                playerVelocityY > 0f &&
+                (playerVelocityY > groundVelocityY ||
+                 _player.Input.JumpTriggered);
+
+            if (!isJumpingUpward)
+                playerVelocityY = groundVelocityY;
+        }
 
         float moveInput = _player.Input.MoveInput.x;
 
@@ -85,8 +115,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 _player.Rb.linearVelocity =
                     new Vector2(
-                        0f,
-                        _player.Rb.linearVelocity.y
+                        isGrounded ? supportVelocityX : 0f,
+                        playerVelocityY
                     );
             }
 
@@ -111,8 +141,8 @@ public class PlayerMovement : MonoBehaviour
 
         _player.Rb.linearVelocity =
             new Vector2(
-                moveInput * targetSpeed,
-                _player.Rb.linearVelocity.y
+                moveInput * targetSpeed + supportVelocityX,
+                playerVelocityY
             );
 
         if (Mathf.Abs(moveInput) > 0.1f)
