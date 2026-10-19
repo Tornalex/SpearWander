@@ -76,6 +76,7 @@ public partial class Spear : MonoBehaviour
             true;
 
         IgnoreAllPlayerColliders(true);
+        RestoreFloorEmbeddedPlayerCollisionOverride();
     }
 
     public void AbortReturn()

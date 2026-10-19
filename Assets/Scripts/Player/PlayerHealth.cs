@@ -95,12 +95,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // IDamageable
     // ============================================================
 
-    public void TakeDamage(
+    public bool TakeDamage(
         int amount,
         Vector2 hitPoint,
         Vector2 damageSourcePosition)
     {
-        TakeDamage(amount, damageSourcePosition);
+        return TakeDamage(amount, damageSourcePosition);
     }
 
 
@@ -108,13 +108,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // PLAYER DAMAGE
     // ============================================================
 
-        public void TakeDamage(int amount, Vector2 sourcePos)
+        public bool TakeDamage(int amount, Vector2 sourcePos)
     {
         if (_currentHealth <= 0)
-            return;
+            return false;
 
         if (_iFramesTimer > 0)
-            return;
+            return false;
 
         _currentHealth -= amount;
 
@@ -178,6 +178,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
                 ui.Show();
             }
         }
+
+        return amount > 0;
     }
 
 

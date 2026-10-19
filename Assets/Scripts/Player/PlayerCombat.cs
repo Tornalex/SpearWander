@@ -122,7 +122,7 @@ public class PlayerCombat : MonoBehaviour
 
             dir =
                 ((Vector2)mousePos -
-                 (Vector2)transform.position).normalized;
+                 (Vector2)firePoint.position).normalized;
         }
 
         if (dir.sqrMagnitude > 0.01f)
@@ -230,6 +230,7 @@ public class PlayerCombat : MonoBehaviour
         if (_currentSpear != null)
         {
             _currentSpear.OnSpearReturned -= CatchSpear;
+            Destroy(_currentSpear.gameObject);
         }
     }
 

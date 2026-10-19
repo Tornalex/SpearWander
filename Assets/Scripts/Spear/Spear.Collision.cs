@@ -109,7 +109,8 @@ private void OnCollisionEnter2D(
         ProcessHit(
             other,
             hitPoint,
-            normal
+            normal,
+            foundActualColliderHit
         );
     }
 

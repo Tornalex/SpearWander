@@ -175,11 +175,11 @@ namespace SpearWander.Boss
         /// Implements IDamageable interface for spear collision detection.
         /// Forwards damage to the boss with weak point multiplier.
         /// </summary>
-        public void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
+        public bool TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
         {
             // This is called by the spear when it hits the weak point collider
             // Forward to the internal method with multiplier
-            TakeDamageInternal(damage, hitPoint, damageSourcePosition);
+            return TakeDamageInternal(damage, hitPoint, damageSourcePosition);
         }
 
         /// <summary>
@@ -187,16 +187,18 @@ namespace SpearWander.Boss
         /// Called by both IDamageable interface and direct calls.
         /// Forwards damage to the boss.
         /// </summary>
-        private void TakeDamageInternal(int baseDamage, Vector2 hitPoint, Vector2 damageSourcePosition)
+        private bool TakeDamageInternal(int baseDamage, Vector2 hitPoint, Vector2 damageSourcePosition)
         {
             if (!TryApplyDamageFeedback(baseDamage, hitPoint, damageSourcePosition, out int finalDamage))
-                return;
+                return false;
 
             // Forward damage to the boss
             if (boss != null)
             {
-                boss.TakeDamage(finalDamage, hitPoint, damageSourcePosition);
+                return boss.TakeDamage(finalDamage, hitPoint, damageSourcePosition);
             }
+
+            return false;
         }
 
         #endregion

@@ -3,8 +3,8 @@ public interface IDamageable
 {
     /// <summary>
     /// Dispatches a damage amount and hit context. The implementation owns validation,
-    /// invulnerability rules, health changes, feedback, and death behavior; the supplied
-    /// amount is not guaranteed to equal the health lost.
+    /// invulnerability rules, health changes, feedback, and death behavior. Returns true
+    /// only when positive damage was accepted and applied.
     /// </summary>
-    void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition); 
+    bool TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition);
 }

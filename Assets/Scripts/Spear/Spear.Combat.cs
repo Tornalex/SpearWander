@@ -42,7 +42,8 @@ public partial class Spear : MonoBehaviour
 private void ProcessHit(
     Collider2D other,
     Vector2 hitPoint,
-    Vector2 normal)
+    Vector2 normal,
+    bool hasValidSurfaceNormal = true)
 {
     if (currentState == SpearState.Embedded)
         return;
@@ -80,7 +81,8 @@ private void ProcessHit(
                     : null,
                 hitPoint,
                 other,
-                normal
+                normal,
+                hasValidSurfaceNormal
             );
 
             if (embeddableComponent != null)
@@ -111,13 +113,14 @@ private void ProcessHit(
 
             _enemiesHitDuringReturn.Add(damageable);
 
-            HasHitEnemy = true;
-
-            damageable.TakeDamage(
+            bool recallDamageApplied = damageable.TakeDamage(
                 _recallDamage,
                 hitPoint,
                 transform.position
             );
+
+            if (recallDamageApplied)
+                HasHitEnemy = true;
 
             return false;
         }
@@ -127,13 +130,14 @@ private void ProcessHit(
 
         _enemiesHitDuringThrow.Add(damageable);
 
-        HasHitEnemy = true;
-
-        damageable.TakeDamage(
+        bool impactDamageApplied = damageable.TakeDamage(
             _impactDamage,
             hitPoint,
             transform.position
         );
+
+        if (impactDamageApplied)
+            HasHitEnemy = true;
 
         return true;
     }
@@ -212,5 +216,7 @@ private void ProcessHit(
 
         _collider.isTrigger =
             false;
+
+        RestoreFloorEmbeddedPlayerCollisionOverride();
     }
 }

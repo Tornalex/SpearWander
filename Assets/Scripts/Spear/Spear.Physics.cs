@@ -1,7 +1,15 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public partial class Spear : MonoBehaviour
 {
+    private struct PlayerCollisionPairState
+    {
+        public Collider2D spearCollider;
+        public Collider2D playerCollider;
+        public bool wasIgnored;
+    }
+
     [Header("Physics Settings")]
     [Tooltip("Tag assigned to camera boundary triggers")]
     [SerializeField] private string cameraBoundsTag = "CameraBounds";
@@ -21,12 +29,15 @@ public partial class Spear : MonoBehaviour
     private IEmbeddable _currentEmbeddable;
     private Transform _embeddedTargetTransform;
     private Rigidbody2D _embeddedTargetRigidbody;
+    private bool _embeddedTargetUsesRigidbody;
     private Vector3 _embeddedTargetLocalPosition;
     private Quaternion _embeddedTargetLocalRotation;
 
     private Vector2 _lastPosition;
     private Vector2 _lastVelocity;
     private bool _ignorePlayerCollisions;
+    private bool _floorEmbeddedPlayerCollisionOverride;
+    private readonly List<PlayerCollisionPairState> _floorEmbeddedPlayerCollisionPairs = new();
 
     private void InitializePhysics()
     {
@@ -87,56 +98,107 @@ public partial class Spear : MonoBehaviour
                     raycastDistance
                 );
 
-            RaycastHit2D nearestHit = default;
-            float nearestHitDistance = float.PositiveInfinity;
-            EntityId nearestHitColliderId = default;
+            Collider2D[] processedColliders =
+                new Collider2D[hits.Length];
+            int processedColliderCount = 0;
 
-            foreach (RaycastHit2D hit in hits)
+            while (true)
             {
-                if (hit.collider == null)
-                    continue;
+                RaycastHit2D nearestHit = default;
+                float nearestHitDistance = float.PositiveInfinity;
+                EntityId nearestHitColliderId = default;
 
-                if (hit.collider == _collider)
-                    continue;
+                foreach (RaycastHit2D hit in hits)
+                {
+                    if (hit.collider == null)
+                        continue;
 
-                if (hit.collider.gameObject.layer == _spearLayer)
-                    continue;
+                    if (hit.collider == _collider)
+                        continue;
 
-                if (hit.transform.IsChildOf(transform))
-                    continue;
+                    if (hit.collider.gameObject.layer == _spearLayer)
+                        continue;
 
-                if (_playerCollider != null &&
-                    hit.collider.transform.IsChildOf(
-                        _playerCollider.transform))
+                    if (hit.transform.IsChildOf(transform))
+                        continue;
+
+                    if (_playerCollider != null &&
+                        hit.collider.transform.IsChildOf(
+                            _playerCollider.transform))
+                    {
+                        continue;
+                    }
+
+                    if (hit.collider.CompareTag(cameraBoundsTag))
+                        continue;
+
+                    if (hit.collider.CompareTag(directionChangerTag))
+                        continue;
+
+                    if (currentState == SpearState.Returning &&
+                        !hit.collider.TryGetComponent(
+                            out IDamageable _))
+                    {
+                        continue;
+                    }
+
+                    bool colliderAlreadyProcessed = false;
+                    for (int i = 0; i < processedColliderCount; i++)
+                    {
+                        if (processedColliders[i] == hit.collider)
+                        {
+                            colliderAlreadyProcessed = true;
+                            break;
+                        }
+                    }
+
+                    if (colliderAlreadyProcessed)
+                        continue;
+
+                    EntityId colliderId = hit.collider.GetEntityId();
+
+                    if (hit.distance < nearestHitDistance ||
+                        (hit.distance == nearestHitDistance &&
+                         colliderId.CompareTo(nearestHitColliderId) < 0))
+                    {
+                        nearestHit = hit;
+                        nearestHitDistance = hit.distance;
+                        nearestHitColliderId = colliderId;
+                    }
+                }
+
+                if (nearestHit.collider == null)
+                    break;
+
+                processedColliders[processedColliderCount++] =
+                    nearestHit.collider;
+
+                if (currentState == SpearState.Returning)
+                {
+                    ProcessHit(
+                        nearestHit.collider,
+                        nearestHit.point,
+                        nearestHit.normal
+                    );
+
+                    continue;
+                }
+
+                if (nearestHit.collider.TryGetComponent(
+                        out IDamageable damageable) &&
+                    _enemiesHitDuringThrow.Contains(damageable))
                 {
                     continue;
                 }
 
-                if (hit.collider.CompareTag(cameraBoundsTag))
-                    continue;
-
-                if (hit.collider.CompareTag(directionChangerTag))
-                    continue;
-
-                EntityId colliderId = hit.collider.GetEntityId();
-
-                if (hit.distance < nearestHitDistance ||
-                    (hit.distance == nearestHitDistance &&
-                     colliderId.CompareTo(nearestHitColliderId) < 0))
-                {
-                    nearestHit = hit;
-                    nearestHitDistance = hit.distance;
-                    nearestHitColliderId = colliderId;
-                }
-            }
-
-            if (nearestHit.collider != null)
-            {
                 ProcessHit(
                     nearestHit.collider,
                     nearestHit.point,
                     nearestHit.normal
                 );
+
+                _lastPosition =
+                    currentPosition;
 
                 return;
             }
@@ -150,10 +212,16 @@ public partial class Spear : MonoBehaviour
         Transform target,
         Vector2 hitPoint,
         Collider2D surfaceCollider,
-        Vector2 surfaceNormal)
+        Vector2 surfaceNormal,
+        bool hasValidSurfaceNormal)
     {
         _embeddedTargetTransform = target;
         _embeddedTargetRigidbody = null;
+
+        bool isUpwardFloorSurface =
+            hasValidSurfaceNormal &&
+            surfaceNormal.sqrMagnitude > 0.0001f &&
+            surfaceNormal.y > Mathf.Abs(surfaceNormal.x);
 
         currentState =
             SpearState.Embedded;
@@ -189,16 +257,38 @@ public partial class Spear : MonoBehaviour
                 );
         }
 
-        Vector2 spearForward =
-            transform.right;
+        BoxCollider2D boxCollider =
+            _collider as BoxCollider2D;
 
-        float spearHalfLength =
-            _collider.bounds.size.x *
-            0.5f;
+        Vector2 colliderOffset;
+        Vector2 spearHalfLength;
+
+        if (boxCollider != null)
+        {
+            colliderOffset =
+                transform.TransformVector(
+                    (Vector3)boxCollider.offset
+                );
+
+            spearHalfLength =
+                transform.TransformVector(
+                    Vector3.right *
+                    (boxCollider.size.x * 0.5f)
+                );
+        }
+        else
+        {
+            // Preserve the previous bounds-based placement for non-box colliders.
+            colliderOffset = Vector2.zero;
+            spearHalfLength =
+                transform.right *
+                (_collider.bounds.size.x * 0.5f);
+        }
 
         Vector2 targetPosition =
             hitPoint
-            - spearForward * spearHalfLength
+            - colliderOffset
+            - spearHalfLength
             + embedDirection * embedDepth;
 
         transform.position =
@@ -232,6 +322,8 @@ public partial class Spear : MonoBehaviour
 
                 _embeddedTargetRigidbody =
                     targetRigidbody;
+                _embeddedTargetUsesRigidbody =
+                    true;
 
                 _embeddedTargetLocalPosition =
                     targetBodyTransform.InverseTransformPoint(
@@ -269,13 +361,22 @@ public partial class Spear : MonoBehaviour
         }
 
         IgnoreAllPlayerColliders(false);
+
+        if (isUpwardFloorSurface)
+            IgnorePlayerCollisionWithAllSpearColliders();
     }
 
     private void MoveEmbeddedWithTarget()
     {
-        if (_embeddedTargetRigidbody == null ||
+        if (!_embeddedTargetUsesRigidbody)
+            return;
+
+        if (_embeddedTargetTransform == null ||
+            !_embeddedTargetTransform.gameObject.activeInHierarchy ||
+            _embeddedTargetRigidbody == null ||
             !_embeddedTargetRigidbody.simulated)
         {
+            DetachFromEmbeddedTarget();
             return;
         }
 
@@ -331,6 +432,111 @@ public partial class Spear : MonoBehaviour
 
         _embeddedTargetTransform = null;
         _embeddedTargetRigidbody = null;
+        _embeddedTargetUsesRigidbody = false;
+    }
+
+    private void OnDisable()
+    {
+        if (currentState == SpearState.Embedded &&
+            transform.parent != null &&
+            !transform.parent.gameObject.activeInHierarchy)
+        {
+            DetachFromEmbeddedTarget();
+        }
+    }
+
+    private void DetachFromEmbeddedTarget()
+    {
+        ClearRopeAndIgnoredWall();
+        NotifyEmbeddableRemoved();
+        transform.SetParent(null, true);
+
+        currentState =
+            SpearState.Dropped;
+
+        _rb.bodyType =
+            RigidbodyType2D.Dynamic;
+        _rb.gravityScale =
+            1.5f;
+        _rb.linearDamping =
+            2f;
+        _rb.linearVelocity =
+            Vector2.zero;
+        _rb.angularVelocity =
+            0f;
+
+        _collider.isTrigger =
+            false;
+
+        IgnoreAllPlayerColliders(false);
+        RestoreFloorEmbeddedPlayerCollisionOverride();
+    }
+
+    private void IgnorePlayerCollisionWithAllSpearColliders()
+    {
+        if (_floorEmbeddedPlayerCollisionOverride ||
+            _playerCollider == null)
+        {
+            return;
+        }
+
+        Collider2D[] spearColliders =
+            GetComponentsInChildren<Collider2D>();
+        Collider2D[] playerColliders =
+            _playerCollider.GetComponentsInChildren<Collider2D>();
+
+        _floorEmbeddedPlayerCollisionPairs.Clear();
+
+        foreach (Collider2D spearCollider in spearColliders)
+        {
+            foreach (Collider2D playerCollider in playerColliders)
+            {
+                if (spearCollider == null || playerCollider == null)
+                    continue;
+
+                _floorEmbeddedPlayerCollisionPairs.Add(
+                    new PlayerCollisionPairState
+                    {
+                        spearCollider = spearCollider,
+                        playerCollider = playerCollider,
+                        wasIgnored = Physics2D.GetIgnoreCollision(
+                            spearCollider,
+                            playerCollider)
+                    });
+
+                Physics2D.IgnoreCollision(
+                    spearCollider,
+                    playerCollider,
+                    true);
+            }
+        }
+
+        _floorEmbeddedPlayerCollisionOverride = true;
+    }
+
+    private void RestoreFloorEmbeddedPlayerCollisionOverride()
+    {
+        if (!_floorEmbeddedPlayerCollisionOverride)
+            return;
+
+        foreach (PlayerCollisionPairState pair in _floorEmbeddedPlayerCollisionPairs)
+        {
+            if (pair.spearCollider == null || pair.playerCollider == null)
+                continue;
+
+            bool shouldIgnore =
+                pair.spearCollider == _collider
+                    ? _ignorePlayerCollisions
+                    : pair.wasIgnored;
+
+            Physics2D.IgnoreCollision(
+                pair.spearCollider,
+                pair.playerCollider,
+                shouldIgnore);
+        }
+
+        _floorEmbeddedPlayerCollisionPairs.Clear();
+        _floorEmbeddedPlayerCollisionOverride = false;
     }
 
     private void IgnoreAllPlayerColliders(

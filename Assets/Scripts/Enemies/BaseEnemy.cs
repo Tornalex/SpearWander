@@ -50,9 +50,9 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         }
     }
 
-    public virtual void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
+    public virtual bool TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
     {
-        if (isDead) return;
+        if (isDead) return false;
 
         currentHealth -= damage;
 
@@ -69,6 +69,8 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         if (hitFlash != null) hitFlash.Flash();
 
         if (currentHealth <= 0) Die();
+
+        return damage > 0;
     }
 
     public virtual float GetBounceMultiplier() => 1f;

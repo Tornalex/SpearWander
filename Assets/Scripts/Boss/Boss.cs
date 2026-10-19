@@ -355,9 +355,9 @@ namespace SpearWander.Boss
 
         #region Damage & Death
 
-        public virtual void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
+        public virtual bool TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
         {
-            if (isDead) return;
+            if (isDead) return false;
 
             // Check if hit was on weak point
             bool hitWeakPoint = false;
@@ -396,6 +396,8 @@ namespace SpearWander.Boss
             {
                 Die();
             }
+
+            return damage > 0;
         }
 
         protected virtual void Die()

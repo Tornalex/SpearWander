@@ -51,15 +51,18 @@ public class FlyingEnemy : BaseEnemy
         FlipSprite();
     }
 
-    public override void TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
+    public override bool TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
     {
-        base.TakeDamage(damage, hitPoint, damageSourcePosition); // Esegue logica base (vita, flash, knockback)
+        bool damageApplied =
+            base.TakeDamage(damage, hitPoint, damageSourcePosition); // Esegue logica base (vita, flash, knockback)
 
         if (!isDead)
         {
             ApplyStun();
             if (Vector2.Distance(transform.position, _player.position) < loseRadius) _isChasing = true;
         }
+
+        return damageApplied;
     }
 
     public override void OnPogoBounce()
