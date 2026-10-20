@@ -1,0 +1,1443 @@
+fileFormatVersion: 2
+guid: 4a49b11884befed4e9d98adf1f676c6a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1186325147569142951
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_0
+  - first:
+      213: -546877151051099642
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_1
+  - first:
+      213: -2587528668395093833
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_2
+  - first:
+      213: 7004407733378277863
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_3
+  - first:
+      213: -2507563261165267912
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_4
+  - first:
+      213: 9177261602801543749
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_5
+  - first:
+      213: 8158087954561882387
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_6
+  - first:
+      213: 5052142174789946822
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_7
+  - first:
+      213: -5433697402272485277
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_8
+  - first:
+      213: 8378741404616852856
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_9
+  - first:
+      213: 6188115163334601971
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_10
+  - first:
+      213: -1014880526005326922
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_11
+  - first:
+      213: -3933990555275339703
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_12
+  - first:
+      213: 475693047832803671
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_13
+  - first:
+      213: -6948030683127266990
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_14
+  - first:
+      213: -4494091011552780323
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_15
+  - first:
+      213: 609332155884481993
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_16
+  - first:
+      213: -6234858680824362069
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_17
+  - first:
+      213: 5570496479381057275
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_18
+  - first:
+      213: -6248561000551360105
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_19
+  - first:
+      213: -1876241872021527681
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_20
+  - first:
+      213: -8825632142035859186
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_21
+  - first:
+      213: -7075643099778231366
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_22
+  - first:
+      213: -1728431768802308116
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_23
+  - first:
+      213: -1110353602444455372
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_24
+  - first:
+      213: 7146119139505083239
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_25
+  - first:
+      213: -5352644360337826100
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_26
+  - first:
+      213: -8848337805515210841
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_27
+  - first:
+      213: -7846551636534157663
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_28
+  - first:
+      213: 7518486785660085705
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_29
+  - first:
+      213: 9005013372324288673
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_30
+  - first:
+      213: -432483231971986548
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_31
+  - first:
+      213: -2877691065987090071
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_32
+  - first:
+      213: 4084227456593268482
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_33
+  - first:
+      213: -6952995572360456749
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_34
+  - first:
+      213: 6496096671369843084
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_35
+  - first:
+      213: 2799313227758540517
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_36
+  - first:
+      213: -6336882441475903912
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_37
+  - first:
+      213: -4254289017955980660
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_38
+  - first:
+      213: 2812475235795015692
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_39
+  - first:
+      213: 804109813994861124
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_40
+  - first:
+      213: 3729118143791413366
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_41
+  - first:
+      213: 1559957430880927286
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_42
+  - first:
+      213: 1052078582836347366
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_43
+  - first:
+      213: 8706543164892744103
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_44
+  - first:
+      213: 9027723938740600769
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_45
+  - first:
+      213: 3498476572038383782
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_46
+  - first:
+      213: 7546953146812021140
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_47
+  - first:
+      213: -4699390756550450513
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_48
+  - first:
+      213: 4254262173169987052
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_49
+  - first:
+      213: -758497066631694379
+    second: TESTdimensioneelementointerazioneE SILHOUETTE_50
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_0
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 3261
+        width: 90
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7acb8f0bf6ca67010800000000000000
+      internalID: 1186325147569142951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_1
+      rect:
+        serializedVersion: 2
+        x: 2202
+        y: 3276
+        width: 53
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60252dbe02a1968f0800000000000000
+      internalID: -546877151051099642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_2
+      rect:
+        serializedVersion: 2
+        x: 2270
+        y: 3279
+        width: 40
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b0cb2aa260471cd0800000000000000
+      internalID: -2587528668395093833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_3
+      rect:
+        serializedVersion: 2
+        x: 2311
+        y: 3246
+        width: 43
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e1e20af8b7a43160800000000000000
+      internalID: 7004407733378277863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_4
+      rect:
+        serializedVersion: 2
+        x: 2364
+        y: 3258
+        width: 32
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8349c66ef78533dd0800000000000000
+      internalID: -2507563261165267912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_5
+      rect:
+        serializedVersion: 2
+        x: 2420
+        y: 3269
+        width: 29
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54a61d5fdce2c5f70800000000000000
+      internalID: 9177261602801543749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_6
+      rect:
+        serializedVersion: 2
+        x: 2011
+        y: 3235
+        width: 50
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 319dd0275c9573170800000000000000
+      internalID: 8158087954561882387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_7
+      rect:
+        serializedVersion: 2
+        x: 2170
+        y: 3259
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cdcf136a80dc1640800000000000000
+      internalID: 5052142174789946822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_8
+      rect:
+        serializedVersion: 2
+        x: 2241
+        y: 3253
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 360f5986001a794b0800000000000000
+      internalID: -5433697402272485277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_9
+      rect:
+        serializedVersion: 2
+        x: 2437
+        y: 3259
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8758b0f3ae4474470800000000000000
+      internalID: 8378741404616852856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_10
+      rect:
+        serializedVersion: 2
+        x: 2472
+        y: 3223
+        width: 32
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fc64cb74f990e550800000000000000
+      internalID: 6188115163334601971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_11
+      rect:
+        serializedVersion: 2
+        x: 2210
+        y: 3249
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bbadf5e98b6ae1f0800000000000000
+      internalID: -1014880526005326922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_12
+      rect:
+        serializedVersion: 2
+        x: 2343
+        y: 3244
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9485213ee68a769c0800000000000000
+      internalID: -3933990555275339703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_13
+      rect:
+        serializedVersion: 2
+        x: 2362
+        y: 3118
+        width: 49
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75972328e400a9600800000000000000
+      internalID: 475693047832803671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_14
+      rect:
+        serializedVersion: 2
+        x: 2162
+        y: 3232
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2514fabe7e2a39f90800000000000000
+      internalID: -6948030683127266990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_15
+      rect:
+        serializedVersion: 2
+        x: 2181
+        y: 3236
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddfde142908c1a1c0800000000000000
+      internalID: -4494091011552780323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_16
+      rect:
+        serializedVersion: 2
+        x: 2237
+        y: 3213
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cda7bd0e58c47800800000000000000
+      internalID: 609332155884481993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_17
+      rect:
+        serializedVersion: 2
+        x: 2302
+        y: 3237
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bab04b040155979a0800000000000000
+      internalID: -6234858680824362069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_18
+      rect:
+        serializedVersion: 2
+        x: 2286
+        y: 3222
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfe6214c8016e4d40800000000000000
+      internalID: 5570496479381057275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_19
+      rect:
+        serializedVersion: 2
+        x: 2172
+        y: 3186
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 799d6c450e6a849a0800000000000000
+      internalID: -6248561000551360105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_20
+      rect:
+        serializedVersion: 2
+        x: 2248
+        y: 3188
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f73617945ff36f5e0800000000000000
+      internalID: -1876241872021527681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_21
+      rect:
+        serializedVersion: 2
+        x: 2259
+        y: 3184
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e09cea7b35e058580800000000000000
+      internalID: -8825632142035859186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_22
+      rect:
+        serializedVersion: 2
+        x: 2276
+        y: 3189
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab35640d6144ecd90800000000000000
+      internalID: -7075643099778231366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_23
+      rect:
+        serializedVersion: 2
+        x: 2294
+        y: 3173
+        width: 14
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cefc902c6706308e0800000000000000
+      internalID: -1728431768802308116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_24
+      rect:
+        serializedVersion: 2
+        x: 2427
+        y: 2982
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 432193f084b3790f0800000000000000
+      internalID: -1110353602444455372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_25
+      rect:
+        serializedVersion: 2
+        x: 2156
+        y: 2883
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76312d0ee7d1c2360800000000000000
+      internalID: 7146119139505083239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_26
+      rect:
+        serializedVersion: 2
+        x: 2179
+        y: 2887
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cced015505697b5b0800000000000000
+      internalID: -5352644360337826100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_27
+      rect:
+        serializedVersion: 2
+        x: 2370
+        y: 2890
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7af3b9975a3643580800000000000000
+      internalID: -8848337805515210841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_28
+      rect:
+        serializedVersion: 2
+        x: 1923
+        y: 98
+        width: 550
+        height: 2789
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ae1f900cd27b1390800000000000000
+      internalID: -7846551636534157663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_29
+      rect:
+        serializedVersion: 2
+        x: 2498
+        y: 2831
+        width: 14
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c5ecbb95e7075860800000000000000
+      internalID: 7518486785660085705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_30
+      rect:
+        serializedVersion: 2
+        x: 1678
+        y: 2450
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8180793fb38fc70800000000000000
+      internalID: 9005013372324288673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_31
+      rect:
+        serializedVersion: 2
+        x: 2489
+        y: 2270
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c833ffabac28ff9f0800000000000000
+      internalID: -432483231971986548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_32
+      rect:
+        serializedVersion: 2
+        x: 2507
+        y: 2265
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 969368ed8336018d0800000000000000
+      internalID: -2877691065987090071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_33
+      rect:
+        serializedVersion: 2
+        x: 2487
+        y: 2210
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20f832c8b371ea830800000000000000
+      internalID: 4084227456593268482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_34
+      rect:
+        serializedVersion: 2
+        x: 2448
+        y: 2190
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d557909d5ff18f90800000000000000
+      internalID: -6952995572360456749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_35
+      rect:
+        serializedVersion: 2
+        x: 2482
+        y: 2163
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c81d89b3185c62a50800000000000000
+      internalID: 6496096671369843084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_36
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 2122
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e6999b9c8829d620800000000000000
+      internalID: 2799313227758540517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_37
+      rect:
+        serializedVersion: 2
+        x: 2466
+        y: 1993
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85e2b646efede08a0800000000000000
+      internalID: -6336882441475903912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_38
+      rect:
+        serializedVersion: 2
+        x: 2417
+        y: 1926
+        width: 10
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8a63e8adaab5f4c0800000000000000
+      internalID: -4254289017955980660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_39
+      rect:
+        serializedVersion: 2
+        x: 2426
+        y: 1902
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c081529635be70720800000000000000
+      internalID: 2812475235795015692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_40
+      rect:
+        serializedVersion: 2
+        x: 2495
+        y: 1913
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 442b19f8d95c82b00800000000000000
+      internalID: 804109813994861124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_41
+      rect:
+        serializedVersion: 2
+        x: 2418
+        y: 1886
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 678b62ea13d70c330800000000000000
+      internalID: 3729118143791413366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_42
+      rect:
+        serializedVersion: 2
+        x: 2492
+        y: 1868
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63e7364b40516a510800000000000000
+      internalID: 1559957430880927286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_43
+      rect:
+        serializedVersion: 2
+        x: 2442
+        y: 1833
+        width: 20
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e1c1cd95ebb99e00800000000000000
+      internalID: 1052078582836347366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_44
+      rect:
+        serializedVersion: 2
+        x: 2455
+        y: 1817
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a9890511ead3d870800000000000000
+      internalID: 8706543164892744103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_45
+      rect:
+        serializedVersion: 2
+        x: 2429
+        y: 1787
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cf7ce2671be84d70800000000000000
+      internalID: 9027723938740600769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_46
+      rect:
+        serializedVersion: 2
+        x: 2459
+        y: 1782
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a8cf5318e51d8030800000000000000
+      internalID: 3498476572038383782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_47
+      rect:
+        serializedVersion: 2
+        x: 2444
+        y: 1779
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4993f3cc6e92cb860800000000000000
+      internalID: 7546953146812021140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_48
+      rect:
+        serializedVersion: 2
+        x: 2414
+        y: 1750
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa26e0f510968ceb0800000000000000
+      internalID: -4699390756550450513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_49
+      rect:
+        serializedVersion: 2
+        x: 2462
+        y: 1738
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cedad2d08ec2a0b30800000000000000
+      internalID: 4254262173169987052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TESTdimensioneelementointerazioneE SILHOUETTE_50
+      rect:
+        serializedVersion: 2
+        x: 2421
+        y: 1721
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d7fd34cfe64975f0800000000000000
+      internalID: -758497066631694379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      TESTdimensioneelementointerazioneE SILHOUETTE_0: 1186325147569142951
+      TESTdimensioneelementointerazioneE SILHOUETTE_1: -546877151051099642
+      TESTdimensioneelementointerazioneE SILHOUETTE_10: 6188115163334601971
+      TESTdimensioneelementointerazioneE SILHOUETTE_11: -1014880526005326922
+      TESTdimensioneelementointerazioneE SILHOUETTE_12: -3933990555275339703
+      TESTdimensioneelementointerazioneE SILHOUETTE_13: 475693047832803671
+      TESTdimensioneelementointerazioneE SILHOUETTE_14: -6948030683127266990
+      TESTdimensioneelementointerazioneE SILHOUETTE_15: -4494091011552780323
+      TESTdimensioneelementointerazioneE SILHOUETTE_16: 609332155884481993
+      TESTdimensioneelementointerazioneE SILHOUETTE_17: -6234858680824362069
+      TESTdimensioneelementointerazioneE SILHOUETTE_18: 5570496479381057275
+      TESTdimensioneelementointerazioneE SILHOUETTE_19: -6248561000551360105
+      TESTdimensioneelementointerazioneE SILHOUETTE_2: -2587528668395093833
+      TESTdimensioneelementointerazioneE SILHOUETTE_20: -1876241872021527681
+      TESTdimensioneelementointerazioneE SILHOUETTE_21: -8825632142035859186
+      TESTdimensioneelementointerazioneE SILHOUETTE_22: -7075643099778231366
+      TESTdimensioneelementointerazioneE SILHOUETTE_23: -1728431768802308116
+      TESTdimensioneelementointerazioneE SILHOUETTE_24: -1110353602444455372
+      TESTdimensioneelementointerazioneE SILHOUETTE_25: 7146119139505083239
+      TESTdimensioneelementointerazioneE SILHOUETTE_26: -5352644360337826100
+      TESTdimensioneelementointerazioneE SILHOUETTE_27: -8848337805515210841
+      TESTdimensioneelementointerazioneE SILHOUETTE_28: -7846551636534157663
+      TESTdimensioneelementointerazioneE SILHOUETTE_29: 7518486785660085705
+      TESTdimensioneelementointerazioneE SILHOUETTE_3: 7004407733378277863
+      TESTdimensioneelementointerazioneE SILHOUETTE_30: 9005013372324288673
+      TESTdimensioneelementointerazioneE SILHOUETTE_31: -432483231971986548
+      TESTdimensioneelementointerazioneE SILHOUETTE_32: -2877691065987090071
+      TESTdimensioneelementointerazioneE SILHOUETTE_33: 4084227456593268482
+      TESTdimensioneelementointerazioneE SILHOUETTE_34: -6952995572360456749
+      TESTdimensioneelementointerazioneE SILHOUETTE_35: 6496096671369843084
+      TESTdimensioneelementointerazioneE SILHOUETTE_36: 2799313227758540517
+      TESTdimensioneelementointerazioneE SILHOUETTE_37: -6336882441475903912
+      TESTdimensioneelementointerazioneE SILHOUETTE_38: -4254289017955980660
+      TESTdimensioneelementointerazioneE SILHOUETTE_39: 2812475235795015692
+      TESTdimensioneelementointerazioneE SILHOUETTE_4: -2507563261165267912
+      TESTdimensioneelementointerazioneE SILHOUETTE_40: 804109813994861124
+      TESTdimensioneelementointerazioneE SILHOUETTE_41: 3729118143791413366
+      TESTdimensioneelementointerazioneE SILHOUETTE_42: 1559957430880927286
+      TESTdimensioneelementointerazioneE SILHOUETTE_43: 1052078582836347366
+      TESTdimensioneelementointerazioneE SILHOUETTE_44: 8706543164892744103
+      TESTdimensioneelementointerazioneE SILHOUETTE_45: 9027723938740600769
+      TESTdimensioneelementointerazioneE SILHOUETTE_46: 3498476572038383782
+      TESTdimensioneelementointerazioneE SILHOUETTE_47: 7546953146812021140
+      TESTdimensioneelementointerazioneE SILHOUETTE_48: -4699390756550450513
+      TESTdimensioneelementointerazioneE SILHOUETTE_49: 4254262173169987052
+      TESTdimensioneelementointerazioneE SILHOUETTE_5: 9177261602801543749
+      TESTdimensioneelementointerazioneE SILHOUETTE_50: -758497066631694379
+      TESTdimensioneelementointerazioneE SILHOUETTE_6: 8158087954561882387
+      TESTdimensioneelementointerazioneE SILHOUETTE_7: 5052142174789946822
+      TESTdimensioneelementointerazioneE SILHOUETTE_8: -5433697402272485277
+      TESTdimensioneelementointerazioneE SILHOUETTE_9: 8378741404616852856
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -42,6 +42,12 @@ public class PlayerInputHandler : MonoBehaviour
         _actions.Disable();
     }
 
+    private void OnDestroy()
+    {
+        _actions?.Dispose();
+        _actions = null;
+    }
+
     void Update()
     {
         // Reset UI input every frame.

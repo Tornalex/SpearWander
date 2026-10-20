@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 51c6f9d39cbbb2248b2d9cd617fe1ad1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5321702801936311982
+    second: Stelo 2_0
+  - first:
+      213: -55082998943328051
+    second: Stelo 2_1
+  - first:
+      213: 7879731322120981715
+    second: Stelo 2_2
+  - first:
+      213: -6663405987323500284
+    second: Stelo 2_3
+  - first:
+      213: -4094400947766388525
+    second: Stelo 2_4
+  - first:
+      213: -5256199303332310118
+    second: Stelo 2_5
+  - first:
+      213: -6807865466796610168
+    second: Stelo 2_6
+  - first:
+      213: -6575059559803524533
+    second: Stelo 2_7
+  - first:
+      213: -3954026631759658593
+    second: Stelo 2_8
+  - first:
+      213: -2405440653417649631
+    second: Stelo 2_9
+  - first:
+      213: -285653599905206795
+    second: Stelo 2_10
+  - first:
+      213: 7143493832938808895
+    second: Stelo 2_11
+  - first:
+      213: 2436498724300243237
+    second: Stelo 2_12
+  - first:
+      213: 3179366347455223112
+    second: Stelo 2_13
+  - first:
+      213: -748734355905604707
+    second: Stelo 2_14
+  - first:
+      213: 2135150005242676121
+    second: Stelo 2_15
+  - first:
+      213: -4117846523717078612
+    second: Stelo 2_16
+  - first:
+      213: 5771570152900092458
+    second: Stelo 2_17
+  - first:
+      213: -2279968430547843932
+    second: Stelo 2_18
+  - first:
+      213: 1036555489396599361
+    second: Stelo 2_19
+  - first:
+      213: 5366522685072556933
+    second: Stelo 2_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Stelo 2_0
+      rect:
+        serializedVersion: 2
+        x: 1938
+        y: 205
+        width: 511
+        height: 2117
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 259926a4f738526b0800000000000000
+      internalID: -5321702801936311982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_1
+      rect:
+        serializedVersion: 2
+        x: 2274
+        y: 2319
+        width: 70
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc8d1d6ed4e4c3ff0800000000000000
+      internalID: -55082998943328051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_2
+      rect:
+        serializedVersion: 2
+        x: 2350
+        y: 2309
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dc4a8c83ed6a5d60800000000000000
+      internalID: 7879731322120981715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_3
+      rect:
+        serializedVersion: 2
+        x: 2340
+        y: 2310
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4092f5b0f83d683a0800000000000000
+      internalID: -6663405987323500284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_4
+      rect:
+        serializedVersion: 2
+        x: 2346
+        y: 2303
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d89c54f704cd27c0800000000000000
+      internalID: -4094400947766388525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_5
+      rect:
+        serializedVersion: 2
+        x: 2339
+        y: 2292
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a93d838059a3e07b0800000000000000
+      internalID: -5256199303332310118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_6
+      rect:
+        serializedVersion: 2
+        x: 2365
+        y: 2283
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88d60f47d6a9581a0800000000000000
+      internalID: -6807865466796610168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_7
+      rect:
+        serializedVersion: 2
+        x: 2361
+        y: 2266
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4aefd0aa22b0c4a0800000000000000
+      internalID: -6575059559803524533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_8
+      rect:
+        serializedVersion: 2
+        x: 2378
+        y: 2212
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f91088d4ab97029c0800000000000000
+      internalID: -3954026631759658593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_9
+      rect:
+        serializedVersion: 2
+        x: 2379
+        y: 2206
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ae1c468782e9ed0800000000000000
+      internalID: -2405440653417649631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_10
+      rect:
+        serializedVersion: 2
+        x: 2381
+        y: 2164
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fda6d87097290cf0800000000000000
+      internalID: -285653599905206795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_11
+      rect:
+        serializedVersion: 2
+        x: 2384
+        y: 2127
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f36e28f0bc9c22360800000000000000
+      internalID: 7143493832938808895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_12
+      rect:
+        serializedVersion: 2
+        x: 2374
+        y: 2100
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 521cb9d3eae20d120800000000000000
+      internalID: 2436498724300243237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_13
+      rect:
+        serializedVersion: 2
+        x: 2380
+        y: 2105
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84556e619d06f1c20800000000000000
+      internalID: 3179366347455223112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_14
+      rect:
+        serializedVersion: 2
+        x: 2374
+        y: 1885
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d939d1df116fb95f0800000000000000
+      internalID: -748734355905604707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_15
+      rect:
+        serializedVersion: 2
+        x: 2371
+        y: 1828
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 993c9a40e9391ad10800000000000000
+      internalID: 2135150005242676121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_16
+      rect:
+        serializedVersion: 2
+        x: 2376
+        y: 1751
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca1344a67687ad6c0800000000000000
+      internalID: -4117846523717078612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_17
+      rect:
+        serializedVersion: 2
+        x: 2371
+        y: 1737
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a226bd7997cb81050800000000000000
+      internalID: 5771570152900092458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_18
+      rect:
+        serializedVersion: 2
+        x: 2374
+        y: 1686
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a4471ecacceb50e0800000000000000
+      internalID: -2279968430547843932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_19
+      rect:
+        serializedVersion: 2
+        x: 2402
+        y: 1456
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14a2777c9b5926e00800000000000000
+      internalID: 1036555489396599361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Stelo 2_20
+      rect:
+        serializedVersion: 2
+        x: 2222
+        y: 839
+        width: 15
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58343d2f2f7b97a40800000000000000
+      internalID: 5366522685072556933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Stelo 2_0: -5321702801936311982
+      Stelo 2_1: -55082998943328051
+      Stelo 2_10: -285653599905206795
+      Stelo 2_11: 7143493832938808895
+      Stelo 2_12: 2436498724300243237
+      Stelo 2_13: 3179366347455223112
+      Stelo 2_14: -748734355905604707
+      Stelo 2_15: 2135150005242676121
+      Stelo 2_16: -4117846523717078612
+      Stelo 2_17: 5771570152900092458
+      Stelo 2_18: -2279968430547843932
+      Stelo 2_19: 1036555489396599361
+      Stelo 2_2: 7879731322120981715
+      Stelo 2_20: 5366522685072556933
+      Stelo 2_3: -6663405987323500284
+      Stelo 2_4: -4094400947766388525
+      Stelo 2_5: -5256199303332310118
+      Stelo 2_6: -6807865466796610168
+      Stelo 2_7: -6575059559803524533
+      Stelo 2_8: -3954026631759658593
+      Stelo 2_9: -2405440653417649631
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -24,6 +24,8 @@ public class PlayerCombat : MonoBehaviour
         _currentSpear == null &&
         !_isSpearReturning;
 
+    public Spear CurrentSpear => _currentSpear;
+
     public SpearUIState CurrentSpearUIState
     {
         get
@@ -51,7 +53,6 @@ public class PlayerCombat : MonoBehaviour
     {
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-
     void OnDisable()
     {
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
@@ -95,6 +96,9 @@ public class PlayerCombat : MonoBehaviour
 
     void HandleAiming()
     {
+        if (_mainCam == null || firePoint == null || aimIndicator == null)
+            return;
+
         Vector2 dir = Vector2.zero;
 
         if (_player.Input.IsGamepad)
@@ -142,6 +146,9 @@ public class PlayerCombat : MonoBehaviour
 
     void Fire()
     {
+        if (spearPrefab == null || firePoint == null || aimIndicator == null)
+            return;
+
         _throwCooldownTimer =
             _player.CombatStats.throwCooldown;
 
@@ -155,17 +162,29 @@ public class PlayerCombat : MonoBehaviour
         _currentSpear =
             s.GetComponentInChildren<Spear>();
 
+        if (_currentSpear == null)
+        {
+            Debug.LogError("[PlayerCombat] Spear prefab has no Spear component.", s);
+            Destroy(s);
+            return;
+        }
+
         _currentSpear.Initialize(
             _player.Collider,
-            _player.RopeClimb.enabled,
+            _player.RopeClimb != null && _player.RopeClimb.enabled,
             _player.RopeStats.ropeLength
         );
 
-        s.GetComponent<Rigidbody2D>().AddForce(
-            aimIndicator.right *
-            _player.CombatStats.shootForce,
-            ForceMode2D.Impulse
-        );
+        Rigidbody2D spearRb = s.GetComponent<Rigidbody2D>();
+
+        if (spearRb != null)
+        {
+            spearRb.AddForce(
+                aimIndicator.right *
+                _player.CombatStats.shootForce,
+                ForceMode2D.Impulse
+            );
+        }
 
         _currentSpear.SetDamage(
             _player.CombatStats.spearImpactDamage,

@@ -80,6 +80,7 @@ public class RecallEnemy : BaseEnemy
 
 
     private Transform player;
+    private Player playerComponent;
 
     private float attackTimer;
     private float dodgeTimer;
@@ -102,6 +103,7 @@ public class RecallEnemy : BaseEnemy
         if (playerObject != null)
         {
             player = playerObject.transform;
+            playerComponent = playerObject.GetComponent<Player>();
         }
     }
 
@@ -128,7 +130,6 @@ public class RecallEnemy : BaseEnemy
         HandleRangedAttack();
     }
 
-
     private void UpdateTimers()
     {
         if (attackTimer > 0f)
@@ -145,6 +146,9 @@ public class RecallEnemy : BaseEnemy
 
     private void MaintainDistance()
     {
+        if (rb == null)
+            return;
+
         float distance =
             Vector2.Distance(
                 transform.position,
@@ -292,70 +296,58 @@ public class RecallEnemy : BaseEnemy
 
     private void FindIncomingSpear()
     {
-        Spear[] spears = FindObjectsByType<Spear>();
+        if (playerComponent == null || playerComponent.Combat == null)
+            return;
 
-        foreach (Spear spear in spears)
-        {
-            if (spear == null)
-                continue;
+        // The game uses a single player spear: reading it from PlayerCombat
+        // avoids a per-frame FindObjectsByType allocation.
+        Spear spear = playerComponent.Combat.CurrentSpear;
 
-            // IMPORTANT:
-            // Only react to a thrown Spear.
-            //
-            // Returning is deliberately ignored.
-            if (spear.currentState != Spear.SpearState.Flying)
-                continue;
+        if (spear == null)
+            return;
 
+        // IMPORTANT:
+        // Only react to a thrown Spear.
+        // Returning is deliberately ignored.
+        if (spear.currentState != Spear.SpearState.Flying)
+            return;
 
-            Rigidbody2D spearRb =
-                spear.GetComponent<Rigidbody2D>();
+        Rigidbody2D spearRb =
+            spear.GetComponent<Rigidbody2D>();
 
-            if (spearRb == null)
-                continue;
+        if (spearRb == null)
+            return;
 
+        Vector2 velocity =
+            spearRb.linearVelocity;
 
-            Vector2 velocity =
-                spearRb.linearVelocity;
+        if (velocity.sqrMagnitude < 0.01f)
+            return;
 
+        Vector2 toEnemy =
+            (Vector2)transform.position -
+            (Vector2)spear.transform.position;
 
-            if (velocity.sqrMagnitude < 0.01f)
-                continue;
+        float distance =
+            toEnemy.magnitude;
 
+        if (distance > dodgeDetectionDistance)
+            return;
 
-            Vector2 toEnemy =
-                (Vector2)transform.position -
-                (Vector2)spear.transform.position;
+        Vector2 spearDirection =
+            velocity.normalized;
 
+        Vector2 directionToEnemy =
+            toEnemy.normalized;
 
-            float distance =
-                toEnemy.magnitude;
+        float alignment =
+            Vector2.Dot(
+                spearDirection,
+                directionToEnemy
+            );
 
-
-            if (distance > dodgeDetectionDistance)
-                continue;
-
-
-            Vector2 spearDirection =
-                velocity.normalized;
-
-
-            Vector2 directionToEnemy =
-                toEnemy.normalized;
-
-
-            float alignment =
-                Vector2.Dot(
-                    spearDirection,
-                    directionToEnemy
-                );
-
-
-            if (alignment >= spearDirectionThreshold)
-            {
-                trackedSpear = spear;
-                return;
-            }
-        }
+        if (alignment >= spearDirectionThreshold)
+            trackedSpear = spear;
     }
 
 
@@ -372,7 +364,6 @@ public class RecallEnemy : BaseEnemy
 
         trackedSpear = null;
     }
-
 
     // ============================================================
     // RANGED ATTACK

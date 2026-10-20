@@ -45,12 +45,19 @@ public class SFXManager : MonoBehaviour
                 _sfxDict.Add(mapping.sfxType, mapping);
             }
         }
+        SFXManager.Instance?.PlaySFX(SFXType.WindBlowing);
     }
 
     public void PlaySFX(SFXType type)
     {
+        if (_sfxDict == null || sfxSource == null)
+            return;
+
         if (_sfxDict.TryGetValue(type, out SFXMapping mapping))
         {
+            if (mapping.clip == null)
+                return;
+
             sfxSource.pitch = 1f + Random.Range(-globalPitchVariation, globalPitchVariation);
             
             sfxSource.PlayOneShot(mapping.clip, mapping.volume);

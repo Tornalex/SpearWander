@@ -23,7 +23,10 @@ public class RoomTransition : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (string.IsNullOrEmpty(targetSceneName))
+            return;
+
+        if (collision.CompareTag("Player") && GameSceneManager.Instance != null)
         {
             GameSceneManager.Instance.TransitionToRoom(targetSceneName, targetDoorID);
         }

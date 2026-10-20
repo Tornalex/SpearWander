@@ -56,7 +56,7 @@ public class FlyingEnemy : BaseEnemy
         bool damageApplied =
             base.TakeDamage(damage, hitPoint, damageSourcePosition); // Esegue logica base (vita, flash, knockback)
 
-        if (!isDead)
+        if (!isDead && _player != null)
         {
             ApplyStun();
             if (Vector2.Distance(transform.position, _player.position) < loseRadius) _isChasing = true;

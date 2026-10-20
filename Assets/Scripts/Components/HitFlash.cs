@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class HitFlash : MonoBehaviour
 {
     [SerializeField] private float flashDuration = 0.067f;
@@ -7,7 +8,6 @@ public class HitFlash : MonoBehaviour
     [SerializeField] private Material hitFlashMaterial;
     private Material _originalMaterial;
     private SpriteRenderer _spriteRenderer;
-    private Color _originalColor;
     private float _flashTimer;
 
     void Awake()
@@ -18,6 +18,9 @@ public class HitFlash : MonoBehaviour
 
     public void Flash()
     {
+        if (hitFlashMaterial == null)
+            return;
+
         _flashTimer = flashDuration;
         _spriteRenderer.material = hitFlashMaterial;
     }
@@ -26,7 +29,7 @@ public class HitFlash : MonoBehaviour
     {
         if (_flashTimer > 0)
         {
-            _flashTimer -= Time.deltaTime;
+            _flashTimer -= Time.fixedDeltaTime;
             if (_flashTimer <= 0)
             {
                 _spriteRenderer.material = _originalMaterial;

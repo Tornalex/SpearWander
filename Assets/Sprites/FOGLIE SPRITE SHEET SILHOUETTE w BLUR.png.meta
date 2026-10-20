@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: b155ce694c92e824bba34497268291b2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5727113685460526483
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_0
+  - first:
+      213: -5325998771703519957
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_1
+  - first:
+      213: 44454737935937450
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_2
+  - first:
+      213: 4749134867441852533
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_3
+  - first:
+      213: -526108362216400480
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_4
+  - first:
+      213: 9099242988871271864
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_5
+  - first:
+      213: 1056290050955673274
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_6
+  - first:
+      213: -4126558926475283049
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_7
+  - first:
+      213: -3810542271445926614
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_8
+  - first:
+      213: 724369748834717200
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_9
+  - first:
+      213: 4571984461537553861
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_10
+  - first:
+      213: 2066179422468774085
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_11
+  - first:
+      213: 6654044401370104728
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_12
+  - first:
+      213: 7133645998597475790
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_13
+  - first:
+      213: 3773078300972752166
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_14
+  - first:
+      213: -584789251171688501
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_15
+  - first:
+      213: -4843997300595823150
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_16
+  - first:
+      213: 1589630944173695256
+    second: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 1782
+        width: 173
+        height: 188
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 395272aad8bca7f40800000000000000
+      internalID: 5727113685460526483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_1
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 1791
+        width: 231
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b25e172e5504616b0800000000000000
+      internalID: -5325998771703519957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_2
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 1804
+        width: 200
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aaf214f395fed9000800000000000000
+      internalID: 44454737935937450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_3
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 1769
+        width: 159
+        height: 189
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5702b4cfff058e140800000000000000
+      internalID: 4749134867441852533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_4
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 1759
+        width: 91
+        height: 205
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a99ab46b33e2b8f0800000000000000
+      internalID: -526108362216400480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_5
+      rect:
+        serializedVersion: 2
+        x: 1311
+        y: 1756
+        width: 93
+        height: 227
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b5c2acd941074e70800000000000000
+      internalID: 9099242988871271864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_6
+      rect:
+        serializedVersion: 2
+        x: 1558
+        y: 1770
+        width: 65
+        height: 215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abefdf27432b8ae00800000000000000
+      internalID: 1056290050955673274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_7
+      rect:
+        serializedVersion: 2
+        x: 1823
+        y: 1754
+        width: 36
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79539b215848bb6c0800000000000000
+      internalID: -4126558926475283049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_8
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 1503
+        width: 52
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2dfad44efb3e1bc0800000000000000
+      internalID: -3810542271445926614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_9
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 1519
+        width: 73
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01e055dd27a7d0a00800000000000000
+      internalID: 724369748834717200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_10
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 1520
+        width: 118
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cd2d84f4a3f27f30800000000000000
+      internalID: 4571984461537553861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_11
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 1558
+        width: 193
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c81976dc3b8cac10800000000000000
+      internalID: 2066179422468774085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_12
+      rect:
+        serializedVersion: 2
+        x: 1081
+        y: 1517
+        width: 56
+        height: 202
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 893875fd02ae75c50800000000000000
+      internalID: 6654044401370104728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_13
+      rect:
+        serializedVersion: 2
+        x: 1267
+        y: 1591
+        width: 208
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecd0ac37d3dcff260800000000000000
+      internalID: 7133645998597475790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_14
+      rect:
+        serializedVersion: 2
+        x: 1491
+        y: 1573
+        width: 223
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62d173f59baac5430800000000000000
+      internalID: 3773078300972752166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_15
+      rect:
+        serializedVersion: 2
+        x: 1751
+        y: 1572
+        width: 214
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcfd17f364962e7f0800000000000000
+      internalID: -584789251171688501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_16
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 1268
+        width: 129
+        height: 221
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dde805ae1aa6ccb0800000000000000
+      internalID: -4843997300595823150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET SILHOUETTE w BLUR_17
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 1293
+        width: 205
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8112177ebe08f0610800000000000000
+      internalID: 1589630944173695256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_0: 5727113685460526483
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_1: -5325998771703519957
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_10: 4571984461537553861
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_11: 2066179422468774085
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_12: 6654044401370104728
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_13: 7133645998597475790
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_14: 3773078300972752166
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_15: -584789251171688501
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_16: -4843997300595823150
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_17: 1589630944173695256
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_2: 44454737935937450
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_3: 4749134867441852533
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_4: -526108362216400480
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_5: 9099242988871271864
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_6: 1056290050955673274
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_7: -4126558926475283049
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_8: -3810542271445926614
+      FOGLIE SPRITE SHEET SILHOUETTE w BLUR_9: 724369748834717200
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

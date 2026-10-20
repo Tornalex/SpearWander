@@ -45,13 +45,13 @@ public class PlayerPogo : MonoBehaviour
     {
         if (_postPogoProtectionTimer > 0)
         {
-            _postPogoProtectionTimer -= Time.deltaTime;
+            _postPogoProtectionTimer -= Time.fixedDeltaTime;
             if (_postPogoProtectionTimer <= 0) HasPostPogoProtection = false;
         }
 
         if (_pogoStunTimer > 0)
         {
-            _pogoStunTimer -= Time.deltaTime;
+            _pogoStunTimer -= Time.fixedDeltaTime;
             if (_pogoStunTimer <= 0) IsPogoStunned = false;
         }
     }

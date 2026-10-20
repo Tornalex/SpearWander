@@ -39,6 +39,9 @@ public class VFXManager : MonoBehaviour
 
     public void PlayVFX(VFXType type, Vector3 position, Vector2 direction)
     {
+        if (_vfxDict == null)
+            return;
+
         if (_vfxDict.TryGetValue(type, out GameObject prefab))
         {
             if (prefab != null)

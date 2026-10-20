@@ -214,6 +214,9 @@ public class PlayerDash : MonoBehaviour
 
     private void StartDashReadyBlink()
     {
+        if (dashReadyFlashMaterial == null || _spriteRenderer == null)
+            return;
+
         if (_dashReadyBlinkCoroutine != null)
             StopCoroutine(_dashReadyBlinkCoroutine);
 

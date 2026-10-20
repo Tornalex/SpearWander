@@ -28,7 +28,16 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         hitFlash = GetComponent<HitFlash>();
         knockback = GetComponent<Knockback>();
         animator = GetComponent<Animator>();
-        currentHealth = enemyData.maxHealth;
+
+        if (enemyData != null)
+        {
+            currentHealth = enemyData.maxHealth;
+        }
+        else
+        {
+            Debug.LogError($"[BaseEnemy] {name} has no EnemyData assigned.", this);
+            currentHealth = 1;
+        }
     }
 
         protected virtual void Start()
@@ -43,8 +52,12 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
             roomName = "Unknown";
         }
 
-        // Check if this enemy should be dead
-        if (DeadEnemyTracker.IsDead(roomName, stableIdentity))
+        // Check if this enemy should be dead.
+        // Enemies without a stable identity cannot be tracked individually:
+        // treating an empty identity as a key would make every untracked
+        // enemy in the room disappear after a single kill.
+        if (!string.IsNullOrEmpty(stableIdentity) &&
+            DeadEnemyTracker.IsDead(roomName, stableIdentity))
         {
             Destroy(gameObject);
         }
@@ -56,13 +69,13 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 
         currentHealth -= damage;
 
-        if (knockback != null)
+        if (enemyData != null)
         {
-            knockback.ApplyKnockback(damageSourcePosition, enemyData.knockbackForce, enemyData.knockbackDuration);
+            knockback?.ApplyKnockback(damageSourcePosition, enemyData.knockbackForce, enemyData.knockbackDuration);
         }
 
-        SFXManager.Instance.PlaySFX(SFXType.EnemyPierced);
-        VFXManager.Instance.PlayVFX(VFXType.HitDash, hitPoint, (hitPoint - (Vector2)transform.position).normalized);
+        SFXManager.Instance?.PlaySFX(SFXType.EnemyPierced);
+        VFXManager.Instance?.PlayVFX(VFXType.HitDash, hitPoint, (hitPoint - (Vector2)transform.position).normalized);
 
         if (animator != null) animator.SetTrigger("TookHit");
 
@@ -87,7 +100,11 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
 
         isDead = true;
         Debug.Log($"[BaseEnemy.Die] {name} - roomName='{roomName}', stableIdentity='{stableIdentity}'");
-        DeadEnemyTracker.MarkDead(roomName, stableIdentity);
+
+        // Only persistent identities can be restored after a room reload.
+        if (!string.IsNullOrEmpty(stableIdentity))
+            DeadEnemyTracker.MarkDead(roomName, stableIdentity);
+
         Destroy(gameObject);
     }
 }

@@ -95,7 +95,9 @@ public class PlayerHUD : MonoBehaviour
 
             if (essenceText != null)
             {
-                int essencePercentage = Mathf.RoundToInt((currentEssence / maxEssence) * 100f);
+                int essencePercentage = maxEssence > 0f
+                    ? Mathf.RoundToInt((currentEssence / maxEssence) * 100f)
+                    : 0;
                 essenceText.text = $"Essence: {essencePercentage}%";
             }
         }

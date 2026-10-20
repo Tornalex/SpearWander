@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private int _currentHealth;
     private float _iFramesTimer;
     private bool _isTouchingEnemy;
+    private Collider2D _lastEnemyCollider;
     private Vector2 _lastEnemyPosition;
 
     private Player _player;
@@ -24,9 +25,21 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     void FixedUpdate()
     {
+        // A destroyed or disabled enemy collider does not always raise
+        // OnCollisionExit2D. Clear the stale contact so the player does not
+        // keep taking contact damage from an enemy that no longer exists.
+        if (_isTouchingEnemy &&
+            (_lastEnemyCollider == null ||
+             !_lastEnemyCollider.enabled ||
+             !_lastEnemyCollider.gameObject.activeInHierarchy))
+        {
+            _isTouchingEnemy = false;
+            _lastEnemyCollider = null;
+        }
+
         if (_iFramesTimer > 0)
         {
-            _iFramesTimer -= Time.deltaTime;
+            _iFramesTimer -= Time.fixedDeltaTime;
 
             float alpha =
                 (Mathf.Floor(_iFramesTimer / 0.05f) % 2 == 0)
@@ -58,6 +71,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _isTouchingEnemy = true;
+            _lastEnemyCollider = collision.collider;
             _lastEnemyPosition = collision.transform.position;
 
             if (!_player.Dash.IsDashing &&
@@ -77,6 +91,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (collision.gameObject.CompareTag("Enemy"))
         {
             _isTouchingEnemy = true;
+            _lastEnemyCollider = collision.collider;
             _lastEnemyPosition = collision.transform.position;
         }
     }
@@ -86,6 +101,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            if (_lastEnemyCollider == collision.collider)
+                _lastEnemyCollider = null;
+
             _isTouchingEnemy = false;
         }
     }
@@ -108,7 +126,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     // PLAYER DAMAGE
     // ============================================================
 
-        public bool TakeDamage(int amount, Vector2 sourcePos)
+    public bool TakeDamage(int amount, Vector2 sourcePos)
     {
         if (_currentHealth <= 0)
             return false;
@@ -203,6 +221,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             _player.PlayerStats.iFramesDuration;
 
         _isTouchingEnemy = false;
+        _lastEnemyCollider = null;
 
         _player.Sprite.color = Color.white;
         _player.Collider.enabled = true;

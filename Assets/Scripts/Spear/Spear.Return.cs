@@ -118,9 +118,9 @@ public partial class Spear : MonoBehaviour
             );
 
         float currentSpeed =
-            returnCurve.Evaluate(
-                timeNormalized
-            ) *
+            (returnCurve != null
+                ? returnCurve.Evaluate(timeNormalized)
+                : 1f) *
             maxReturnSpeed;
 
         Vector2 toPlayer =

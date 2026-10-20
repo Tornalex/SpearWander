@@ -1,0 +1,587 @@
+fileFormatVersion: 2
+guid: 15963c28078fd88418ac8318c160193c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3444729153926878010
+    second: FOGLIE SPRITE SHEET_0
+  - first:
+      213: -8213808035785908011
+    second: FOGLIE SPRITE SHEET_1
+  - first:
+      213: 2987471349370647326
+    second: FOGLIE SPRITE SHEET_2
+  - first:
+      213: -7373969739263166485
+    second: FOGLIE SPRITE SHEET_3
+  - first:
+      213: 5393880776775374983
+    second: FOGLIE SPRITE SHEET_4
+  - first:
+      213: 6026927740579206890
+    second: FOGLIE SPRITE SHEET_5
+  - first:
+      213: 5601200382066074714
+    second: FOGLIE SPRITE SHEET_6
+  - first:
+      213: 6685233062072950968
+    second: FOGLIE SPRITE SHEET_7
+  - first:
+      213: -574381493875694589
+    second: FOGLIE SPRITE SHEET_8
+  - first:
+      213: -3044208564065203935
+    second: FOGLIE SPRITE SHEET_9
+  - first:
+      213: 7696372061983037853
+    second: FOGLIE SPRITE SHEET_10
+  - first:
+      213: -7903022905199169599
+    second: FOGLIE SPRITE SHEET_11
+  - first:
+      213: -8841149667976053849
+    second: FOGLIE SPRITE SHEET_12
+  - first:
+      213: -4907417463862158115
+    second: FOGLIE SPRITE SHEET_13
+  - first:
+      213: 3500268779206845906
+    second: FOGLIE SPRITE SHEET_14
+  - first:
+      213: 5656660611209381588
+    second: FOGLIE SPRITE SHEET_15
+  - first:
+      213: -1850856676086433514
+    second: FOGLIE SPRITE SHEET_16
+  - first:
+      213: 2825450779248880777
+    second: FOGLIE SPRITE SHEET_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_0
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 1788
+        width: 161
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cca1c0e51dd130d0800000000000000
+      internalID: -3444729153926878010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_1
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 1797
+        width: 219
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d06bbd2c11b20e80800000000000000
+      internalID: -8213808035785908011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_2
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 1810
+        width: 188
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e13f4eb2d51a57920800000000000000
+      internalID: 2987471349370647326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_3
+      rect:
+        serializedVersion: 2
+        x: 793
+        y: 1775
+        width: 147
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be73db257956aa990800000000000000
+      internalID: -7373969739263166485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_4
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 1765
+        width: 79
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 788118c0df9eada40800000000000000
+      internalID: 5393880776775374983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_5
+      rect:
+        serializedVersion: 2
+        x: 1317
+        y: 1762
+        width: 81
+        height: 215
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae6db2819d2f3a350800000000000000
+      internalID: 6026927740579206890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_6
+      rect:
+        serializedVersion: 2
+        x: 1564
+        y: 1776
+        width: 53
+        height: 203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a54a4d032167bbd40800000000000000
+      internalID: 5601200382066074714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_7
+      rect:
+        serializedVersion: 2
+        x: 1829
+        y: 1760
+        width: 24
+        height: 209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b02e81dc08b6cc50800000000000000
+      internalID: 6685233062072950968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_8
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 1509
+        width: 40
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3042bf313136708f0800000000000000
+      internalID: -574381493875694589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_9
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 1525
+        width: 61
+        height: 195
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12901bc907cc0c5d0800000000000000
+      internalID: -3044208564065203935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_10
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 1526
+        width: 106
+        height: 198
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d995dbdfc910fca60800000000000000
+      internalID: 7696372061983037853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_11
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 1564
+        width: 181
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cfe3db2a82d25290800000000000000
+      internalID: -7903022905199169599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_12
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 1523
+        width: 44
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ab793a283ded4580800000000000000
+      internalID: -8841149667976053849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_13
+      rect:
+        serializedVersion: 2
+        x: 1273
+        y: 1597
+        width: 196
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddc92f531d955ebb0800000000000000
+      internalID: -4907417463862158115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_14
+      rect:
+        serializedVersion: 2
+        x: 1497
+        y: 1579
+        width: 211
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d5a303d8e3739030800000000000000
+      internalID: 3500268779206845906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_15
+      rect:
+        serializedVersion: 2
+        x: 1757
+        y: 1578
+        width: 202
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d6441a0bde708e40800000000000000
+      internalID: 5656660611209381588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_16
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 1274
+        width: 117
+        height: 209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61935bbc8af6056e0800000000000000
+      internalID: -1850856676086433514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FOGLIE SPRITE SHEET_17
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 1299
+        width: 193
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98cea7b8384063720800000000000000
+      internalID: 2825450779248880777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e073629df8ceca44bb2aadde3f999282
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      FOGLIE SPRITE SHEET_0: -3444729153926878010
+      FOGLIE SPRITE SHEET_1: -8213808035785908011
+      FOGLIE SPRITE SHEET_10: 7696372061983037853
+      FOGLIE SPRITE SHEET_11: -7903022905199169599
+      FOGLIE SPRITE SHEET_12: -8841149667976053849
+      FOGLIE SPRITE SHEET_13: -4907417463862158115
+      FOGLIE SPRITE SHEET_14: 3500268779206845906
+      FOGLIE SPRITE SHEET_15: 5656660611209381588
+      FOGLIE SPRITE SHEET_16: -1850856676086433514
+      FOGLIE SPRITE SHEET_17: 2825450779248880777
+      FOGLIE SPRITE SHEET_2: 2987471349370647326
+      FOGLIE SPRITE SHEET_3: -7373969739263166485
+      FOGLIE SPRITE SHEET_4: 5393880776775374983
+      FOGLIE SPRITE SHEET_5: 6026927740579206890
+      FOGLIE SPRITE SHEET_6: 5601200382066074714
+      FOGLIE SPRITE SHEET_7: 6685233062072950968
+      FOGLIE SPRITE SHEET_8: -574381493875694589
+      FOGLIE SPRITE SHEET_9: -3044208564065203935
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

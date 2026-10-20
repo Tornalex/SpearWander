@@ -7,10 +7,12 @@ public class WalkingEnemy : BaseEnemy
 
     void FixedUpdate()
     {
-        if (isDead || (knockback != null && knockback.IsKnockedBack)) return;
-        
+        if (isDead || (knockback != null && knockback.IsKnockedBack) || enemyData == null) return;
+
         rb.linearVelocity = new Vector2(movementDirection.x * enemyData.speed, rb.linearVelocity.y);
-        animator.SetFloat("Speed", Mathf.Abs(movementDirection.x * enemyData.speed));
+
+        if (animator != null)
+            animator.SetFloat("Speed", Mathf.Abs(movementDirection.x * enemyData.speed));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

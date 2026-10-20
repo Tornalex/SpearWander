@@ -24,9 +24,9 @@ namespace SpearWander.Boss
 
         // Components
         protected Rigidbody2D rb;
-        protected SpriteRenderer spriteRenderer;
         protected Animator animator;
-        protected HitFlash hitFlash;
+        protected HitFlash hitFlashComponent;
+        protected Knockback knockbackComponent;
 
         // State
         protected int currentHealth;
@@ -46,10 +46,6 @@ namespace SpearWander.Boss
         protected bool isStunned = false;
         protected float stunTimer = 0f;
 
-        // Components
-        protected HitFlash hitFlashComponent;
-        protected Knockback knockbackComponent;
-
         public bool IsDead => isDead;
         public int CurrentHealth => currentHealth;
         public int MaxHealth => bossData?.maxHealth ?? 10;
@@ -58,7 +54,6 @@ namespace SpearWander.Boss
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             hitFlashComponent = GetComponent<HitFlash>();
             knockbackComponent = GetComponent<Knockback>();
@@ -262,6 +257,9 @@ namespace SpearWander.Boss
         {
             yield return new WaitForSeconds(delay);
 
+            if (isDead)
+                yield break;
+
             if (meleeAttackPoint != null)
             {
                 Collider2D[] hits = Physics2D.OverlapCircleAll(meleeAttackPoint.position, 0.5f);
@@ -330,6 +328,9 @@ namespace SpearWander.Boss
         {
             yield return new WaitForSeconds(delay);
 
+            if (isDead)
+                yield break;
+
             if (antiAirAttackPoint != null)
             {
                 Collider2D[] hits = Physics2D.OverlapCircleAll(antiAirAttackPoint.position, bossData.antiAirRange);
@@ -357,7 +358,7 @@ namespace SpearWander.Boss
 
         public virtual bool TakeDamage(int damage, Vector2 hitPoint, Vector2 damageSourcePosition)
         {
-            if (isDead) return false;
+            if (isDead || bossData == null) return false;
 
             // Check if hit was on weak point
             bool hitWeakPoint = false;
@@ -375,7 +376,7 @@ namespace SpearWander.Boss
                 weakPoint.TakeDamageDirect(damage, hitPoint, damageSourcePosition);
             }
 
-            if (knockbackComponent != null && !isDead)
+            if (knockbackComponent != null)
             {
                 knockbackComponent.ApplyKnockback(damageSourcePosition, bossData.knockbackForce, bossData.knockbackDuration);
             }
@@ -385,12 +386,6 @@ namespace SpearWander.Boss
 
             if (animator != null) animator.SetTrigger("TookHit");
             if (hitFlashComponent != null) hitFlashComponent.Flash();
-
-            // Apply knockback
-            if (knockbackComponent != null)
-            {
-                knockbackComponent.ApplyKnockback(damageSourcePosition, bossData.knockbackForce, bossData.knockbackDuration);
-            }
 
             if (currentHealth <= 0)
             {
@@ -406,7 +401,6 @@ namespace SpearWander.Boss
 
             SFXManager.Instance?.PlaySFX(bossData.deathSfxType);
             VFXManager.Instance?.PlayVFX(bossData.deathVfxType, transform.position, Vector2.zero);
-
             if (animator != null) animator.SetTrigger("Death");
 
             // Disable colliders

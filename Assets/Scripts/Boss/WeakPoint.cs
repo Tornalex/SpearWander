@@ -35,6 +35,7 @@ namespace SpearWander.Boss
         private SpriteRenderer spriteRenderer;
         private Collider2D col;
         private Material originalMaterial;
+        private Material flashMaterial;
         private Color originalColor;
 
         #pragma warning disable 0414
@@ -63,6 +64,11 @@ namespace SpearWander.Boss
             originalMaterial = spriteRenderer.material;
             originalColor = spriteRenderer.color;
 
+            // One reusable flash material instead of allocating a new one per hit.
+            Shader spriteShader = Shader.Find("Sprites/Default");
+            if (spriteShader != null)
+                flashMaterial = new Material(spriteShader);
+
             // Ensure we're on the correct layer for enemy weak points
             gameObject.layer = LayerMask.NameToLayer("Enemy");
 
@@ -86,10 +92,14 @@ namespace SpearWander.Boss
 
         private void Update()
         {
-            // Pulse effect - always visible and pulsing
-            float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseAmount + (1f - pulseAmount);
-            Color pulsedColor = originalColor * pulse;
-            spriteRenderer.color = new Color(pulsedColor.r, pulsedColor.g, pulsedColor.b, originalColor.a);
+            // Pulse effect - always visible and pulsing, unless the hit flash
+            // is currently overriding the sprite color.
+            if (!isFlashing)
+            {
+                float pulse = Mathf.Sin(Time.time * pulseSpeed) * pulseAmount + (1f - pulseAmount);
+                Color pulsedColor = originalColor * pulse;
+                spriteRenderer.color = new Color(pulsedColor.r, pulsedColor.g, pulsedColor.b, originalColor.a);
+            }
 
             // Handle hit flash
             if (isFlashing)
@@ -139,8 +149,17 @@ namespace SpearWander.Boss
         {
             isFlashing = true;
             hitFlashTimer = hitFlashDuration;
-            spriteRenderer.material = new Material(Shader.Find("Sprites/Default")); // Use default sprite shader for flash
+
+            if (flashMaterial != null)
+                spriteRenderer.material = flashMaterial;
+
             spriteRenderer.color = hitFlashColor;
+        }
+
+        private void OnDestroy()
+        {
+            if (flashMaterial != null)
+                Destroy(flashMaterial);
         }
 
         /// <summary>

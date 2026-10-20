@@ -97,6 +97,12 @@ public class GameSceneManager : MonoBehaviour
 
     private IEnumerator TransitionRoutine(string sceneName, string targetDoorID)
     {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("[GameSceneManager] TransitionToRoom called with an empty scene name.");
+            yield break;
+        }
+
         _isTransitioning = true;
         _targetDoorID = targetDoorID;
 
@@ -107,11 +113,23 @@ public class GameSceneManager : MonoBehaviour
         if (!string.IsNullOrEmpty(_currentRoomScene))
         {
             AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(_currentRoomScene);
-            while (!unloadOp.isDone) yield return null;
+            if (unloadOp != null)
+            {
+                while (!unloadOp.isDone) yield return null;
+            }
         }
 
         _currentRoomScene = sceneName;
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(_currentRoomScene, LoadSceneMode.Additive);
+
+        if (loadOp == null)
+        {
+            Debug.LogError($"[GameSceneManager] Could not load room scene '{_currentRoomScene}'. Is it added to the build settings?");
+            SetPlayerControl(true);
+            _isTransitioning = false;
+            yield break;
+        }
+
         while (!loadOp.isDone) yield return null;
 
         Scene newScene = SceneManager.GetSceneByName(_currentRoomScene);
@@ -155,7 +173,9 @@ public class GameSceneManager : MonoBehaviour
 
         string targetScene = _currentRoomScene;
 
-        if (!overrideSpawn.HasValue && CheckpointManager.Instance.HasCheckpoint)
+        if (!overrideSpawn.HasValue &&
+            CheckpointManager.Instance != null &&
+            CheckpointManager.Instance.HasCheckpoint)
         {
             var (room, pos) = CheckpointManager.Instance.GetCheckpoint();
             overrideSpawn = pos;
@@ -182,11 +202,23 @@ public class GameSceneManager : MonoBehaviour
         if (!string.IsNullOrEmpty(_currentRoomScene))
         {
             AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(_currentRoomScene);
-            while (!unloadOp.isDone) yield return null;
+            if (unloadOp != null)
+            {
+                while (!unloadOp.isDone) yield return null;
+            }
         }
 
         _currentRoomScene = targetScene;
         AsyncOperation loadOp = SceneManager.LoadSceneAsync(_currentRoomScene, LoadSceneMode.Additive);
+
+        if (loadOp == null)
+        {
+            Debug.LogError($"[GameSceneManager] Could not load room scene '{_currentRoomScene}'. Is it added to the build settings?");
+            SetPlayerControl(true);
+            _isTransitioning = false;
+            yield break;
+        }
+
         while (!loadOp.isDone) yield return null;
 
         Scene newScene = SceneManager.GetSceneByName(_currentRoomScene);
@@ -249,7 +281,7 @@ public class GameSceneManager : MonoBehaviour
         {
             if (door.DoorID == firstRoomDoorID)
             {
-                if (playerTransform != null)
+                if (playerTransform != null && door.SpawnPoint != null)
                 {
                     playerTransform.position = door.SpawnPoint.position;
                     Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
@@ -260,7 +292,7 @@ public class GameSceneManager : MonoBehaviour
         }
 
         RoomTransition first = doors[0];
-        if (playerTransform != null)
+        if (playerTransform != null && first.SpawnPoint != null)
         {
             playerTransform.position = first.SpawnPoint.position;
             Rigidbody2D rb2 = playerTransform.GetComponent<Rigidbody2D>();
@@ -281,6 +313,7 @@ public class GameSceneManager : MonoBehaviour
         if (player == null) return;
 
         Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
+        if (rb == null) return;
 
         if (!hasControl)
         {
@@ -335,6 +368,12 @@ public class GameSceneManager : MonoBehaviour
         {
             if (door.DoorID == _targetDoorID)
             {
+                if (door.SpawnPoint == null)
+                {
+                    Debug.LogWarning($"[GameSceneManager] Door '{_targetDoorID}' has no spawn point assigned.");
+                    return;
+                }
+
                 playerTransform.position = door.SpawnPoint.position;
                 Rigidbody2D rb = playerTransform.GetComponent<Rigidbody2D>();
                 if (rb != null) rb.linearVelocity = Vector2.zero;

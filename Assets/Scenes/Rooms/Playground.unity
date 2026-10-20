@@ -513,6 +513,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7265491968150232929, guid: fb76a78a23344814086cf175ed01cd5c, type: 3}
+      propertyPath: roomName
+      value: Playground
+      objectReference: {fileID: 0}
+    - target: {fileID: 7265491968150232929, guid: fb76a78a23344814086cf175ed01cd5c, type: 3}
       propertyPath: stableIdentity
       value: GlobalObjectId_V1-2-98597bbe51f145749bbe62a0ead5fae5-7265491968150232929-1893623190
       objectReference: {fileID: 0}

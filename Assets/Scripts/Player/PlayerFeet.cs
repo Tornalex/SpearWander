@@ -49,7 +49,39 @@ public class PlayerFeet : MonoBehaviour
         _player = GetComponentInParent<Player>();
     }
 
-    public bool IsGrounded() => _isGrounded;
+    public bool IsGrounded()
+    {
+        // Remove contacts whose collider was destroyed or disabled without
+        // raising OnCollisionExit2D, otherwise the player can stay grounded
+        // on a platform that no longer exists.
+        if (_groundContacts.Count > 0)
+        {
+            List<EntityId> staleContacts = null;
+
+            foreach (KeyValuePair<EntityId, GroundContact> pair in _groundContacts)
+            {
+                Collider2D contactCollider = pair.Value.Collider;
+
+                if (contactCollider == null ||
+                    !contactCollider.enabled ||
+                    !contactCollider.gameObject.activeInHierarchy)
+                {
+                    staleContacts ??= new List<EntityId>();
+                    staleContacts.Add(pair.Key);
+                }
+            }
+
+            if (staleContacts != null)
+            {
+                foreach (EntityId staleId in staleContacts)
+                    _groundContacts.Remove(staleId);
+
+                _isGrounded = _groundContacts.Count > 0;
+            }
+        }
+
+        return _isGrounded;
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {

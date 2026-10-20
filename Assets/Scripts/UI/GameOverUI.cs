@@ -17,6 +17,8 @@ public class GameOverUI : MonoBehaviour
     public void OnRetry()
     {
         Hide();
-        GameSceneManager.Instance.ReloadCurrentRoom();
+
+        if (GameSceneManager.Instance != null)
+            GameSceneManager.Instance.ReloadCurrentRoom();
     }
 }

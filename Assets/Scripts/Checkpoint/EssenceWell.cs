@@ -5,6 +5,9 @@ public class EssenceWell : MonoBehaviour, IInteractable
 {
     public void Interact(Player player)
     {
+        if (GameSceneManager.Instance == null || CheckpointManager.Instance == null)
+            return;
+
         string currentRoom = GameSceneManager.Instance.CurrentRoom;
         Debug.Log($"[EssenceWell.Interact] currentRoom='{currentRoom}'");
         CheckpointManager.Instance.SetCheckpoint(currentRoom, transform.position);
