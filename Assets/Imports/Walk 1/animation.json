@@ -1,0 +1,11 @@
+{
+  "format": "StykAnimate image sequence",
+  "version": 1,
+  "width": 2000,
+  "height": 540,
+  "fps": 24,
+  "totalFrames": 22,
+  "durationSeconds": 0.9166666666666666,
+  "firstFrame": 1,
+  "filenamePattern": "frame-%06d.png"
+}

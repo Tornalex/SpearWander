@@ -96,7 +96,7 @@ public class PlayerPogo : MonoBehaviour
         IDamageable damageable = hitObj.GetComponent<IDamageable>();
         if (damageable != null)
         {
-            damageable.TakeDamage(_player.CombatStats.pogoDamage, transform.position, transform.position);
+            damageable.TakeDamageFromPlayer(_player.CombatStats.pogoDamage, transform.position, transform.position);
         }
 
         if (_player.ImpulseSource != null) _player.ImpulseSource.GenerateImpulse();

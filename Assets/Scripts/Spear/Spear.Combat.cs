@@ -16,6 +16,9 @@ public partial class Spear : MonoBehaviour
     private List<IDamageable> _enemiesHitDuringThrow =
         new List<IDamageable>();
 
+    private readonly HashSet<ISpearImpactReceiver> _impactReceiversHitDuringThrow =
+        new HashSet<ISpearImpactReceiver>();
+
     private void ClearHitLists()
     {
         _enemiesHitDuringThrow.Clear();
@@ -26,6 +29,14 @@ public partial class Spear : MonoBehaviour
     {
         HasHitEnemy = false;
         ClearHitLists();
+
+        _impactReceiversHitDuringThrow.Clear();
+    }
+
+    private bool TryRegisterImpactReceiver(
+        ISpearImpactReceiver receiver)
+    {
+        return _impactReceiversHitDuringThrow.Add(receiver);
     }
 
     public void SetDamage(
@@ -55,6 +66,26 @@ private void ProcessHit(
         out IDamageable damageable))
     {
         if (!ProcessDamageableHit(damageable, hitPoint))
+            return;
+
+        if (currentState == SpearState.Flying ||
+            currentState == SpearState.BouncedOff)
+        {
+            BounceOffEnemy();
+        }
+    }
+    else if ((currentState == SpearState.Flying ||
+              currentState == SpearState.BouncedOff) &&
+             other.GetComponentInParent<ISpearImpactReceiver>()
+                 is ISpearImpactReceiver impactReceiver)
+    {
+        if (!TryRegisterImpactReceiver(impactReceiver))
+            return;
+
+        if (!impactReceiver.TryReceiveSpearImpact(
+            this,
+            hitPoint,
+            normal))
             return;
 
         if (currentState == SpearState.Flying ||
@@ -113,7 +144,7 @@ private void ProcessHit(
 
             _enemiesHitDuringReturn.Add(damageable);
 
-            bool recallDamageApplied = damageable.TakeDamage(
+            bool recallDamageApplied = damageable.TakeDamageFromPlayer(
                 _recallDamage,
                 hitPoint,
                 transform.position
@@ -130,7 +161,7 @@ private void ProcessHit(
 
         _enemiesHitDuringThrow.Add(damageable);
 
-        bool impactDamageApplied = damageable.TakeDamage(
+        bool impactDamageApplied = damageable.TakeDamageFromPlayer(
             _impactDamage,
             hitPoint,
             transform.position

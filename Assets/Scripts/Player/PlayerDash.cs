@@ -293,7 +293,7 @@ public class PlayerDash : MonoBehaviour
 
         HasPostDashProtection = true;
 
-        damageable.TakeDamage(
+        damageable.TakeDamageFromPlayer(
             _player.CombatStats.dashDamage,
             collision.contacts[0].point,
             transform.position
