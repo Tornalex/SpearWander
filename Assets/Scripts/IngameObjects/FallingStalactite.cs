@@ -49,6 +49,7 @@ public class FallingStalactite : MonoBehaviour
 
         _fallGravityScale = _rb.gravityScale;
 
+        _rb.bodyType = RigidbodyType2D.Static;
         _rb.gravityScale = hangingGravityScale;
         _rb.linearVelocity = Vector2.zero;
         _rb.angularVelocity = 0f;
@@ -76,6 +77,7 @@ public class FallingStalactite : MonoBehaviour
 
         _hasDetached = true;
 
+        _rb.bodyType = RigidbodyType2D.Dynamic;
         _rb.gravityScale = _fallGravityScale;
         _rb.WakeUp();
     }

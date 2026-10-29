@@ -342,15 +342,6 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5631493
-      value: 0.18096697
-      inSlope: 0.8411746
-      outSlope: 0.8411746
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 2
@@ -362,9 +353,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  returnDuration: 0.8
-  maxReturnSpeed: 60
-  catchDistance: 0.7
+  returnDuration: 1
+  maxReturnSpeed: 120
+  catchDistance: 0.75
   ropeAttachOffset: {x: -0.8, y: 0}
   ropeWidth: 0.1
   ropeMaterial: {fileID: 2100000, guid: 79809b4fc57ad41b982c1dd5ceb812b2, type: 2}

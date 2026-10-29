@@ -394,6 +394,7 @@ public class RecallEnemy : BaseEnemy
             attackTelegraphDuration;
 
         flashTimer = 0f;
+        animator.SetBool("isAttacking", true); //animazione attacco
 
         isFlashing = false;
     }
@@ -469,5 +470,6 @@ public class RecallEnemy : BaseEnemy
                 projectileSpeed
             );
         }
+        animator.SetBool("isAttacking", false); //fine animazione attacco
     }
 }
