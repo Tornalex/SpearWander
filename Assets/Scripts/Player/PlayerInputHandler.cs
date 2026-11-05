@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 [DefaultExecutionOrder(-101)]
 public class PlayerInputHandler : MonoBehaviour
@@ -17,12 +18,16 @@ public class PlayerInputHandler : MonoBehaviour
     public bool HealTriggered { get; private set; }
     public bool DashTriggered { get; private set; }
     public bool FireTriggered { get; private set; }
+    public bool MouseFirePressed { get; private set; }
+    public bool MouseFireHeld { get; private set; }
+    public bool MouseFireReleased { get; private set; }
     public bool RecallTriggered { get; private set; }
     public bool DownTriggered { get; private set; }
 
     public bool DownInputHeld => MoveInput.y < -0.5f;
 
     private PlayerInputActions _actions;
+    private ButtonControl _mouseFireHoldControl;
 
     private int _suppressInteractFrames;
 
@@ -39,6 +44,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void OnDisable()
     {
+        ClearMouseFireState();
         _actions.Disable();
     }
 
@@ -60,11 +66,16 @@ public class PlayerInputHandler : MonoBehaviour
         HealTriggered = false;
         DashTriggered = false;
         FireTriggered = false;
+        MouseFirePressed = false;
+        MouseFireHeld = false;
+        MouseFireReleased = false;
         RecallTriggered = false;
         DownTriggered = false;
 
         if (_actions.Player.enabled)
         {
+            UpdateMouseFireState();
+
             MoveInput =
                 _actions.Player.Move.ReadValue<Vector2>();
 
@@ -161,9 +172,19 @@ public class PlayerInputHandler : MonoBehaviour
                         _actions.Player.AimWithMouse.ReadValue<Vector2>();
                 }
             }
+
+            // Keep mouse aiming tied to the mouse that initiated the hold,
+            // even if another device generates Fire while it is held.
+            if (MouseFireHeld || MouseFireReleased)
+            {
+                IsGamepad = false;
+                AimInput =
+                    _actions.Player.AimWithMouse.ReadValue<Vector2>();
+            }
         }
         else
         {
+            ClearMouseFireState();
             MoveInput = Vector2.zero;
             AimInput = Vector2.zero;
             IsGamepad = false;
@@ -181,6 +202,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void SwitchToUI()
     {
+        ClearMouseFireState();
         _actions.Player.Disable();
         _actions.UI.Enable();
     }
@@ -205,4 +227,44 @@ public class PlayerInputHandler : MonoBehaviour
         _actions.Player.Dash.IsPressed();
     public bool IsFireHeld() =>
     _actions.Player.Fire.IsPressed();
+
+    private void UpdateMouseFireState()
+    {
+        if (_mouseFireHoldControl == null)
+        {
+            foreach (InputControl control in _actions.Player.Fire.controls)
+            {
+                if (control.device is Mouse &&
+                    control is ButtonControl button &&
+                    button.wasPressedThisFrame)
+                {
+                    _mouseFireHoldControl = button;
+                    break;
+                }
+            }
+        }
+
+        if (_mouseFireHoldControl == null)
+            return;
+
+        MouseFirePressed =
+            _mouseFireHoldControl.wasPressedThisFrame;
+        MouseFireHeld = _mouseFireHoldControl.isPressed;
+        MouseFireReleased =
+            _mouseFireHoldControl.wasReleasedThisFrame;
+
+        if (MouseFireReleased ||
+            (!MouseFireHeld && !MouseFirePressed))
+        {
+            _mouseFireHoldControl = null;
+        }
+    }
+
+    private void ClearMouseFireState()
+    {
+        _mouseFireHoldControl = null;
+        MouseFirePressed = false;
+        MouseFireHeld = false;
+        MouseFireReleased = false;
+    }
 }

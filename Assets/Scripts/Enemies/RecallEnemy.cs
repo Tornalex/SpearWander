@@ -103,7 +103,7 @@ public class RecallEnemy : BaseEnemy
         if (playerObject != null)
         {
             player = playerObject.transform;
-            playerComponent = playerObject.GetComponent<Player>();
+            playerComponent = playerObject.GetComponentInParent<Player>();
         }
     }
 

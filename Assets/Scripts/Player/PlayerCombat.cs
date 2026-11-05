@@ -5,7 +5,10 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private GameObject spearPrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private Transform aimIndicator;
+    [SerializeField] private SpearTrajectoryPredictor _trajectoryPredictor;
+    [SerializeField] private SpearTrajectoryRenderer _trajectoryRenderer;
+    [SerializeField, Min(0f)] private float aimDeadzone = 0.15f;
+    [SerializeField, Min(0f)] private float aimSmoothing = 12f;
 
     public enum SpearUIState
     {
@@ -17,8 +20,10 @@ public class PlayerCombat : MonoBehaviour
     private Player _player;
     private float _throwCooldownTimer;
     private bool _isSpearReturning;
+    private bool _isMouseAiming;
     private Spear _currentSpear;
     private Camera _mainCam;
+    private Vector2 _aimDirection = Vector2.right;
 
     public bool HasSpear =>
         _currentSpear == null &&
@@ -47,6 +52,27 @@ public class PlayerCombat : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _mainCam = Camera.main;
+
+        if (_trajectoryPredictor == null)
+        {
+            Debug.LogWarning(
+                "[PlayerCombat] Trajectory preview disabled: assign the SpearTrajectoryPredictor component on Fire Point.",
+                this);
+        }
+        else
+        {
+            _trajectoryPredictor.Configure(spearPrefab, _player.Collider);
+        }
+
+        if (_trajectoryRenderer == null)
+        {
+            Debug.LogWarning(
+                "[PlayerCombat] Trajectory preview disabled: assign the SpearTrajectoryRenderer component on Fire Point.",
+                this);
+        }
+
+        if (_trajectoryPredictor == null || _trajectoryRenderer == null)
+            HideTrajectoryPreview();
     }
 
     void OnEnable()
@@ -55,26 +81,82 @@ public class PlayerCombat : MonoBehaviour
     }
     void OnDisable()
     {
+        _isMouseAiming = false;
+        HideTrajectoryPreview();
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     void Update()
     {
         if (!_player.HasControl)
+        {
+            _isMouseAiming = false;
+            HideTrajectoryPreview();
             return;
+        }
 
-        HandleAiming();
+        if (_player.Input.MouseFirePressed)
+        {
+            if (_currentSpear != null)
+            {
+                _isMouseAiming = false;
+                HideTrajectoryPreview();
+                RecallSpear();
+                return;
+            }
+
+            _isMouseAiming = true;
+        }
+
+        if (_isMouseAiming)
+        {
+            UpdateAimDirection();
+            UpdateTrajectoryPreview(true);
+
+            if (_player.Input.MouseFireReleased)
+            {
+                _isMouseAiming = false;
+                HideTrajectoryPreview();
+                TryLaunchSpear();
+            }
+            else if (!_player.Input.MouseFireHeld)
+            {
+                // Cancel an interrupted hold rather than launching later.
+                _isMouseAiming = false;
+                HideTrajectoryPreview();
+            }
+
+            return;
+        }
+
+        UpdateAimDirection();
+
+        bool controllerIsAiming =
+            _player.Input.IsGamepad &&
+            _player.Input.AimInput.sqrMagnitude > 0.1f;
+        UpdateTrajectoryPreview(controllerIsAiming);
 
         if (!_player.Input.FireTriggered)
             return;
 
+        HandleFireTriggered();
+    }
+
+    private void HandleFireTriggered()
+    {
         if (_currentSpear != null)
         {
             RecallSpear();
             return;
         }
 
-        // LANCIO
+        TryLaunchSpear();
+    }
+
+    private void TryLaunchSpear()
+    {
+        HideTrajectoryPreview();
+
         if (_throwCooldownTimer <= 0 &&
             !_isSpearReturning)
         {
@@ -88,15 +170,56 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private void UpdateTrajectoryPreview(bool isAiming)
+    {
+        if (!isAiming ||
+            !CanLaunchSpear() ||
+            firePoint == null ||
+            _trajectoryPredictor == null ||
+            _trajectoryRenderer == null)
+        {
+            HideTrajectoryPreview();
+            return;
+        }
+
+        int pointCount = _trajectoryPredictor.Predict(
+            firePoint.position,
+            _aimDirection,
+            _player.CombatStats.shootForce);
+
+        _trajectoryRenderer.Show(
+            _trajectoryPredictor.Points,
+            pointCount);
+    }
+
+    private bool CanLaunchSpear()
+    {
+        return _player != null &&
+               _player.HasControl &&
+               _currentSpear == null &&
+               !_isSpearReturning &&
+               _throwCooldownTimer <= 0f &&
+               spearPrefab != null &&
+               firePoint != null &&
+               _player.CombatStats != null &&
+               (_player.RopeClimb == null || !_player.RopeClimb.IsClimbing);
+    }
+
+    private void HideTrajectoryPreview()
+    {
+        if (_trajectoryRenderer != null)
+            _trajectoryRenderer.Hide();
+    }
+
     void FixedUpdate()
     {
         if (_throwCooldownTimer > 0)
             _throwCooldownTimer -= Time.fixedDeltaTime;
     }
 
-    void HandleAiming()
+    void UpdateAimDirection()
     {
-        if (_mainCam == null || firePoint == null || aimIndicator == null)
+        if (_mainCam == null || firePoint == null)
             return;
 
         Vector2 dir = Vector2.zero;
@@ -105,12 +228,27 @@ public class PlayerCombat : MonoBehaviour
         {
             dir = _player.Input.AimInput;
 
-            if (dir.sqrMagnitude <= 0.01f)
+            if (dir.magnitude <= aimDeadzone)
             {
                 dir = new Vector2(
                     Mathf.Sign(transform.localScale.x),
                     0.15f
                 );
+            }
+            else
+            {
+                Vector2 targetDirection = dir.normalized;
+                float smoothingFactor = aimSmoothing > 0f
+                    ? 1f - Mathf.Exp(-aimSmoothing * Time.deltaTime)
+                    : 1f;
+                Vector2 smoothedDirection = Vector2.Lerp(
+                    _aimDirection,
+                    targetDirection,
+                    smoothingFactor);
+
+                dir = smoothedDirection.sqrMagnitude > 0.0001f
+                    ? smoothedDirection.normalized
+                    : targetDirection;
             }
         }
         else
@@ -130,23 +268,12 @@ public class PlayerCombat : MonoBehaviour
         }
 
         if (dir.sqrMagnitude > 0.01f)
-        {
-            float angle =
-                Mathf.Atan2(dir.y, dir.x) *
-                Mathf.Rad2Deg;
-
-            aimIndicator.rotation =
-                Quaternion.Euler(
-                    0,
-                    0,
-                    angle
-                );
-        }
+            _aimDirection = dir.normalized;
     }
 
     void Fire()
     {
-        if (spearPrefab == null || firePoint == null || aimIndicator == null)
+        if (spearPrefab == null || firePoint == null)
             return;
 
         _throwCooldownTimer =
@@ -156,7 +283,11 @@ public class PlayerCombat : MonoBehaviour
             Instantiate(
                 spearPrefab,
                 firePoint.position,
-                aimIndicator.rotation
+                Quaternion.Euler(
+                    0f,
+                    0f,
+                    Mathf.Atan2(_aimDirection.y, _aimDirection.x) *
+                    Mathf.Rad2Deg)
             );
 
         _currentSpear =
@@ -180,7 +311,7 @@ public class PlayerCombat : MonoBehaviour
         if (spearRb != null)
         {
             spearRb.AddForce(
-                aimIndicator.right *
+                _aimDirection *
                 _player.CombatStats.shootForce,
                 ForceMode2D.Impulse
             );
@@ -210,6 +341,9 @@ public class PlayerCombat : MonoBehaviour
 
     void OnSceneUnloaded(Scene scene)
     {
+        _isMouseAiming = false;
+        HideTrajectoryPreview();
+
         if (_currentSpear != null)
         {
             if (_isSpearReturning)
@@ -255,6 +389,9 @@ public class PlayerCombat : MonoBehaviour
 
     public void ResetState()
     {
+        _isMouseAiming = false;
+        HideTrajectoryPreview();
+
         if (_currentSpear != null)
         {
             _currentSpear.OnSpearReturned -= CatchSpear;

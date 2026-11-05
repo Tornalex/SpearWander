@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feaa3d03a070e574d95e18eb877f30a6, type: 3}
+  m_Name: YellowForest_BardoHouse
+  m_EditorClassIdentifier: Assembly-CSharp::RoomDefinition
+  roomId: room_49ea8e09160b4068a787f64e7dcb61e4
+  displayName: YellowForest_BardoHouse
+  sceneName: YellowForest_BardoHouse
+  sceneGuid: bbec955bc74c33242bad4bd7e13b2fb2

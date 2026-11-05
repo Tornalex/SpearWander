@@ -47,27 +47,11 @@ private void OnCollisionEnter2D(
 
     public void OnTipHit(Collider2D other)
     {
-        if (other.gameObject.layer == _spearLayer)
-            return;
-
-        if (other.transform.IsChildOf(transform))
-            return;
-
         if (currentState == SpearState.Embedded)
             return;
 
-        if (other.CompareTag(cameraBoundsTag))
+        if (!IsTipTriggerCandidate(other, _playerCollider))
             return;
-
-        if (other.CompareTag(directionChangerTag))
-            return;
-
-        if (_playerCollider != null &&
-            other.transform.IsChildOf(
-                _playerCollider.transform))
-        {
-            return;
-        }
 
         Vector2 hitPoint =
             other.ClosestPoint(transform.position);
@@ -112,6 +96,34 @@ private void OnCollisionEnter2D(
             normal,
             foundActualColliderHit
         );
+    }
+
+    /// <summary>
+    /// Applies the same candidate exclusions used by the live tip trigger.
+    /// Exposed for the trajectory predictor; this method has no side effects.
+    /// </summary>
+    public bool IsTipTriggerCandidate(
+        Collider2D candidate,
+        Collider2D playerCollider)
+    {
+        int spearLayer =
+            _spearLayer == 0 ? gameObject.layer : _spearLayer;
+
+        if (candidate == null ||
+            candidate.gameObject.layer == spearLayer ||
+            candidate.transform.IsChildOf(transform))
+        {
+            return false;
+        }
+
+        if (candidate.CompareTag(cameraBoundsTag) ||
+            candidate.CompareTag(directionChangerTag))
+        {
+            return false;
+        }
+
+        return playerCollider == null ||
+               !candidate.transform.IsChildOf(playerCollider.transform);
     }
 
     private void BounceOffBoss(

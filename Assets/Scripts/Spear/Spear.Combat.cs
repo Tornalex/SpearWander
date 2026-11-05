@@ -3,6 +3,42 @@ using System.Collections.Generic;
 
 public partial class Spear : MonoBehaviour
 {
+    public enum HitClassificationType
+    {
+        None,
+        Damage,
+        ImpactReceiverConditional,
+        Embed
+    }
+
+    public enum HitOutcome
+    {
+        None,
+        Bounce,
+        BounceIfAccepted,
+        Embed
+    }
+
+    public readonly struct HitClassification
+    {
+        // Outcome for a direct route, or the accepted branch of a conditional receiver.
+        public readonly HitClassificationType Type;
+        public readonly HitOutcome Outcome;
+
+        // Possible fallback only when a conditional receiver rejects the hit.
+        public readonly HitOutcome RejectedReceiverOutcome;
+
+        public HitClassification(
+            HitClassificationType type,
+            HitOutcome outcome,
+            HitOutcome rejectedReceiverOutcome = HitOutcome.None)
+        {
+            Type = type;
+            Outcome = outcome;
+            RejectedReceiverOutcome = rejectedReceiverOutcome;
+        }
+    }
+
     [Header("Enemy Bounce")]
     [SerializeField] private float enemyBounceSpeed = 15f;
     [SerializeField] private float bounceAngle = 90f;
@@ -56,82 +92,286 @@ private void ProcessHit(
     Vector2 normal,
     bool hasValidSurfaceNormal = true)
 {
+    if (other == null)
+        return;
+
     if (currentState == SpearState.Embedded)
+        return;
+
+    // Query-based hit detection (tunneling sweep, tip raycast) does not
+    // respect Physics2D.IgnoreCollision, so ignore pairs must be checked
+    // here as well.
+    if (IsCollisionIgnored(other))
         return;
 
     if (other.CompareTag(directionChangerTag))
         return;
 
+    IDamageable damageable = null;
+    ISpearImpactReceiver impactReceiver = null;
+    bool damageableAlreadyHit = false;
+    bool receiverAlreadyRegistered = false;
+
     if (other.TryGetComponent(
-        out IDamageable damageable))
+        out damageable))
+    {
+        damageableAlreadyHit =
+            currentState == SpearState.Returning
+                ? _enemiesHitDuringReturn.Contains(damageable)
+                : _enemiesHitDuringThrow.Contains(damageable);
+    }
+    else if (currentState == SpearState.Flying ||
+             currentState == SpearState.BouncedOff)
+    {
+        impactReceiver =
+            other.GetComponentInParent<ISpearImpactReceiver>();
+
+        receiverAlreadyRegistered =
+            impactReceiver != null &&
+            _impactReceiversHitDuringThrow.Contains(impactReceiver);
+    }
+
+    HitClassification classification = ClassifyHitCore(
+        other,
+        currentState,
+        damageable,
+        impactReceiver,
+        damageableAlreadyHit,
+        receiverAlreadyRegistered);
+
+    if (classification.Type == HitClassificationType.None)
+        return;
+
+    if (classification.Type == HitClassificationType.Damage)
     {
         if (!ProcessDamageableHit(damageable, hitPoint))
             return;
 
+        // Keep the existing post-damage state check: damage callbacks may
+        // change gameplay state before the spear decides whether to bounce.
         if (currentState == SpearState.Flying ||
             currentState == SpearState.BouncedOff)
         {
             BounceOffEnemy();
         }
+
+        return;
     }
-    else if ((currentState == SpearState.Flying ||
-              currentState == SpearState.BouncedOff) &&
-             other.GetComponentInParent<ISpearImpactReceiver>()
-                 is ISpearImpactReceiver impactReceiver)
+
+    if (classification.Type == HitClassificationType.ImpactReceiverConditional)
     {
         if (!TryRegisterImpactReceiver(impactReceiver))
             return;
 
-        if (!impactReceiver.TryReceiveSpearImpact(
+        if (impactReceiver.TryReceiveSpearImpact(
             this,
             hitPoint,
             normal))
-            return;
-
-        if (currentState == SpearState.Flying ||
-            currentState == SpearState.BouncedOff)
         {
-            BounceOffEnemy();
-        }
-    }
-    else
-    {
-        if (currentState == SpearState.Flying ||
-            currentState == SpearState.BouncedOff ||
-            currentState == SpearState.Dropped)
-        {
-            IEmbeddable embeddable =
-                other.GetComponentInParent<IEmbeddable>();
-
-            Component embeddableComponent =
-                embeddable as Component;
-
-            StickToTarget(
-                embeddableComponent != null
-                    ? embeddableComponent.transform
-                    : null,
-                hitPoint,
-                other,
-                normal,
-                hasValidSurfaceNormal
-            );
-
-            if (embeddableComponent != null)
-                _currentEmbeddable = embeddable;
-
-            CreateRope();
-
-            if (embeddableComponent != null)
+            if (currentState == SpearState.Flying ||
+                currentState == SpearState.BouncedOff)
             {
-                embeddable.OnSpearEmbedded(
-                    this,
-                    hitPoint,
-                    normal
-                );
+                BounceOffEnemy();
             }
+
+            return;
         }
+
+        // Reclassify the rejected receiver path against post-callback state.
+        // This preserves the completed-counter/static-body fallback without
+        // invoking receiver code during classification.
+        classification = ClassifyHitCore(
+            other,
+            currentState,
+            damageable,
+            impactReceiver,
+            damageableAlreadyHit,
+            receiverAlreadyRegistered: true,
+            receiverRejected: true);
+
+        if (classification.Type != HitClassificationType.Embed)
+            return;
+    }
+
+    IEmbeddable embeddable =
+        other.GetComponentInParent<IEmbeddable>();
+
+    Component embeddableComponent =
+        embeddable as Component;
+
+    StickToTarget(
+        embeddableComponent != null
+            ? embeddableComponent.transform
+            : null,
+        hitPoint,
+        other,
+        normal,
+        hasValidSurfaceNormal
+    );
+
+    if (embeddableComponent != null)
+        _currentEmbeddable = embeddable;
+
+    CreateRope();
+
+    if (embeddableComponent != null)
+    {
+        embeddable.OnSpearEmbedded(
+            this,
+            hitPoint,
+            normal
+        );
     }
 }
+
+    /// <summary>
+    /// Classifies the interaction route for a collider without invoking any
+    /// gameplay callbacks or changing spear or target state.
+    /// </summary>
+    public HitClassification ClassifyHit(
+        Collider2D other,
+        SpearState state,
+        bool damageableAlreadyHit,
+        bool receiverAlreadyRegistered)
+    {
+        if (other == null)
+        {
+            return new HitClassification(
+                HitClassificationType.None,
+                HitOutcome.None);
+        }
+
+        IDamageable damageable =
+            other.GetComponent<IDamageable>();
+
+        ISpearImpactReceiver impactReceiver = null;
+        if (damageable == null &&
+            (state == SpearState.Flying ||
+             state == SpearState.BouncedOff))
+        {
+            impactReceiver =
+                other.GetComponentInParent<ISpearImpactReceiver>();
+        }
+
+        return ClassifyHitCore(
+            other,
+            state,
+            damageable,
+            impactReceiver,
+            damageableAlreadyHit,
+            receiverAlreadyRegistered);
+    }
+
+    private HitClassification ClassifyHitCore(
+        Collider2D other,
+        SpearState state,
+        IDamageable damageable,
+        ISpearImpactReceiver impactReceiver,
+        bool damageableAlreadyHit,
+        bool receiverAlreadyRegistered,
+        bool receiverRejected = false)
+    {
+        if (receiverRejected)
+        {
+            // The original receiver callback has already rejected this hit.
+            // Only a completed counter on a currently static attached body
+            // falls through to embedding.
+            if (ClassifyRejectedReceiverOutcome(
+                    other,
+                    state,
+                    impactReceiver) == HitOutcome.Embed)
+            {
+                return new HitClassification(
+                    HitClassificationType.Embed,
+                    HitOutcome.Embed);
+            }
+
+            return new HitClassification(
+                HitClassificationType.None,
+                HitOutcome.None);
+        }
+
+        if (state == SpearState.Embedded ||
+            other.CompareTag(directionChangerTag))
+        {
+            return new HitClassification(
+                HitClassificationType.None,
+                HitOutcome.None);
+        }
+
+        if (damageable != null)
+        {
+            if (damageableAlreadyHit)
+            {
+                return new HitClassification(
+                    HitClassificationType.None,
+                    HitOutcome.None);
+            }
+
+            bool willBounce =
+                state == SpearState.Flying ||
+                state == SpearState.BouncedOff;
+
+            return new HitClassification(
+                HitClassificationType.Damage,
+                willBounce ? HitOutcome.Bounce : HitOutcome.None);
+        }
+
+        if ((state == SpearState.Flying ||
+             state == SpearState.BouncedOff) &&
+            impactReceiver != null)
+        {
+            if (receiverAlreadyRegistered)
+            {
+                return new HitClassification(
+                    HitClassificationType.None,
+                    HitOutcome.None);
+            }
+
+            return new HitClassification(
+                HitClassificationType.ImpactReceiverConditional,
+                HitOutcome.BounceIfAccepted,
+                ClassifyRejectedReceiverOutcome(other, state, impactReceiver));
+        }
+
+        if (CanEmbedInState(state))
+        {
+            return new HitClassification(
+                HitClassificationType.Embed,
+                HitOutcome.Embed);
+        }
+
+        return new HitClassification(
+            HitClassificationType.None,
+            HitOutcome.None);
+    }
+
+    private static bool CanEmbedInState(SpearState state)
+    {
+        return state == SpearState.Flying ||
+               state == SpearState.BouncedOff ||
+               state == SpearState.Dropped;
+    }
+
+    private static HitOutcome ClassifyRejectedReceiverOutcome(
+        Collider2D other,
+        SpearState state,
+        ISpearImpactReceiver impactReceiver)
+    {
+        SpearImpactCounter completedCounter =
+            impactReceiver as SpearImpactCounter;
+
+        if (completedCounter != null &&
+            completedCounter.IsComplete &&
+            other.attachedRigidbody != null &&
+            other.attachedRigidbody.bodyType == RigidbodyType2D.Static &&
+            CanEmbedInState(state))
+        {
+            return HitOutcome.Embed;
+        }
+
+        return HitOutcome.None;
+    }
 
     private bool ProcessDamageableHit(
         IDamageable damageable,

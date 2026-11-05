@@ -113,31 +113,17 @@ public partial class Spear : MonoBehaviour
                     if (hit.collider == null)
                         continue;
 
-                    if (hit.collider == _collider)
+                    // IgnoreCollision suppresses contacts but not queries.
+                    // Skip pairs the spear was explicitly told to ignore so
+                    // the sweep can continue past them instead of treating
+                    // them as the next impact.
+                    if (IsCollisionIgnored(hit.collider))
                         continue;
 
-                    if (hit.collider.gameObject.layer == _spearLayer)
-                        continue;
-
-                    if (hit.transform.IsChildOf(transform))
-                        continue;
-
-                    if (_playerCollider != null &&
-                        hit.collider.transform.IsChildOf(
-                            _playerCollider.transform))
-                    {
-                        continue;
-                    }
-
-                    if (hit.collider.CompareTag(cameraBoundsTag))
-                        continue;
-
-                    if (hit.collider.CompareTag(directionChangerTag))
-                        continue;
-
-                    if (currentState == SpearState.Returning &&
-                        !hit.collider.TryGetComponent(
-                            out IDamageable _))
+                    if (!IsTunnelingCandidate(
+                            hit.collider,
+                            _playerCollider,
+                            currentState))
                     {
                         continue;
                     }
@@ -206,6 +192,55 @@ public partial class Spear : MonoBehaviour
 
         _lastPosition =
             currentPosition;
+    }
+
+    /// <summary>
+    /// Applies the same candidate exclusions used by the live root raycast.
+    /// Exposed for the trajectory predictor; this method has no side effects.
+    /// </summary>
+    public bool IsTunnelingCandidate(
+        Collider2D candidate,
+        Collider2D playerCollider,
+        SpearState state)
+    {
+        int spearLayer =
+            _spearLayer == 0 ? gameObject.layer : _spearLayer;
+
+        if (candidate == null ||
+            candidate == _collider ||
+            candidate.gameObject.layer == spearLayer ||
+            candidate.transform.IsChildOf(transform))
+        {
+            return false;
+        }
+
+        if (playerCollider != null &&
+            candidate.transform.IsChildOf(playerCollider.transform))
+        {
+            return false;
+        }
+
+        if (candidate.CompareTag(cameraBoundsTag) ||
+            candidate.CompareTag(directionChangerTag))
+        {
+            return false;
+        }
+
+        return state != SpearState.Returning ||
+               candidate.TryGetComponent(out IDamageable _);
+    }
+
+    /// <summary>
+    /// Physics2D.IgnoreCollision only affects contact generation; raycasts
+    /// and casts still report ignored colliders. Query-based hit detection
+    /// must consult the pair state explicitly.
+    /// </summary>
+    private bool IsCollisionIgnored(Collider2D other)
+    {
+        if (other == null || _collider == null)
+            return false;
+
+        return Physics2D.GetIgnoreCollision(_collider, other);
     }
 
     private void StickToTarget(
