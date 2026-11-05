@@ -40,12 +40,20 @@ public abstract class BaseEnemy : MonoBehaviour, IDamageable, IBounceable
         }
     }
 
-        protected virtual void Start()
+    protected virtual void Start()
     {
         // Set the room used for persistent death tracking.
         if (GameSceneManager.Instance != null)
         {
-            roomName = GameSceneManager.Instance.CurrentRoom;
+            // Additive destination loading temporarily leaves the source room
+            // loaded. Use this enemy's owning room rather than the manager's
+            // still-committed CurrentRoom during that overlap.
+            string owningSceneName = gameObject.scene.name;
+            roomName = !string.IsNullOrEmpty(owningSceneName) &&
+                       owningSceneName != "DontDestroyOnLoad" &&
+                       owningSceneName != "Master"
+                ? owningSceneName
+                : GameSceneManager.Instance.CurrentRoom;
         }
         else
         {

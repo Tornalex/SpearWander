@@ -34,6 +34,10 @@ public class RoomConnectivityGraphWindow : EditorWindow
     private RoomGraphEdge _selectedEdge;
     private RoomGraphDoor _selectedDoor;
     private bool _showUnresolvedPanel;
+    private readonly RoomConnectionCreationWorkflow _connectionCreation =
+        new RoomConnectionCreationWorkflow();
+    private string _connectionCreationError;
+    private string _connectionCreationNotice;
 
     private VisualElement _viewport;
     private VisualElement _content;
@@ -43,6 +47,7 @@ public class RoomConnectivityGraphWindow : EditorWindow
     private Label _zoomLabel;
     private Label _visibilityLabel;
     private Button _unresolvedButton;
+    private Button _connectionCreationButton;
 
     private TextField _searchField;
     private VisualElement _searchResultsContainer;
@@ -124,6 +129,9 @@ public class RoomConnectivityGraphWindow : EditorWindow
         _visibleNodes.Clear();
         _searchQuery = string.Empty;
         _layoutPositions.Clear();
+        _connectionCreation.Cancel();
+        _connectionCreationError = null;
+        _connectionCreationNotice = null;
         ResetDragState();
 
         if (_searchField != null)
@@ -169,6 +177,10 @@ public class RoomConnectivityGraphWindow : EditorWindow
         toolbar.Add(resetLayoutButton);
 
         toolbar.Add(MakeButton("Validate", SelectValidationIssues));
+        _connectionCreationButton = MakeButton("Create Connection", ToggleConnectionCreation);
+        _connectionCreationButton.tooltip =
+            "Start a guided connection workflow. No asset is created until the final confirmation.";
+        toolbar.Add(_connectionCreationButton);
         _unresolvedButton = MakeButton("Unresolved (0)", ShowUnresolvedPanel);
         toolbar.Add(_unresolvedButton);
 
@@ -1201,6 +1213,15 @@ public class RoomConnectivityGraphWindow : EditorWindow
 
     private void OnUndoRedoPerformed()
     {
+        if (_model != null &&
+            string.Equals(Undo.GetCurrentGroupName(), RoomConnectionService.CreateUndoName, StringComparison.Ordinal))
+        {
+            // Connection Undo/Redo changes authoritative assets and scene
+            // backlinks, so rebuild only for this explicit user operation.
+            RefreshModel();
+            return;
+        }
+
         if (_model == null || _layoutAsset == null || _layout == null)
             return;
 
@@ -1634,6 +1655,14 @@ public class RoomConnectivityGraphWindow : EditorWindow
 
     private void UpdateToolbar()
     {
+        if (_connectionCreationButton != null)
+        {
+            _connectionCreationButton.text = _connectionCreation.IsActive
+                ? "Cancel Creation"
+                : "Create Connection";
+            _connectionCreationButton.SetEnabled(_model != null || _connectionCreation.IsActive);
+        }
+
         if (_unresolvedButton != null)
         {
             int unresolvedCount = GetUnresolvedEdges(_model, _layout).Count;
@@ -1661,6 +1690,11 @@ public class RoomConnectivityGraphWindow : EditorWindow
             return;
 
         _sidePanel.Clear();
+
+        if (_connectionCreation.IsActive)
+            BuildConnectionCreationPanel();
+        else if (!string.IsNullOrEmpty(_connectionCreationNotice))
+            _sidePanel.Add(HelpBox(_connectionCreationNotice, HelpBoxMessageType.Info));
 
         if (_model == null)
         {
@@ -1760,7 +1794,7 @@ public class RoomConnectivityGraphWindow : EditorWindow
                 AddIssue(issue);
         }
 
-        _sidePanel.Add(MakeButton("Open Connection Creator…", RoomConnectionCreatorWindow.Open));
+        _sidePanel.Add(InfoLabel("Use Create Connection to author a new connection directly from the graph."));
     }
 
     private void BuildNodeDetails(RoomGraphNode node)
@@ -1933,6 +1967,8 @@ public class RoomConnectivityGraphWindow : EditorWindow
         locate.SetEnabled(node.SceneAvailable);
         actions.Add(locate);
 
+        AddConnectionCreationAction(actions, node, door);
+
         if (door.Connection != null)
         {
             Button backlink = MakeButton("Ping Backlink", () => PingObject(door.Connection));
@@ -1947,6 +1983,328 @@ public class RoomConnectivityGraphWindow : EditorWindow
             select.tooltip = edge.AssetName;
             actions.Add(select);
         }
+    }
+
+    private void BuildConnectionCreationPanel()
+    {
+        _sidePanel.Add(SectionTitle(
+            $"Create Connection — {ConnectionCreationStepLabel(_connectionCreation.Step)}"));
+
+        string instruction;
+        switch (_connectionCreation.Step)
+        {
+            case RoomConnectionCreationStep.SelectSource:
+                instruction = "Step 1 of 4: Choose endpoint A, the source door, from a room's door list.";
+                break;
+            case RoomConnectionCreationStep.SelectDestination:
+                instruction = "Step 2 of 4: Choose endpoint B, the destination door, in a different room.";
+                break;
+            case RoomConnectionCreationStep.SelectMode:
+                instruction = "Step 3 of 4: Choose how traversal works, then review the complete proposal.";
+                break;
+            default:
+                instruction = "Step 4 of 4: Review every endpoint and direction before confirming creation.";
+                break;
+        }
+
+        _sidePanel.Add(InfoLabel(instruction));
+        _sidePanel.Add(InfoLabel("Endpoint A: " + FormatCreationEndpoint(_connectionCreation.Source)));
+        _sidePanel.Add(InfoLabel("Endpoint B: " + FormatCreationEndpoint(_connectionCreation.Destination)));
+
+        if (_connectionCreation.Step == RoomConnectionCreationStep.SelectMode)
+        {
+            EnumField mode = new EnumField("Connection mode", _connectionCreation.Direction);
+            mode.RegisterValueChangedCallback(evt =>
+            {
+                if (_connectionCreation.SetDirection((RoomConnectionDirection)evt.newValue))
+                {
+                    _connectionCreationError = null;
+                    UpdateDetails();
+                }
+            });
+            _sidePanel.Add(mode);
+            _sidePanel.Add(InfoLabel(DirectionSemantics(_connectionCreation.Direction)));
+        }
+        else if (_connectionCreation.Step == RoomConnectionCreationStep.Confirm)
+        {
+            _sidePanel.Add(SectionTitle("Connection summary"));
+            _sidePanel.Add(InfoLabel("Endpoint A — source: " + FormatCreationEndpoint(_connectionCreation.Source)));
+            _sidePanel.Add(InfoLabel("Endpoint B — destination: " + FormatCreationEndpoint(_connectionCreation.Destination)));
+            _sidePanel.Add(InfoLabel("Mode: " + _connectionCreation.Direction));
+            _sidePanel.Add(InfoLabel(DirectionSemantics(_connectionCreation.Direction)));
+            _sidePanel.Add(InfoLabel("A new RoomConnection asset will be created in the registered Connections folder."));
+        }
+
+        if (!string.IsNullOrEmpty(_connectionCreationError))
+            _sidePanel.Add(HelpBox(_connectionCreationError, HelpBoxMessageType.Error));
+
+        VisualElement actions = new VisualElement();
+        actions.style.flexDirection = FlexDirection.Row;
+        actions.style.flexWrap = Wrap.Wrap;
+
+        if (_connectionCreation.Step != RoomConnectionCreationStep.SelectSource)
+            actions.Add(MakeButton("Back", GoBackInConnectionCreation));
+
+        if (_connectionCreation.Step == RoomConnectionCreationStep.SelectMode)
+        {
+            actions.Add(MakeButton("Review Connection", ContinueConnectionCreation));
+        }
+        else if (_connectionCreation.Step == RoomConnectionCreationStep.Confirm)
+        {
+            Button confirm = MakeButton("Confirm Create Connection", ConfirmConnectionCreation);
+            confirm.style.height = 26;
+            actions.Add(confirm);
+        }
+
+        actions.Add(MakeButton("Cancel", CancelConnectionCreation));
+        _sidePanel.Add(actions);
+    }
+
+    private void AddConnectionCreationAction(
+        VisualElement actions,
+        RoomGraphNode node,
+        RoomGraphDoor door)
+    {
+        if (!_connectionCreation.IsActive || actions == null || door == null)
+            return;
+
+        bool selectingSource = _connectionCreation.Step == RoomConnectionCreationStep.SelectSource;
+        bool selectingDestination = _connectionCreation.Step == RoomConnectionCreationStep.SelectDestination;
+        if (!selectingSource && !selectingDestination)
+            return;
+
+        string reason = RoomConnectionCreationWorkflow.GetIneligibilityReason(
+            _model,
+            node,
+            door,
+            selectingDestination ? _connectionCreation.Source : null);
+
+        string actionText = selectingSource
+            ? "Use as Endpoint A (Source)"
+            : "Use as Endpoint B (Destination)";
+        Button choose = MakeButton(actionText, () => ChooseCreationEndpoint(node, door, selectingSource));
+        choose.SetEnabled(reason == null);
+        if (reason != null)
+            choose.tooltip = "Unavailable: " + reason;
+        actions.Add(choose);
+
+        if (reason != null)
+        {
+            Label unavailable = InfoLabel("Cannot select: " + reason);
+            unavailable.style.color = new Color(0.95f, 0.62f, 0.48f);
+            actions.Add(unavailable);
+        }
+    }
+
+    private void ToggleConnectionCreation()
+    {
+        if (_connectionCreation.IsActive)
+        {
+            CancelConnectionCreation();
+            return;
+        }
+
+        if (_model == null)
+        {
+            _connectionCreationError = "Refresh the graph before starting connection creation.";
+            UpdateDetails();
+            return;
+        }
+
+        _connectionCreation.Start();
+        _connectionCreationError = null;
+        _connectionCreationNotice = null;
+        UpdateToolbar();
+        UpdateDetails();
+    }
+
+    private void CancelConnectionCreation()
+    {
+        _connectionCreation.Cancel();
+        _connectionCreationError = null;
+        UpdateToolbar();
+        UpdateDetails();
+    }
+
+    private void GoBackInConnectionCreation()
+    {
+        if (_connectionCreation.GoBack())
+        {
+            _connectionCreationError = null;
+            UpdateDetails();
+        }
+    }
+
+    private void ChooseCreationEndpoint(
+        RoomGraphNode node,
+        RoomGraphDoor door,
+        bool source)
+    {
+        string reason = RoomConnectionCreationWorkflow.GetIneligibilityReason(
+            _model,
+            node,
+            door,
+            source ? null : _connectionCreation.Source);
+
+        if (reason != null)
+        {
+            _connectionCreationError = reason;
+            UpdateDetails();
+            return;
+        }
+
+        bool selected = source
+            ? _connectionCreation.ChooseSource(door, out _connectionCreationError)
+            : _connectionCreation.ChooseDestination(door, out _connectionCreationError);
+
+        if (selected)
+            _connectionCreationError = null;
+
+        UpdateDetails();
+    }
+
+    private void ContinueConnectionCreation()
+    {
+        if (!TryResolveCreationEndpoints(out _, out _))
+        {
+            UpdateDetails();
+            return;
+        }
+
+        if (_connectionCreation.ContinueToConfirmation(out _connectionCreationError))
+            _connectionCreationError = null;
+
+        UpdateDetails();
+    }
+
+    private bool TryResolveCreationEndpoints(
+        out RoomGraphDoor source,
+        out RoomGraphDoor destination)
+    {
+        source = RoomConnectionCreationWorkflow.ResolveCurrentDoor(
+            _model,
+            _connectionCreation.Source,
+            out RoomGraphNode sourceNode,
+            out _connectionCreationError);
+        destination = null;
+        if (source == null)
+            return false;
+
+        destination = RoomConnectionCreationWorkflow.ResolveCurrentDoor(
+            _model,
+            _connectionCreation.Destination,
+            out RoomGraphNode destinationNode,
+            out _connectionCreationError);
+        if (destination == null)
+            return false;
+
+        _connectionCreationError = RoomConnectionCreationWorkflow.GetIneligibilityReason(
+            _model,
+            destinationNode,
+            destination,
+            source);
+        if (_connectionCreationError != null)
+            return false;
+
+        _connectionCreationError = RoomConnectionCreationWorkflow.GetIneligibilityReason(
+            _model,
+            sourceNode,
+            source,
+            destination);
+        return _connectionCreationError == null;
+    }
+
+    private void ConfirmConnectionCreation()
+    {
+        if (!TryResolveCreationEndpoints(out RoomGraphDoor source, out RoomGraphDoor destination))
+        {
+            UpdateDetails();
+            return;
+        }
+
+        bool created = RoomConnectionService.CreateConnection(
+            source.Room,
+            source.StableDoorId,
+            destination.Room,
+            destination.StableDoorId,
+            _connectionCreation.Direction,
+            null,
+            out RoomConnection connection,
+            out string message);
+
+        if (!created)
+        {
+            _connectionCreationError = message;
+            UpdateDetails();
+            return;
+        }
+
+        _connectionCreation.Cancel();
+        _connectionCreationError = null;
+        _connectionCreationNotice = message;
+        RefreshModel();
+
+        RoomGraphEdge edge = _model != null ? _model.FindEdge(connection) : null;
+        if (edge != null)
+        {
+            if (edge.SourceNode != null)
+                _searchRevealedNodes.Add(edge.SourceNode);
+            if (edge.TargetNode != null)
+                _searchRevealedNodes.Add(edge.TargetNode);
+
+            ApplyVisibility();
+            SelectEdge(edge);
+            FocusEdge(edge);
+        }
+        else
+        {
+            _connectionCreationNotice =
+                message + " The graph refreshed, but the created asset could not be resolved as an edge; use Refresh and inspect validation.";
+            UpdateDetails();
+        }
+    }
+
+    private string FormatCreationEndpoint(RoomGraphDoor door)
+    {
+        if (door == null)
+            return "<not selected>";
+
+        RoomGraphNode node = _model != null ? _model.FindNode(door.Room) : null;
+        string roomName = node != null ? node.DisplayName :
+            door.Room != null && !string.IsNullOrWhiteSpace(door.Room.DisplayName)
+                ? door.Room.DisplayName
+                : door.Room != null ? door.Room.name : "<missing room>";
+        string roomId = door.Room != null ? door.Room.RoomId : string.Empty;
+        string doorId = string.IsNullOrWhiteSpace(door.StableDoorId)
+            ? "<missing doorId>"
+            : door.StableDoorId;
+        string objectName = string.IsNullOrWhiteSpace(door.GameObjectName)
+            ? "<unnamed door>"
+            : door.GameObjectName;
+
+        return $"{roomName} ({roomId}) / {doorId} — {objectName}";
+    }
+
+    private static string ConnectionCreationStepLabel(RoomConnectionCreationStep step)
+    {
+        switch (step)
+        {
+            case RoomConnectionCreationStep.SelectSource:
+                return "Step 1 of 4: Source door";
+            case RoomConnectionCreationStep.SelectDestination:
+                return "Step 2 of 4: Destination door";
+            case RoomConnectionCreationStep.SelectMode:
+                return "Step 3 of 4: Connection mode";
+            default:
+                return "Step 4 of 4: Confirm";
+        }
+    }
+
+    private static string DirectionSemantics(RoomConnectionDirection direction)
+    {
+        return direction == RoomConnectionDirection.OneWay
+            ? "OneWay: endpoint A is the source; traversal is permitted from A to endpoint B only."
+            : "Bidirectional: both endpoint A and endpoint B can initiate traversal.";
     }
 
     private void BuildEdgeDetails(RoomGraphEdge edge)
@@ -2009,7 +2367,6 @@ public class RoomConnectivityGraphWindow : EditorWindow
             _sidePanel.Add(InfoLabel("No validation issues were reported for this connection."));
         }
 
-        _sidePanel.Add(MakeButton("Open Connection Creator…", RoomConnectionCreatorWindow.Open));
     }
 
     private void BuildUnresolvedDetails()
@@ -2030,7 +2387,6 @@ public class RoomConnectivityGraphWindow : EditorWindow
         foreach (RoomGraphEdge edge in unresolved)
             AddUnresolvedEntry(_sidePanel, edge);
 
-        _sidePanel.Add(MakeButton("Open Connection Creator…", RoomConnectionCreatorWindow.Open));
     }
 
     private void BuildUnresolvedSection()

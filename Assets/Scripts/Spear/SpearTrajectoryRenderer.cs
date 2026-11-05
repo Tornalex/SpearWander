@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Draws predicted points using a reusable pool of small SpriteRenderers.
@@ -111,6 +112,7 @@ public sealed class SpearTrajectoryRenderer : MonoBehaviour
         {
             GameObject dot = new GameObject("Spear Trajectory Dot");
             dot.transform.SetParent(null);
+            SceneManager.MoveGameObjectToScene(dot, gameObject.scene);
 
             SpriteRenderer spriteRenderer = dot.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = GetDotSprite();

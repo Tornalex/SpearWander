@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfadc39d44d40644c95aa1824a2bc948, type: 3}
-  m_Name: Conn_room_79c3ecd5e9d4434a8a630e8283c5f1fb_YellowForest_TreeBranch_TopLeft_to_room_25763ab8ee804b3cbe7f51bb74708ae3_YellowForest_TreeBranch
-    1_Right
+  m_Name: Conn_room_25763ab8ee804b3cbe7f51bb74708ae3_YellowForest_TreeBranch 1_Right_to_room_79c3ecd5e9d4434a8a630e8283c5f1fb_YellowForest_TreeBranch_TopLeft
   m_EditorClassIdentifier: Assembly-CSharp::RoomConnection
-  endpointARoomId: room_79c3ecd5e9d4434a8a630e8283c5f1fb
-  endpointADoorId: YellowForest_TreeBranch_TopLeft
-  endpointBRoomId: room_25763ab8ee804b3cbe7f51bb74708ae3
-  endpointBDoorId: YellowForest_TreeBranch 1_Right
+  endpointARoomId: room_25763ab8ee804b3cbe7f51bb74708ae3
+  endpointADoorId: YellowForest_TreeBranch 1_Right
+  endpointBRoomId: room_79c3ecd5e9d4434a8a630e8283c5f1fb
+  endpointBDoorId: YellowForest_TreeBranch_TopLeft
   direction: 0

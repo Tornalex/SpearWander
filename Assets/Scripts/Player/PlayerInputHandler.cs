@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using Yarn.Unity;
 
 [DefaultExecutionOrder(-101)]
 public class PlayerInputHandler : MonoBehaviour
@@ -28,12 +29,14 @@ public class PlayerInputHandler : MonoBehaviour
 
     private PlayerInputActions _actions;
     private ButtonControl _mouseFireHoldControl;
+    private DialogueRunner _dialogueRunner;
 
     private int _suppressInteractFrames;
 
     void Awake()
     {
         _actions = new PlayerInputActions();
+        _dialogueRunner = FindFirstObjectByType<DialogueRunner>();
     }
 
     private void OnEnable()
@@ -122,6 +125,7 @@ public class PlayerInputHandler : MonoBehaviour
             }
 
             JumpTriggered =
+                (_dialogueRunner == null || !_dialogueRunner.IsDialogueRunning) &&
                 _actions.Player.Jump.WasPerformedThisFrame();
 
             DashTriggered =

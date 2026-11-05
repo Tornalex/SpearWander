@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8635ff4280d4c7fac11aed07a8ef7c9, type: 3}
+  m_Name: RuntimeRoomCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::RuntimeRoomCatalog
+  entries:
+  - roomDefinition: {fileID: 11400000, guid: 261db4d2e939def4c9a85eb4838c1416, type: 2}
+    scenePath: Assets/Scenes/Rooms/Yellow Forest/YellowForest_ToMOTHER.unity
+  - roomDefinition: {fileID: 11400000, guid: 1d8641c9d04b424449e06b88634309aa, type: 2}
+    scenePath: Assets/Scenes/Rooms/Yellow Forest/YellowForest_BardoHouse.unity
+  - roomDefinition: {fileID: 11400000, guid: 535e941846f140842b7eb00c5e1e5f27, type: 2}
+    scenePath: Assets/Scenes/Rooms/Yellow Forest/YellowForest_TreeBranch.unity
+  - roomDefinition: {fileID: 11400000, guid: 5df6c4c46144c4f4ab248f7018c4f5ef, type: 2}
+    scenePath: Assets/Scenes/Rooms/Yellow Forest/YellowForest_ToMOTHER 1.unity

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using Yarn.Unity;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerInteract : MonoBehaviour
     private List<IInteractable> _interactablesInRange = new List<IInteractable>();
     private Transform _currentInteractable;
     private Camera _mainCamera;
+    private DialogueRunner _dialogueRunner;
 
     [SerializeField] private GameObject _interactPromptRoot;
     [SerializeField] private TextMeshProUGUI _interactPromptText;
@@ -17,10 +19,31 @@ public class PlayerInteract : MonoBehaviour
     {
         _player = GetComponent<Player>();
         _mainCamera = Camera.main;
+        _dialogueRunner = FindFirstObjectByType<DialogueRunner>();
     }
 
     void Update()
     {
+        bool interactableRemoved = RemoveDestroyedInteractables();
+        bool dialogueRunning = IsDialogueRunning;
+
+        if (interactableRemoved)
+        {
+            UpdatePrompt();
+        }
+
+        if (dialogueRunning)
+        {
+            if (_interactPromptRoot != null && _interactPromptRoot.activeSelf)
+                _interactPromptRoot.SetActive(false);
+        }
+        else if (_interactPromptRoot != null &&
+                 !_interactPromptRoot.activeSelf &&
+                 _interactablesInRange.Count > 0)
+        {
+            UpdatePrompt();
+        }
+
         // The prompt is optional: interaction must still work when no
         // prompt root/text is assigned (for example in a room scene opened
         // without the Master scene).
@@ -33,19 +56,18 @@ public class PlayerInteract : MonoBehaviour
             _interactPromptRoot.transform.position = _mainCamera.WorldToScreenPoint(worldPos);
         }
 
-        if (_player.HasControl && _player.Input.InteractTriggered && _interactablesInRange.Count > 0)
+        if (_player.HasControl &&
+            !dialogueRunning &&
+            _player.Input.InteractTriggered &&
+            _interactablesInRange.Count > 0)
         {
-            // A destroyed interactable does not always raise OnTriggerExit2D.
-            // Clean the list before using its last entry.
-            if (RemoveDestroyedInteractables())
-                UpdatePrompt();
-
             if (_interactablesInRange.Count > 0)
             {
                 IInteractable target = _interactablesInRange[^1];
                 if (target != null)
                 {
                     target.Interact(_player);
+                    UpdatePrompt();
                 }
             }
         }
@@ -76,6 +98,14 @@ public class PlayerInteract : MonoBehaviour
         // Interactables can be destroyed (pickups, enemies) without raising
         // OnTriggerExit2D. Remove those stale entries before using the list.
         RemoveDestroyedInteractables();
+
+        if (IsDialogueRunning)
+        {
+            if (_interactPromptRoot != null)
+                _interactPromptRoot.SetActive(false);
+
+            return;
+        }
 
         if (_interactablesInRange.Count > 0)
         {
@@ -137,4 +167,7 @@ public class PlayerInteract : MonoBehaviour
             UpdatePrompt();
         }
     }
+
+    private bool IsDialogueRunning =>
+        _dialogueRunner != null && _dialogueRunner.IsDialogueRunning;
 }

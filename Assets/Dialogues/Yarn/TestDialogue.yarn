@@ -1,0 +1,9 @@
+﻿title: Start
+---
+Pando è in pericolo.
+Ho trascorso la mia intera esistenza con il solo obiettivo di studiare l'ecosistema di questo posto. E adesso rischia di andare tutto all'aria.
+<<camera_focus DialogueTarget_RoomCenter 24>>
+Qualcuno… o qualcosa… ha manomesso i miei archivi.
+È successo proprio prima che ti svegliassi. Ovviamente solo uno sciocco penserebbe a un caso. E noi non siamo degli sciocchi, non è vero?
+<<camera_restore>>
+===

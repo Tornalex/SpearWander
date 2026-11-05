@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
 
     public bool HasControl => _activeControlReasons.Count == 0;
 
+    public bool HasControlRequest(ControlReason reason) => _activeControlReasons.Contains(reason);
+
     public void AddControlRequest(ControlReason reason)
     {
         _activeControlReasons.Add(reason);

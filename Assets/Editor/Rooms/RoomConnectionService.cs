@@ -10,6 +10,11 @@ using UnityEngine.SceneManagement;
 public static class RoomConnectionService
 {
     public const string ConnectionsFolder = RoomRegistrationService.RegistryFolder + "/Connections";
+    public const string CreateUndoName = "Create Room Connection";
+
+    // Optional test seam for deterministic save-failure/rollback coverage.
+    // Production callers leave this null and use EditorSceneManager.SaveScene.
+    internal static Func<Scene, bool> SaveDoorSceneOverrideForTests;
 
     public static bool CreateConnection(
         RoomDefinition roomA,
@@ -20,6 +25,29 @@ public static class RoomConnectionService
         string connectionAssetName,
         out string message)
     {
+        return CreateConnection(
+            roomA,
+            doorAId,
+            roomB,
+            doorBId,
+            direction,
+            connectionAssetName,
+            out _,
+            out message);
+    }
+
+    public static bool CreateConnection(
+        RoomDefinition roomA,
+        string doorAId,
+        RoomDefinition roomB,
+        string doorBId,
+        RoomConnectionDirection direction,
+        string connectionAssetName,
+        out RoomConnection createdConnection,
+        out string message)
+    {
+        createdConnection = null;
+
         if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
             message = "Room connections cannot be created in Play Mode.";
@@ -81,12 +109,19 @@ public static class RoomConnectionService
             return false;
         }
 
+        if (!ValidateRegisteredRoomIdentity(registry, roomA, out message) ||
+            !ValidateRegisteredRoomIdentity(registry, roomB, out message))
+        {
+            return false;
+        }
+
         List<DoorHandle> handles = new List<DoorHandle>();
         Scene originalActiveScene = SceneManager.GetActiveScene();
         RoomConnection connection = null;
         DoorHandle handleA = null;
         DoorHandle handleB = null;
         bool created = false;
+        int undoGroup = -1;
 
         try
         {
@@ -128,6 +163,12 @@ public static class RoomConnectionService
 
             EnsureFolder(ConnectionsFolder);
 
+            Undo.IncrementCurrentGroup();
+            undoGroup = Undo.GetCurrentGroup();
+            Undo.SetCurrentGroupName(CreateUndoName);
+            Undo.RecordObject(handleA.Door, CreateUndoName);
+            Undo.RecordObject(handleB.Door, CreateUndoName);
+
             connection = ScriptableObject.CreateInstance<RoomConnection>();
             connection.Assign(roomA.RoomId, doorAId, roomB.RoomId, doorBId, direction);
 
@@ -141,37 +182,47 @@ public static class RoomConnectionService
 
             string assetPath = AssetDatabase.GenerateUniqueAssetPath($"{ConnectionsFolder}/{finalName}.asset");
             AssetDatabase.CreateAsset(connection, assetPath);
+            Undo.RegisterCreatedObjectUndo(connection, CreateUndoName);
 
             if (!SetBacklink(handleA.Door, connection) || !SetBacklink(handleB.Door, connection))
             {
-                Rollback(connection, handleA, handleB);
+                RollbackAndDiscardUndo(connection, handleA, handleB, undoGroup);
+                undoGroup = -1;
                 message = "Could not assign the connection backlink to both doors.";
                 return false;
             }
 
             if (!SaveDoorScene(handleA) || !SaveDoorScene(handleB))
             {
-                Rollback(connection, handleA, handleB);
+                RollbackAndDiscardUndo(connection, handleA, handleB, undoGroup);
+                undoGroup = -1;
                 message = "Could not save one of the scenes that contain the connected doors.";
                 return false;
             }
 
             AssetDatabase.SaveAssets();
-            created = true;
-
+            Undo.FlushUndoRecordObjects();
             RoomValidationReport report = RoomConnectionValidator.Validate();
             message =
                 $"Created connection '{connection.name}' ({direction}) between " +
                 $"'{roomA.RoomId}/{doorAId}' and '{roomB.RoomId}/{doorBId}'. " +
                 $"Validation: {report.ErrorCount} error(s), {report.WarningCount} warning(s).";
 
+            Undo.CollapseUndoOperations(undoGroup);
+            created = true;
+            createdConnection = connection;
+
             return true;
         }
         catch (Exception exception)
         {
             if (connection != null && !created)
-                Rollback(connection, handleA, handleB);
+            {
+                RollbackAndDiscardUndo(connection, handleA, handleB, undoGroup);
+                undoGroup = -1;
+            }
 
+            createdConnection = null;
             message = "Connection creation failed: " + exception.Message;
             Debug.LogException(exception);
             return false;
@@ -291,6 +342,9 @@ public static class RoomConnectionService
             return false;
 
         EditorSceneManager.MarkSceneDirty(handle.Scene);
+        if (SaveDoorSceneOverrideForTests != null)
+            return SaveDoorSceneOverrideForTests(handle.Scene);
+
         return EditorSceneManager.SaveScene(handle.Scene);
     }
 
@@ -323,11 +377,11 @@ public static class RoomConnectionService
         {
             ClearBacklink(handle.Door);
 
-            if (handle.OpenedByOperation || !handle.Scene.IsValid() || !handle.Scene.isLoaded)
+            if (!handle.Scene.IsValid() || !handle.Scene.isLoaded)
                 return;
 
-            // The scene was already open and clean before this operation. Saving now
-            // restores it to its original state after the backlink rollback.
+            // The operation may already have saved this scene before another
+            // endpoint failed. Persist the cleared backlink in either case.
             EditorSceneManager.MarkSceneDirty(handle.Scene);
             if (!EditorSceneManager.SaveScene(handle.Scene))
                 Debug.LogError($"[RoomConnectionService] Could not restore scene '{handle.Scene.name}' after rollback.");
@@ -335,6 +389,27 @@ public static class RoomConnectionService
         catch (Exception exception)
         {
             Debug.LogError($"[RoomConnectionService] Rollback of scene '{handle.Scene.name}' failed: {exception.Message}");
+        }
+    }
+
+    private static void RollbackAndDiscardUndo(
+        RoomConnection connection,
+        DoorHandle handleA,
+        DoorHandle handleB,
+        int undoGroup)
+    {
+        Rollback(connection, handleA, handleB);
+
+        if (undoGroup < 0)
+            return;
+
+        try
+        {
+            Undo.RevertAllDownToGroup(undoGroup);
+        }
+        catch (Exception exception)
+        {
+            Debug.LogError($"[RoomConnectionService] Could not discard failed connection Undo records: {exception.Message}");
         }
     }
 
@@ -359,6 +434,42 @@ public static class RoomConnectionService
         }
 
         return false;
+    }
+
+    private static bool ValidateRegisteredRoomIdentity(
+        RoomRegistry registry,
+        RoomDefinition definition,
+        out string message)
+    {
+        int roomIdMatches = 0;
+        int sceneGuidMatches = 0;
+
+        foreach (RoomDefinition registered in registry.Rooms)
+        {
+            if (registered == null)
+                continue;
+
+            if (string.Equals(registered.RoomId, definition.RoomId, StringComparison.Ordinal))
+                roomIdMatches++;
+
+            if (string.Equals(registered.SceneGuid, definition.SceneGuid, StringComparison.Ordinal))
+                sceneGuidMatches++;
+        }
+
+        if (roomIdMatches != 1)
+        {
+            message = $"Room ID '{definition.RoomId}' is not unique in RoomRegistry.";
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(definition.SceneGuid) || sceneGuidMatches != 1)
+        {
+            message = $"The scene GUID for room '{definition.RoomId}' is missing or is not unique in RoomRegistry.";
+            return false;
+        }
+
+        message = null;
+        return true;
     }
 
     private static bool TryFindConnectionUsingEndpoint(string roomId, string doorId, out RoomConnection found)

@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - nodeKey: 1d8641c9d04b424449e06b88634309aa
-    x: 60
-    y: 60
+    x: 563.9045
+    y: 194.37454
   - nodeKey: 261db4d2e939def4c9a85eb4838c1416
-    x: 60
-    y: 310
+    x: 90.07115
+    y: 307.07614
   - nodeKey: 535e941846f140842b7eb00c5e1e5f27
     x: 400
-    y: 60
+    y: 310
+  - nodeKey: 5df6c4c46144c4f4ab248f7018c4f5ef
+    x: 95.760925
+    y: 53.17121
